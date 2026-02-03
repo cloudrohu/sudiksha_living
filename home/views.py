@@ -70,7 +70,7 @@ def index(request):
     Developer.objects.filter(featured_builder=True).annotate(project_count=Count("project", distinct=True)).filter(project_count__gt=0).order_by("-create_at"))
 
     # ================= OTHER HOME DATA =================
-    featured_locality = (Locality.objects.filter(featured_locality=True, project__active=True).distinct().order_by("name")[:20])
+    featured_locality = (Locality.objects.filter(featured_locality=True, project__active=True).annotate(project_count=Count("project", distinct=True)).order_by("-project_count", "name")[:20])
     bank = Bank.objects.filter(home_loan_partner=True).order_by("title")
     blogs = Blog.objects.filter(is_published=True).order_by("-published_date", "-created_at")[:3]
     about_page = About.objects.filter(is_active=True).first()

@@ -6,16 +6,15 @@
 <main>
 
   <!-- FEATURE PROJECTS -->
-  <section class="bg-[#f8fafc] py-16 relative overflow-hidden">
+  <section class="bg-slate-50 py-12" data-aos="fade-up">
     <div class="max-w-7xl mx-auto px-4">
 
-      <!-- Section Title -->
-      <div class="text-center mb-6">
-        <h2 class="text-3xl md:text-4xl font-bold text-orange-400 uppercase tracking-wide">
+      <div class="text-center mb-14">
+        <h2 class="text-4xl font-bold text-slate-900 tracking-tight">
           Featured Projects
         </h2>
-        <p class="text-gray-300 text-sm md:text-base">
-          Explore our best and most popular real estate projects
+        <p class="text-gray-500 mt-2">
+          Discover our handpicked premium developments
         </p>
       </div>
 
@@ -25,203 +24,173 @@
           <div class="swiper-wrapper">
 
             {% for rs in project_featured %}
-            <div class="swiper-slide">
-              <div class="bg-white shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200">
+           <div class="swiper-slide">
 
-                <!-- Image Section -->
-                <div class="relative h-60 w-full overflow-hidden">
+              <div class="bg-white overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300">
+
+                <!-- IMAGE -->
+                <div class="relative h-44 overflow-hidden">
                   {% if rs.image %}
-                    <img src="{{ rs.image.url }}" alt="{{ rs.project_name }} " class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" loading="lazy">
-                  {% else %}
-                    <img src="{% static 'images/default-placeholder.jpg' %}" alt="Premium real estate project in Mumbai" class="w-full h-full object-cover" loading="lazy">
+                    <img src="{{ rs.image.url }}" class="w-full h-full object-cover transition duration-700 hover:scale-110">
                   {% endif %}
 
-                        <span class="absolute top-3 left-3 bg-orange-500/90 backdrop-blur text-white text-[11px] font-semibold px-3 py-1 uppercase tracking-wide shadow-md border border-white/20">
-                            {{ rs.property_type }}
-                        </span>
+                <span class="absolute top-3 left-3 bg-white/90 backdrop-blur text-indigo-800 text-[11px] font-semibold px-3 py-1 shadow-sm border border-indigo-200 tracking-wide">
+                  {{ rs.propert_type }}
+                </span>
 
-                          <span class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] font-semibold px-3 py-1 shadow-md border border-white/20">
-                            {{ rs.construction_status }}
-                          </span>
-
-                  <!-- Hover Icons -->
-                  <div class="absolute inset-0 bg-black/40 flex items-center justify-center gap-4 opacity-0 hover:opacity-100 transition duration-300">
-                    <a href="{{ rs.get_absolute_url }}" class="bg-white p-3 rounded-full shadow hover:bg-orange-500 hover:text-white transition">
-                      <i class="fas fa-link"></i>
-                    </a>
-                    <a href="{{ rs.get_absolute_url }}" class="bg-white p-3 rounded-full shadow hover:bg-orange-500 hover:text-white transition">
-                      <i class="fas fa-video"></i>
-                    </a>
-                  </div>
-                  
+                  <span class="absolute bottom-3 right-3 bg-white/85 backdrop-blur text-slate-800 text-[11px] font-semibold px-3 py-1 rounded-full shadow-sm border border-gray-300 tracking-wide">
+                    {{ rs.construction_status }}
+                  </span>
                 </div>
 
-                <!-- Content -->
+                <!-- BASIC INFO -->
                 <div class="p-3 space-y-2">
 
-                    <div class="bg-white border border-gray-200 p-2 shadow-sm hover:shadow-md transition">
+                  <div class="flex justify-between gap-2">
+                    <h3 class="font-bold text-lg text-gray-800">
+                      {{ rs.project_name }}
+                    </h3>
 
-                          <!-- TOP ROW -->
-                          <div class="flex items-start justify-between gap-1">
+                    <p class="text-indigo-700 font-extrabold text-lg">
+                      {% if rs.min_price %}
+                        ₹{{ rs.min_price|indian_price }}
+                      {% else %} Price on request {% endif %}
+                    </p>
+                  </div>
 
-                            <div class="flex-1">
-                            <h3 class="text-lg font-semibold text-gray-900 hover:text-orange-600 transition leading-tight line-clamp-2">
-                              {{ rs.project_name }}
-                            </h3>
+                  <p class="text-sm text-gray-500 flex items-center gap-1">
+                    <i class="fas fa-location-dot text-indigo-600"></i>
+                    {{ rs.locality.name }}, {{ rs.city.name }}
+                  </p>
 
-                            <p class="text-sm text-gray-600 flex items-center gap-1 mt-1">
-                                <i class="fas fa-map-marker-alt text-orange-500"></i>
-                                {{ rs.locality.name }}
-                              </p>
-                            </div>
+                  <!-- QUICK STATS -->
+                  <div class="grid grid-cols-3 text-center text-xs border-t pt-3">
 
-                            <div class="text-right shrink-0">
-                              {% if rs.min_price and rs.max_price %}
-                                <p class="text-sm font-bold text-orange-600">
-                                  ₹{{ rs.min_price|indian_price }} – ₹{{ rs.max_price|indian_price }}
-                                </p>
-                              {% elif rs.min_price %}
-                                <p class="text-sm font-bold text-orange-600">
-                                  ₹{{ rs.min_price|indian_price }}+
-                                </p>
-                              {% else %}
-                                <p class="text-xs text-gray-400 italic">
-                                  Price on request
-                                </p>
-                              {% endif %}
-                            </div>
-
-                          </div>
-
-                          <!-- DIVIDER -->
-                          <div class="border-t border-gray-100 my-2"></div>
-
-                          <!-- BOTTOM ROW -->
-                          <div class="flex items-center justify-between text-sm">
-
-                            <!-- Developer -->
-                            <div>
-                              <span class="text-xs uppercase tracking-wide text-gray-400">Developer</span>
-                              <p class="font-semibold text-gray-700">
-                                {{ rs.developer }}
-                              </p>
-                            </div>
-
-                              <!-- Area -->
-                              <div class="text-right">
-                                <span class="text-xs uppercase tracking-wide text-gray-400">Carpet Start</span>
-                              <p class="font-semibold text-gray-700">
-                                {{ rs.get_carpet_area_range|cut:" sqft"|slice:":4" }} sqft
-                              </p>
-                              </div>
-
-                            <!-- Possession -->
-                            <div class="text-right">
-                              <span class="text-xs uppercase tracking-wide text-gray-400">Possession</span>
-                              <p class="font-semibold text-green-700">
-                                {{ rs.possession_month }} {{ rs.possession_year }}
-                              </p>
-                            </div>
-
-                          </div>
-
+                    <div>
+                      <p class="text-gray-400 uppercase">Area</p>
+                      <p class="font-semibold">{{ rs.get_carpet_area_range }}</p>
                     </div>
 
-                    <!-- ================= CONFIGURATION CARD ================= -->
-                    <div class="config-card border bg-white mt-2 h-[140px] flex flex-col overflow-hidden">
+                    <div>
+                      <p class="text-gray-400 uppercase">Developer</p>
+                      <p class="font-semibold text-green-600">{{ rs.developer }}</p>
+                    </div>
 
-                      {% with rs.configurations.all as configs %}
-                      {% if configs %}
-                      {% regroup configs by bhk_type as bhk_groups %}
+                    <div>
+                      <p class="text-gray-400 uppercase">Possession</p>
+                      <p class="font-semibold">
+                        {{ rs.possession_month }} {{ rs.possession_year }}
+                      </p>
+                    </div>
 
-                      <!-- ================= TABS ================= -->
-                      <div class="border-b border-gray-200 flex-shrink-0">
-                        <div class="bhk-tabs flex gap-1 text-sm font-semibold px-2 py-1 whitespace-nowrap relative">
-                          <span class="bhk-underline absolute bottom-0 h-[3px]"></span>
+                  </div>
 
-                          {% for group in bhk_groups %}
-                          <button type="button"
-                            class="bhk-tab px-3 py-2 transition-all {% if forloop.first %}active{% endif %}"
-                            data-target="bhk-{{ rs.id }}-{{ forloop.counter }}">
-                            {{ group.grouper }}
-                          </button>
-                          {% endfor %}
-                        </div>
-                      </div>
+                  <!-- ================= YOUR CONFIGURATION SYSTEM ================= -->
 
-                      <!-- ================= PANELS ================= -->
-                      <div class="flex-1 overflow-hidden">
+                  <div class="config-card bg-slate-50 mt-3 h-[120px] flex flex-col overflow-hidden border border-gray-200">
+
+                    {% with rs.configurations.all as configs %}
+                    {% if configs %}
+                    {% regroup configs by bhk_type as bhk_groups %}
+
+                    <!-- TABS -->
+                    <div class="border-b border-gray-200 flex-shrink-0 bg-gray-50">
+                      <div class="bhk-tabs flex gap-1 text-sm font-semibold px-2 py-1 relative">
+
+                        <span class="bhk-underline absolute bottom-0 h-[3px] bg-orange-500 transition-all"></span>
 
                         {% for group in bhk_groups %}
-                        <div class="bhk-panel {% if not forloop.first %}hidden{% endif %} h-full"
+                        <button type="button"
+                          class="bhk-tab px-3 py-2 {% if forloop.first %}active text-indigo-700{% endif %}"
+                          data-target="bhk-{{ rs.id }}-{{ forloop.counter }}">
+                          {{ group.grouper }}
+                        </button>
+                        {% endfor %}
+                      </div>
+                    </div>
+
+                    <!-- PANELS -->
+                    <div class="flex-1 overflow-hidden">
+
+                      {% for group in bhk_groups %}
+                      <div class="bhk-panel {% if not forloop.first %}hidden{% endif %} h-full"
                           data-panel="bhk-{{ rs.id }}-{{ forloop.counter }}">
 
-                          <div class="table-scroll h-full overflow-y-auto bg-white">
+                        <div class="h-full overflow-y-auto">
 
-                            <table class="w-full text-xs sm:text-sm border-collapse">
-                              <thead class="bg-gray-50 sticky top-0">
-                                <tr class="text-center font-bold text-gray-700">
-                                  <th class="px-2 py-2 border-b">Area</th>
-                                  <th class="px-2 py-2 border-b">Price</th>
-                                  <th class="px-2 py-2 border-b">Parking</th>
-                                  <th class="px-2 py-2 border-b">Balcony</th>
-                                </tr>
-                              </thead>
+                          <table class="w-full text-xs border-collapse">
 
-                              <tbody class="text-center">
-                                {% for cfg in group.list %}
-                                <tr class="h-[32px] {% if cfg.sold_out %}bg-red-50{% endif %}">
-                                  <td class="px-2 py-2 border-b">{{ cfg.area_sqft }} sqft</td>
+                            <thead class="bg-gray-100 sticky top-0">
+                              <tr class="text-gray-700 font-bold text-center">
+                                <th class="py-2 border-b">Area</th>
+                                <th class="py-2 border-b">Price</th>
+                                <th class="py-2 border-b">Parking</th>
+                                <th class="py-2 border-b">Balcony</th>
+                              </tr>
+                            </thead>
 
-                                  <td class="px-2 py-2 border-b font-semibold">
-                                    {% if cfg.sold_out %}
-                                      <span class="bg-red-100 text-red-700 px-2 py-0.5 text-[11px] font-bold">SOLD OUT</span>
-                                    {% else %}
-                                      <span class="font-extrabold text-orange-600">{{ cfg.formatted_price }}</span>
-                                    {% endif %}
-                                  </td>
+                            <tbody class="text-center">
 
-                                  <td class="px-2 py-2 border-b">
-                                    {{ cfg.parking|yesno:"Yes,*" }}
-                                  </td>
+                              {% for cfg in group.list %}
+                              <tr class="{% if cfg.sold_out %}bg-red-50{% endif %}">
 
-                                  <td class="px-2 py-2 border-b">
-                                    {{ cfg.balcony|yesno:"Yes,*" }}
-                                  </td>
-                                </tr>
-                                {% endfor %}
-                              </tbody>
-                            </table>
+                                <td class="py-2 border-b">
+                                  {{ cfg.area_sqft }} sqft
+                                </td>
 
-                          </div>
+                                <td class="py-2 border-b font-semibold">
+                                  {% if cfg.sold_out %}
+                                    <span class="bg-red-100 text-red-700 px-2 py-0.5 text-[11px] font-bold rounded">
+                                      SOLD OUT
+                                    </span>
+                                  {% else %}
+                                    <span class="text-indigo-700 font-extrabold">
+                                      {{ cfg.formatted_price }}
+                                    </span>
+                                  {% endif %}
+                                </td>
+
+                                <td class="py-2 border-b">
+                                  {{ cfg.parking|yesno:"Yes,*" }}
+                                </td>
+
+                                <td class="py-2 border-b">
+                                  {{ cfg.balcony|yesno:"Yes,*" }}
+                                </td>
+
+                              </tr>
+                              {% endfor %}
+
+                            </tbody>
+                          </table>
+
                         </div>
-                        {% endfor %}
-
                       </div>
-
-                      {% else %}
-                      <!-- ================= NO CONFIG ================= -->
-                      <div class="flex-1 flex items-center justify-center text-sm text-gray-500 text-center px-2">
-                        Configuration details available on request
-                      </div>
-                      {% endif %}
-                      {% endwith %}
+                      {% endfor %}
 
                     </div>
 
-                </div>
+                    {% else %}
+                    <div class="flex-1 flex items-center justify-center text-sm text-gray-500">
+                      Configuration details available on request
+                    </div>
+                    {% endif %}
+                    {% endwith %}
 
-                <!-- Footer Button -->
-                <div class="bg-orange-500 text-center py-1 hover:bg-orange-600 transition">
-                  <div class="px-2 pb-1">
-                    <a href="{{ rs.get_absolute_url }}" target="_blank" class="block text-center py-2.5 font-bold tracking-wide text-sm text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transition shadow-md">
-                      SEE DETAILS
-                    </a>
                   </div>
 
                 </div>
+
+                <!-- BUTTON -->
+                <a href="{{ rs.get_absolute_url }}"
+                  class="block text-center py-3 font-bold text-white bg-indigo-700 hover:bg-indigo-800 hover:opacity-90 transition">
+                  View Details
+                </a>
+
               </div>
+
             </div>
+
 
             {% empty %}
             <p class="col-span-3 text-center text-gray-500">No featured projects available at the moment.</p>
@@ -266,6 +235,8 @@
   </script>
 
   <!-- FEATURE PROJECTS -->
+
+  
 
   <!-- NEW LAUNCH PROJECTS -->
   <section class="py-12" data-aos="fade-up">
@@ -313,9 +284,9 @@
                     </div>
 
                     <!-- CONTENT -->
-                    <div class="p-4 flex flex-col flex-grow">
+                    <div class="p-3 flex flex-col flex-grow">
 
-                      <h3 class="text-lg font-bold text-gray-800 leading-snug line-clamp-2">
+                      <h3 class="text-base font-bold text-gray-800 leading-snug line-clamp-2">
                         {{ project.project_name }}
                       </h3>
 
@@ -466,8 +437,8 @@
                     </span>
                   </div>
 
-                  <div class="p-4">
-                    <p class="text-lg font-bold text-gray-700">
+                  <div class="p-3">
+                    <p class="text-base font-bold text-gray-700">
                       {{ project.project_name }}
                     </p>
 
@@ -501,130 +472,192 @@
   </section>
   <!-- NEW LAUNCH PROJECTS END-->
 
+  <!-- EXCLUSIVE PROPERTIES SECTION -->
+  <section class=" mx-auto py-12 px-4 bg-gray-50 screen-h"  data-aos="fade-up">
+      <!-- Heading -->
+      <h2 class="text-center text-2xl md:text-3xl font-bold mb-12">
+        Benefits of our <span class="text-indigo-600">PG/Co-Living</span>
+      </h2>
 
-  <!-- ======================= POSSESSION STATUS (UNIQUE) ======================= -->
-  <section class="py-16 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
-
-    <!-- Decorative blobs -->
-    <div class="absolute -top-20 -left-20 w-72 h-72 bg-orange-200/30 blur-3xl"></div>
-    <div class="absolute -bottom-28 -right-24 w-80 h-80 bg-blue-200/30 blur-3xl"></div>
-
-    <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-10 items-start relative z-10">
-
-      <!-- LEFT INFO -->
-      <div class="lg:col-span-4">
-
-        <!-- Vertical accent title -->
-        <div class="flex items-start gap-4">
-          <div class="w-2 h-20 bg-gradient-to-b from-orange-500 to-yellow-400 mt-2"></div>
-
-          <div>
-            <p class="text-sm font-bold tracking-widest text-gray-500 uppercase">Possession Dashboard</p>
-            <h2 class="text-4xl font-extrabold text-gray-900 leading-tight mt-1">Explore Projects by <span class="text-orange-600">Possession Status</span></h2>
-            <p class="text-gray-600 mt-3 max-w-md">Choose your preference — ready, early possession, or new launch projects. Filter your listings with one click.</p>
-          </div>
+      <!-- Grid Items -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+        
+        <!-- Card 1 -->
+        <div>
+          <img src="{% static 'main/images/benefits of coliving/image.png' %}" alt="Benefit 1" class="mx-auto mb-4 h-28">
+          <h3 class="font-semibold text-lg">Stress free search</h3>
+          <p class="text-gray-600 text-sm">
+            Real property photos and Transparent pricing
+          </p>
         </div>
 
-        <!-- CTA -->
-        <div class="mt-6">
-          <a href="{% url 'search_projects' %}" target="_blank" class="inline-flex items-center justify-center px-7 py-3 text-white font-bold bg-gradient-to-r from-[#002D62] to-[#0b4aa0] shadow hover:opacity-95 transition">View All Projects</a>
+        <!-- Card 2 -->
+        <div>
+          <img src="{% static 'main/images/benefits of coliving/2.webp' %}" alt="Benefit 2" class="mx-auto mb-4 h-28">
+          <h3 class="font-semibold text-lg">Find your Match</h3>
+          <p class="text-gray-600 text-sm">
+            Lots of options to choose from (private, twin & multi-sharing)
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div>
+          <img src="{% static 'main/images/benefits of coliving/3.webp' %}" alt="Benefit 3" class="mx-auto mb-4 h-28">
+          <h3 class="font-semibold text-lg">Bon appetite</h3>
+          <p class="text-gray-600 text-sm">
+            Info on meal type and offerings to know what’s cooking
+          </p>
+        </div>
+
+        <!-- Card 4 -->
+        <div>
+          <img src="{% static 'main/images/benefits of coliving/4.webp' %}" alt="Benefit 4" class="mx-auto mb-4 h-28">
+          <h3 class="font-semibold text-lg">Your Life, Your Rules</h3>
+          <p class="text-gray-600 text-sm">
+            Advance info on house rules to live like you do
+          </p>
         </div>
 
       </div>
+  </section>
+  <!--EXCLUSIVE PROPERTIES SECTION END-->
 
-      <!-- RIGHT CARDS -->
-      <div class="lg:col-span-8 grid md:grid-cols-3 gap-6">
+<hr>
 
-        <!-- CARD 1 -->
-        <a target="_blank" href="{% url 'search_projects' %}?bhk=&construction_status=Ready+To+Move&rera=" class="group relative  overflow-hidden shadow-lg border border-gray-100">
-          <img src="https://sigmahomes.co.in/media/images/aerial_view-new.webp" class="w-full h-72 object-cover group-hover:scale-110 transition duration-700" alt="Ready to Move" >
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<!-- POSSESSION STATUS – PREMIUM CLEAN VERSION -->
+<section class="py-16 bg-slate-50">
 
-          <div class="absolute top-4 left-4">
-            <span class="px-4 py-1.5 text-xs font-extrabold bg-white/15 backdrop-blur text-white border border-white/25">READY TO MOVE</span>
-          </div>
+  <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 items-start">
 
-          <div class="absolute bottom-4 left-4 right-4">
-            <div class="flex items-end justify-between">
-              <div>
-                <h3 class="text-xl font-extrabold text-white">Ready Homes</h3>
-                <p class="text-white/80 text-sm mt-1">Immediate possession options</p>
-              </div>
-              <div class="text-right">
-                <p class="text-2xl font-extrabold text-white leading-none">{{ possession_counts.ready_to_move|default:"0" }}</p>
-                <p class="text-white/80 text-xs font-bold uppercase tracking-wide">Projects</p>
-              </div>
-            </div>
+    <!-- LEFT INFO -->
+    <div class="lg:col-span-4">
 
-            <div class="mt-4 h-10 rounded-2xl bg-white/10 backdrop-blur border border-white/15 flex items-center justify-between px-4 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
-              <span class="text-white font-bold text-sm">Explore</span><span class="text-white text-sm">→</span>
-            </div>
-          </div>
-        </a>
+      <div class="border-l-4 border-indigo-700 pl-5">
+        <p class="text-sm font-semibold tracking-widest text-gray-500 uppercase">
+          Possession Overview
+        </p>
 
-        <!-- CARD 2 -->
-        <a target="_blank" href="{% url 'search_projects' %}?bhk=&construction_status=Under+Construction&rera=" class="group relative  overflow-hidden shadow-lg border border-gray-100">
-          <img src="https://sigmahomes.co.in/media/images/Elevation_Render_1_fQvU_1.webp" class="w-full h-72 object-cover group-hover:scale-110 transition duration-700" alt="Early Possession">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        <h2 class="text-4xl font-extrabold text-gray-900 mt-2 leading-tight">
+          Projects by <span class="text-indigo-700">Possession Status</span>
+        </h2>
 
-          <div class="absolute top-4 left-4">
-            <span class="px-4 py-1.5 text-xs font-extrabold bg-white/15 backdrop-blur text-white border border-white/25">Under Construction</span>
-          </div>
-
-          <div class="absolute bottom-4 left-4 right-4">
-            <div class="flex items-end justify-between">
-              <div>
-                <h3 class="text-xl font-extrabold text-white">Under Construction</h3>
-                <p class="text-white/80 text-sm mt-1">Possession in near future</p>
-              </div>
-              <div class="text-right">
-                <p class="text-2xl font-extrabold text-white leading-none">{{ possession_counts.under_construction|default:"0" }}</p>
-                <p class="text-white/80 text-xs font-bold uppercase tracking-wide">Projects</p>
-              </div>
-            </div>
-
-            <div class="mt-4 h-10 rounded-2xl bg-white/10 backdrop-blur border border-white/15 flex items-center justify-between px-4 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
-              <span class="text-white font-bold text-sm">Explore</span><span class="text-white text-sm">→</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- CARD 3 -->
-        <a target="_blank" href="{% url 'search_projects' %}?bhk=&construction_status=New+Launch&rera=" class="group relative  overflow-hidden shadow-lg border border-gray-100">
-          <img src="https://sigmahomes.co.in/media/images/Road-To-Elevation-3.webp" class="w-full h-72 object-cover group-hover:scale-110 transition duration-700" alt="New Launch">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-
-          <div class="absolute top-4 left-4">
-            <span class="px-4 py-1.5 text-xs font-extrabold bg-white/15 backdrop-blur text-white border border-white/25">NEW LAUNCH</span>
-          </div>
-
-          <div class="absolute bottom-4 left-4 right-4">
-            <div class="flex items-end justify-between">
-              <div>
-                <h3 class="text-xl font-extrabold text-white">New Launch</h3>
-                <p class="text-white/80 text-sm mt-1">Fresh listings & launches</p>
-              </div>
-              <div class="text-right">
-                <p class="text-2xl font-extrabold text-white leading-none">{{ possession_counts.new_launch|default:"0" }}</p>
-                <p class="text-white/80 text-xs font-bold uppercase tracking-wide">Projects</p>
-              </div>
-            </div>
-
-            <div class="mt-4 h-10 rounded-2xl bg-white/10 backdrop-blur border border-white/15 flex items-center justify-between px-4 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
-              <span class="text-white font-bold text-sm">Explore</span><span class="text-white text-sm">→</span>
-            </div>
-          </div>
-        </a>
-
+        <p class="text-gray-600 mt-4 max-w-md">
+          Browse homes by readiness — move-in ready, upcoming possession, or newly launched projects.
+        </p>
       </div>
+
+      <a href="{% url 'search_projects' %}" target="_blank" class="inline-block mt-7 px-7 py-3 bg-slate-900 text-white font-semibold tracking-wide hover:bg-slate-800 transition shadow-sm">
+        View All Projects
+      </a>
 
     </div>
-  </section>
-  <!-- ======================= POSSESSION STATUS (UNIQUE END) ======================= -->
+
+    <!-- RIGHT CARDS -->
+    <div class="lg:col-span-8 grid md:grid-cols-3 gap-6">
+
+      <!-- READY TO MOVE -->
+      <a target="_blank" href="{% url 'search_projects' %}?bhk=&construction_status=Ready+To+Move&rera=" class="group bg-white overflow-hidden border border-gray-300 shadow-sm hover:shadow-md transition">
+
+        <img src="https://sigmahomes.co.in/media/images/aerial_view-new.webp" class="w-full h-56 object-cover group-hover:scale-105 transition duration-700">
+
+        <div class="p-3 space-y-1.5">
+
+          <span class="inline-block text-[11px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 border border-emerald-200 uppercase tracking-wide">
+            Ready To Move
+          </span>
+
+          <h3 class="text-base font-bold text-gray-900">
+            Ready Homes
+          </h3>
+
+          <p class="text-xs text-gray-600">
+            Immediate possession options
+          </p>
+
+          <div class="flex items-center justify-between pt-1 border-t mt-1">
+            <p class="text-xl font-extrabold text-gray-900">
+              {{ possession_counts.ready_to_move|default:"0" }}
+            </p>
+            <span class="text-xs text-gray-500 uppercase font-semibold">
+              Projects
+            </span>
+          </div>
+
+        </div>
+      </a>
+
+      <!-- UNDER CONSTRUCTION -->
+      <a target="_blank" href="{% url 'search_projects' %}?bhk=&construction_status=Under+Construction&rera=" class="group bg-white overflow-hidden border border-gray-300 shadow-sm hover:shadow-md transition">
+
+        <img src="https://sigmahomes.co.in/media/images/Elevation_Render_1_fQvU_1.webp" class="w-full h-56 object-cover group-hover:scale-105 transition duration-700">
+
+        <div class="p-3 space-y-1.5">
+
+          <span class="inline-block text-[11px] font-semibold text-amber-700 bg-amber-100 px-2 py-0.5 border border-amber-200 uppercase tracking-wide">
+            Under Construction
+          </span>
+
+          <h3 class="text-base font-bold text-gray-900">
+            Upcoming Possession
+          </h3>
+
+          <p class="text-xs text-gray-600">
+            Homes nearing completion
+          </p>
+
+          <div class="flex items-center justify-between pt-1 border-t mt-1">
+            <p class="text-xl font-extrabold text-gray-900">
+              {{ possession_counts.under_construction|default:"0" }}
+            </p>
+            <span class="text-xs text-gray-500 uppercase font-semibold">
+              Projects
+            </span>
+          </div>
+
+        </div>
+      </a>
+
+      <!-- NEW LAUNCH -->
+      <a target="_blank" href="{% url 'search_projects' %}?bhk=&construction_status=New+Launch&rera=" class="group bg-white overflow-hidden border border-gray-300 shadow-sm hover:shadow-md transition">
+
+        <img src="https://sigmahomes.co.in/media/images/Road-To-Elevation-3.webp" class="w-full h-56 object-cover group-hover:scale-105 transition duration-700">
+
+        <div class="p-3 space-y-1.5">
+
+          <span class="inline-block text-[11px] font-semibold text-indigo-700 bg-indigo-100 px-2 py-0.5 border border-indigo-200 uppercase tracking-wide">
+            New Launch
+          </span>
+
+          <h3 class="text-base font-bold text-gray-900">
+            New Launches
+          </h3>
+
+          <p class="text-xs text-gray-600">
+            Fresh project listings
+          </p>
+
+          <div class="flex items-center justify-between pt-1 border-t mt-1">
+            <p class="text-xl font-extrabold text-gray-900">
+              {{ possession_counts.new_launch|default:"0" }}
+            </p>
+            <span class="text-xs text-gray-500 uppercase font-semibold">
+              Projects
+            </span>
+          </div>
+
+        </div>
+      </a>
+
+    </div>
+
+  </div>
+</section>
+
 
 
   <hr>
 
+  
   <!-- ======================= WHAT ARE YOU LOOKING FOR? ======================= -->
   <section class="py-16 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center">
@@ -687,6 +720,7 @@
   </section>
   <!-- ======================= WHAT ARE YOU LOOKING FOR? ======================= -->
 
+  
   <!-- 🌟 WHY CHOOSE US -->
   <section class="hidden md:block py-12 bg-white" id="why-choose">
     <div class="max-w-7xl mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-8 items-center">
@@ -771,6 +805,8 @@
   </section>
 
   <!-- 🌟 WHY CHOOSE US END -->
+
+  
 
   <!-- ===================== How We Work ======================= -->
   <section class="w-full py-12 text-white bg-cover bg-center relative" style="background-image: url('https://sigmahomes.co.in/media/about/Prithvi_Pride.jpg');">
@@ -980,34 +1016,7 @@
   <!-- Blog Section End -->
 
   <br>
-  <!-- STATS COUNTER -->
-  <section class="py-20 bg-[#0f172a] text-white">
-    <div class="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
-
-      {% for item in impactmetric %}
-
-      <div class="group">
-        
-        <!-- PROGRESS LINE -->
-        <div class="h-1 bg-orange-500 rounded-full mb-3"
-            style="width: {{ item.value|cut:'+'|cut:'%' }}%; max-width: 100%;"></div>
-
-        <!-- ICON + VALUE -->
-        <div class="flex items-center gap-3">
-          <i class="{{ item.icon }} text-orange-400 text-2xl"></i>
-          <h3 class="text-4xl font-bold">{{ item.value }}</h3>
-        </div>
-
-        <!-- TITLE -->
-        <p class="text-gray-300 mt-1">{{ item.title }}</p>
-
-      </div>
-
-      {% endfor %}
-
-    </div>
-  </section>
-  <!-- STATS COUNTER END -->
+ 
 
 
   <!-- 🏦 HOME LOAN PARTNERS SLIDER -->
@@ -1137,6 +1146,48 @@
 
   </section>
   <!-- LOCALITY END -->
+
+    <section class="py-12 bg-white overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4">
+
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-8">
+          Top Projects In Trending Localities
+        </h2>
+
+        <div class="relative overflow-hidden">
+
+          <!-- Scroll Track -->
+          <div id="localityScroller" class="flex gap-4">
+
+            {% for rs in featured_locality %}
+            <a href="{% url 'search_projects' %}?locality={{ rs.id }}"
+              class="min-w-[180px] aspect-square bg-white border shadow-sm overflow-hidden hover:shadow-md transition shrink-0">
+
+              <div class="p-3">
+                <h3 class="text-2xl font-extrabold text-gray-900">
+                  {{ rs.project_count|default:"0" }}
+                </h3>
+                <p class="text-xs text-gray-500">Projects</p>
+                <p class="font-semibold mt-1 text-gray-800">
+                  {{ rs.name }}
+                </p>
+              </div>
+
+              <div class="relative h-14">
+                <img src="https://housiey.com/_next/image?url=%2Fassets%2Fimage%2FcurveImageLower.png&w=1920&q=75"
+                    class="absolute bottom-0 w-full h-full object-cover">
+              </div>
+
+            </a>
+            {% endfor %}
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
 
   <!-- 💬 TESTIMONIALS -->
   <section class="py-16 bg-gray-100" id="testimonial">
@@ -1462,6 +1513,15 @@ setInterval(() => {
 </script>
 
 <style>
+  @keyframes scrollX {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll-x {
+  animation: scrollX 35s linear infinite;
+}
+
  .swiper-slide {
   overflow: visible !important;
 }
