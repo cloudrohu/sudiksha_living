@@ -75,7 +75,7 @@
           <li><a href="/" class="text-[{{ settings_obj.text_color }}] hover:text-orange-600 transition">Home</a></li>
           <li><a href="{% url "about" %}" class="text-[{{ settings_obj.text_color }}] hover:text-orange-600 transition">About Us</a></li>
           <li><a href="{% url "contact" %}" class="text-[{{ settings_obj.text_color }}] hover:text-orange-600 transition">Contact Us</a></li>
-          <li><a href="/" class="text-[{{ settings_obj.text_color }}] hover:text-orange-600 transition">Services</a></li>
+          <li><a href="{% url "services" %}" class="text-[{{ settings_obj.text_color }}] hover:text-orange-600 transition">Services</a></li>
           <li><a href="{% url "privacy-policy" %}" class="text-[{{ settings_obj.text_color }}] hover:text-orange-600 transition">Privacy Policy</a></li>
           <li><a href="{% url "terms_conditions" %}" class="text-[{{ settings_obj.text_color }}] hover:text-orange-600 transition">Terms & Conditions</a></li>
           <li><a href="{% url "disclaimer" %}" class="text-[{{ settings_obj.text_color }}] hover:text-orange-600 transition">Disclaimer</a></li>
@@ -99,20 +99,20 @@
       </p>
 
       <div class="flex gap-3 mt-5 text-2xl text-[{{ settings_obj.text_color }}]">
-        <a href="{{ settings_obj.facebook_link }}" class="hover:text-orange-600 transition">
+        <a href="{{ settings_obj.facebook }}" target="_blank" class="hover:text-orange-600 transition">
           <i class="fab fa-facebook"></i>
         </a>
 
-        <a href="{{ settings_obj.twitter_link }}" class="hover:text-orange-600 transition">
+        <a href="{{ settings_obj.twitter }}" target="_blank" class="hover:text-orange-600 transition">
           <i class="fab fa-twitter"></i> 
         </a>
 
-        <a href="{{ settings_obj.instagram_link }}" class="hover:text-orange-600 transition">
+        <a href="{{ settings_obj.instagram_link }}" target="_blank" class="hover:text-orange-600 transition">
           <i class="fab fa-instagram"></i>
         </a>
         
-        <a href="{{ settings_obj.linkedin_link }}" class="hover:text-orange-600 transition">
-          <i class="fab fa-linkedin"></i>
+        <a href="{{ settings_obj.youtube }}" target="_blank" class="hover:text-orange-600 transition">
+          <i class="fab fa-youtube"></i>
         </a>
 
       </div>

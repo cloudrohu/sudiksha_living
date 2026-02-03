@@ -7,7 +7,6 @@
 <section class="py-20 bg-gray-50">
   <div class="max-w-7xl mx-auto px-4">
 
-    <!-- Header -->
     <div class="flex items-end justify-between gap-6 flex-wrap mb-12">
       <div>
         <h1 class="text-3xl md:text-4xl font-semibold text-gray-900">Blogs</h1>
@@ -16,7 +15,6 @@
 
     </div>
 
-    <!-- ✅ Desktop Grid -->
     <div class="hidden md:grid grid-cols-3 gap-8">
       {% for blog in blogs %}
       <article class="bg-white border border-gray-200 shadow-sm hover:shadow-xl transition overflow-hidden">
@@ -50,7 +48,6 @@
       {% endfor %}
     </div>
 
-    <!-- ✅ Mobile Slider -->
     <div class="md:hidden">
       <div class="swiper blogListSwiper">
         <div class="swiper-wrapper">
@@ -94,19 +91,16 @@
       </div>
     </div>
 
-    <!-- Pagination (UI) -->
-    <div class="mt-14 flex items-center justify-center gap-2">
-      <a href="#" class="px-4 py-2 border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-100 transition">Prev</a>
-      <a href="#" class="px-4 py-2 border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-100 transition">1</a>
-      <a href="#" class="px-4 py-2 border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-100 transition">2</a>
-      <a href="#" class="px-4 py-2 border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-100 transition">Next</a>
-    </div>
-
   </div>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-  new Swiper(".blogListSwiper", { slidesPerView: 1, spaceBetween: 18, pagination: { el: ".swiper-pagination", clickable: true } });
+  new Swiper(".blogListSwiper",
+   { slidesPerView: 1,
+     spaceBetween: 18,
+     pagination:
+      { el: ".swiper-pagination", 
+    clickable: true } });
 </script>
 {% endblock content %}
