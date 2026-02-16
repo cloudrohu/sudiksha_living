@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.utils.html import mark_safe
-from .models import RentalProperty, AboutProperty, RentalConnectivity, RentalAmenity, RentalFurnishing,RentalFacility,OwnerDetails,RentDetails,RentalFAQ
+from .models import RentalProperty, AboutProperty, RentalConnectivity, RentalAmenity, RentalFurnishing,RentalFacility,OwnerDetails,RentDetails,RentalFAQ,RentalEnquiry
 from utility.models import PropertyAmenities
+
 
 
 class AboutPropertyInline(admin.StackedInline):
@@ -100,6 +101,7 @@ class RentalPropertyAdmin(admin.ModelAdmin):
                 'locality',
                 'project',
                 'slug',
+                'active',
             )
         }),
 
@@ -142,3 +144,9 @@ class RentalPropertyAdmin(admin.ModelAdmin):
         }),
     )
 
+
+@admin.register(RentalEnquiry)
+class RentalEnquiryAdmin(admin.ModelAdmin):
+    list_display = ('name','phone','rental','created_at')
+    search_fields = ('name','phone','email')
+    list_filter = ('created_at',)

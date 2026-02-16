@@ -35,3 +35,7 @@ def rental_detail(request, slug):
         "settings_obj": settings_obj,
         "property": property_obj,
     })
+
+
+def thank_you(request):
+    return render(request, "projects/thank_you.html")

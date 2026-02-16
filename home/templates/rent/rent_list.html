@@ -49,6 +49,13 @@
     color: white;
     border-color: #c6a16e;
   }
+  @keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+  }
+  .animate-fadeIn {
+    animation: fadeIn 0.2s ease-out;
+  }
 </style>
 
 
@@ -595,24 +602,30 @@
 
           {% for property in properties %}
 
-          <div class="group relative flex flex-col sm:flex-row bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-xl hover:border-[#c6a16e] transition-all duration-300 overflow-hidden">
+        <div class="group relative flex flex-col sm:flex-row bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-xl hover:border-[#c6a16e] transition-all duration-300 overflow-hidden">
+
 
             <!-- IMAGE SECTION -->
-            <div class="relative w-full sm:w-64 h-56 sm:h-auto overflow-hidden">
+            <div class="relative w-full sm:w-64 flex-shrink-0 p-3">
 
-              {% if property.image %}
-                <img src="{{ property.image.url }}" class="w-full h-[300px] object-cover transition-transform duration-500 group-hover:scale-105" alt="{{ property.title }}">
-              {% else %}
-                <img src="https://via.placeholder.com/400x300" class="w-full h-full object-cover" alt="No Image">
-              {% endif %}
+              <div class="w-full h-[240px] overflow-hidden rounded-lg">
 
-              <div class="absolute top-2 left-2 flex flex-col gap-1.5">
+                {% if property.image %}
+                  <img src="{{ property.image.url }}" class="w-full h-[400px] object-cover transition-transform duration-500 group-hover:scale-105" alt="{{ property.title }}">
+                {% else %}
+                  <img src="https://via.placeholder.com/400x300" class="w-full h-full object-cover" alt="No Image">
+                {% endif %}
+
+              </div>
+
+              <div class="absolute top-4 left-4 flex flex-col gap-1.5">
                 <span class="bg-[#c6a16e] text-white text-[9px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md shadow">
                   For Rent
                 </span>
               </div>
 
             </div>
+
 
             <!-- DETAILS SECTION -->
             <div class="flex-1 p-4 flex flex-col justify-between">
@@ -631,8 +644,8 @@
 
                 <!-- RENT STRIP -->
                 {% if property.rent_details %}
-                <div class="mt-2 inline-flex items-baseline gap-1.5 bg-[#f9f6f0] px-3 py-1.5 rounded-lg">
-                  <span class="text-xl font-bold text-gray-900">
+                <div class="mt-2 inline-flex items-baseline gap-1.5 bg-[#f9f6f0] px-2 py-1 rounded-lg">
+                  <span class="text-md font-bold text-gray-900">
                     ₹{{ property.rent_details.monthly_rent|floatformat:0 }}
                   </span>
                   <span class="text-xs text-gray-500">/month</span>
@@ -681,7 +694,7 @@
               </div>
 
               <!-- BOTTOM CTA -->
-              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-3 gap-2">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mt-1">
 
                 <div class="text-[12px] text-gray-500">
                   Listed {{ property.created_at|timesince }} ago
@@ -689,17 +702,15 @@
 
                 <div class="flex gap-2">
 
-                  <!-- VIEW DETAILS BUTTON -->
-                  <a href="{% url 'rental_detail' property.slug %}"
-                    class="px-3 py-2 border border-[#c6a16e] text-[#c6a16e] rounded-lg hover:bg-[#f9f6f0] transition text-xs font-semibold">
-                    <i class="fas fa-eye text-xs"></i> View Details
-                  </a>
+                    <!-- VIEW DETAILS BUTTON -->
+                    <a href="{% url 'rental_detail' property.slug %}" class="px-3 py-2 border border-[#c6a16e] text-[#c6a16e] rounded-lg hover:bg-[#f9f6f0] transition text-xs font-semibold">
+                      <i class="fas fa-eye text-xs"></i> View Details
+                    </a>
 
-                  <!-- CONTACT BUTTON -->
-                  <a href="{% url 'rental_detail' property.slug %}"
-                    class="px-4 py-2 bg-[#c6a16e] text-white rounded-lg hover:opacity-90 transition flex items-center gap-1 text-xs font-semibold shadow">
-                    <i class="fas fa-phone text-[10px]"></i> Contact
-                  </a>
+                    <!-- CONTACT BUTTON -->
+                   <button onclick="openModal()" class="px-4 py-2 bg-[#c6a16e] text-white rounded-lg hover:opacity-90 transition flex items-center gap-1 text-xs font-semibold shadow">
+                      <i class="fas fa-phone text-[10px]"></i> Contact
+                    </button>
 
                 </div>
 
@@ -820,19 +831,13 @@
               <!-- Bottom CTA -->
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-3 gap-2">
 
-                <div class="text-[11px] text-gray-500">
-                  Listed {{ property.created_at|timesince }} ago
-                </div>
-
                 <div class="flex gap-2">
 
-                  <a href="{% url 'rental_detail' property.slug %}"
-                    class="px-3 py-2 border border-[#c6a16e] text-[#c6a16e] rounded-lg hover:bg-[#f9f6f0] transition text-xs font-semibold">
+                  <a href="{% url 'rental_detail' property.slug %}" class="px-3 py-2 border border-[#c6a16e] text-[#c6a16e] rounded-lg hover:bg-[#f9f6f0] transition text-xs font-semibold">
                     <i class="fas fa-eye text-xs"></i> View Details
                   </a>
 
-                  <a href="{% url 'rental_detail' property.slug %}"
-                    class="px-4 py-2 bg-[#c6a16e] text-white rounded-lg hover:opacity-90 transition flex items-center gap-1 text-xs font-semibold shadow">
+                  <a href="{% url 'rental_detail' property.slug %}" class="px-4 py-2 bg-[#c6a16e] text-white rounded-lg hover:opacity-90 transition flex items-center gap-1 text-xs font-semibold shadow">
                     <i class="fas fa-phone text-[10px]"></i> Contact
                   </a>
 
@@ -893,6 +898,58 @@
 </div>
 
 <div id="paginationWrapper" class="flex justify-center mt-10 space-x-3"></div>
+
+<!-- CONTACT MODAL -->
+<div id="contactModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50">
+
+  <div class="bg-white w-full max-w-md rounded-md shadow-2xl p-6 relative animate-fadeIn">
+
+    <!-- Close Button -->
+    <button onclick="closeModal()" class="absolute top-3 right-3 text-gray-500 hover:text-red-500">
+      <i class="fas fa-times text-lg"></i>
+    </button>
+
+    <!-- Heading -->
+    <h2 class="text-xl font-bold text-gray-800 mb-4">
+      Enquiry Form
+    </h2>
+
+    <form method="POST" action="#" class="space-y-4">
+
+      <!-- Name -->
+      <div>
+        <label class="text-sm font-semibold text-gray-600">Name</label>
+        <input type="text" class="w-full border rounded-sm px-3 py-2 text-sm focus:ring-2 focus:ring-[#c6a16e] outline-none" placeholder="Your Name">
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label class="text-sm font-semibold text-gray-600">Email</label>
+        <input type="email"  class="w-full border rounded-sm px-3 py-2 text-sm focus:ring-2 focus:ring-[#c6a16e] outline-none"  placeholder="Your Email">
+      </div>
+
+      <!-- Phone -->
+      <div>
+        <label class="text-sm font-semibold text-gray-600">Phone</label>
+        <input type="tel" class="w-full border rounded-sm px-3 py-2 text-sm focus:ring-2 focus:ring-[#c6a16e] outline-none" placeholder="Your Phone">
+      </div>
+
+      <!-- Enquiry -->
+      <div>
+        <label class="text-sm font-semibold text-gray-600">Enquiry</label>
+        <textarea rows="3" class="w-full border rounded-sm px-3 py-2 text-sm focus:ring-2 focus:ring-[#c6a16e] outline-none" placeholder="I am interested in this property..."></textarea>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit"  class="w-full bg-[#c6a16e] text-white py-2 rounded-lg font-semibold hover:bg-[#b8935f] transition">
+        Send Enquiry
+      </button>
+
+    </form>
+
+  </div>
+</div>
+
 
 <script>
   function toggleBudget() {
@@ -983,6 +1040,23 @@
     document.querySelectorAll(".locality-check").forEach(cb => {
       cb.checked = false;
     });
+  }
+    function openModal() {
+    document.getElementById("contactModal").classList.remove("hidden");
+    document.getElementById("contactModal").classList.add("flex");
+  }
+
+  function closeModal() {
+    document.getElementById("contactModal").classList.add("hidden");
+    document.getElementById("contactModal").classList.remove("flex");
+  }
+
+  // Close on outside click
+  window.onclick = function(event) {
+    const modal = document.getElementById("contactModal");
+    if (event.target === modal) {
+      closeModal();
+    }
   }
 </script>
 
