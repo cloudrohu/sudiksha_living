@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),   # 👈 YAHIN SE home-contact aayega
     path('', include('utility.urls')),
+    path('rent/', include('rent.urls')),
     path('projects/', include('projects.urls')),
     path('properties/', include('properties.urls')),
     path('accounts/', include('user.urls')),

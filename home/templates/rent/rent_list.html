@@ -1,0 +1,989 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% load utility_tags %} 
+{% load humanize %} 
+{% block title %}{{ site_settings.meta_title|default:'Best Real Estate Deals' }}{% endblock %}
+
+{% block content %}
+
+<style>
+  .property-pill {
+    width: 100%;
+    text-align: left;
+    padding: 8px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 9999px;
+    font-size: 14px;
+    background: #f9fafb;
+    transition: all 0.3s ease;
+  }
+
+  .property-pill:hover {
+    background: #c6a16e;
+    color: white;
+    border-color: #c6a16e;
+  }
+
+  .property-pill.active {
+    background: #c6a16e;
+    color: white;
+    border-color: #c6a16e;
+  }
+   .filter-pill {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 9999px;
+    font-size: 14px;
+    background: #f9fafb;
+    transition: all 0.3s ease;
+  }
+
+  .filter-pill:hover {
+    background: #c6a16e;
+    color: white;
+    border-color: #c6a16e;
+  }
+
+  .filter-pill.active {
+    background: #c6a16e;
+    color: white;
+    border-color: #c6a16e;
+  }
+</style>
+
+
+<!-- Main Container -->
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6 px-4">
+
+  <!-- FILTER BAR -->
+    <aside class="space-y-6 md:hidden hidden lg:block">
+
+      <!-- Filters -->
+      <div class="bg-white shadow rounded p-6">
+
+        <h3 class="font-bold text-gray-700 mb-6 text-lg">
+          ADVANCED SEARCH
+        </h3>
+
+        <!-- ================= Locality ================= -->
+        <div class="border overflow-hidden bg-white mb-2 rounded-lg">
+
+          <div class="flex items-center justify-between px-4 py-3">
+            <button type="button" class="flex-1 flex items-center justify-between text-left" onclick="toggleFilter('localityBody','localityArrow')">
+
+              <h4 class="text-sm font-semibold text-gray-800">
+                Locality
+              </h4>
+
+              <svg id="localityArrow" class="w-4 h-4 text-gray-500 transition-transform duration-300 rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <button type="button" onclick="clearLocalityOnly()" class="text-sm font-semibold text-blue-600 hover:text-blue-700 ml-2">
+              Clear
+            </button>
+          </div>
+
+          <!-- Body -->
+          <div id="localityBody" class="filter-body open">
+            <div class="px-4 pb-4 space-y-3">
+
+              <!-- Search -->
+              <div class="relative">
+                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input id="localitySearch" type="text" placeholder="Search locality..." class="w-full rounded-lg border px-10 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300" oninput="filterLocality()" />
+              </div>
+
+              <!-- Static List -->
+              <div class="border p-2 max-h-[220px] overflow-auto rounded-lg" id="localityList">
+
+                <label class="locality-item flex items-center gap-3 px-2 py-2 rounded-md hover:bg-gray-50 cursor-pointer">
+                  <input type="checkbox" class="locality-check w-4 h-4">
+                  <span class="text-sm text-gray-800">Andheri East</span>
+                </label>
+
+                <label class="locality-item flex items-center gap-3 px-2 py-2 rounded-md hover:bg-gray-50 cursor-pointer">
+                  <input type="checkbox" class="locality-check w-4 h-4">
+                  <span class="text-sm text-gray-800">Andheri West</span>
+                </label>
+
+                <label class="locality-item flex items-center gap-3 px-2 py-2 rounded-md hover:bg-gray-50 cursor-pointer">
+                  <input type="checkbox" class="locality-check w-4 h-4">
+                  <span class="text-sm text-gray-800">Bandra West</span>
+                </label>
+
+                <label class="locality-item flex items-center gap-3 px-2 py-2 rounded-md hover:bg-gray-50 cursor-pointer">
+                  <input type="checkbox" class="locality-check w-4 h-4">
+                  <span class="text-sm text-gray-800">Powai</span>
+                </label>
+
+                <label class="locality-item flex items-center gap-3 px-2 py-2 rounded-md hover:bg-gray-50 cursor-pointer">
+                  <input type="checkbox" class="locality-check w-4 h-4">
+                  <span class="text-sm text-gray-800">Chembur</span>
+                </label>
+
+                <label class="locality-item flex items-center gap-3 px-2 py-2 rounded-md hover:bg-gray-50 cursor-pointer">
+                  <input type="checkbox" class="locality-check w-4 h-4">
+                  <span class="text-sm text-gray-800">Goregaon</span>
+                </label>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Budget -->
+        <div class="border border-gray-300 rounded-lg p-3">
+          <button onclick="toggleBudget()" class="w-full flex justify-between items-center text-left">
+            <span class="text-gray-800 font-semibold">
+              Budget
+            </span>
+
+            <!-- Arrow -->
+            <svg id="budgetIcon" class="w-4 h-4 text-gray-600 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <!-- Smooth Accordion Body -->
+          <div id="budgetContent" class="overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+
+            <div class="mt-4 flex gap-4">
+
+              <!-- Min Input -->
+              <input type="number" placeholder="min" class="w-full border border-gray-300 rounded-full px-4 py-2 text-sm focus:ring-2 focus:ring-[#c6a16e] focus:border-[#c6a16e] outline-none">
+
+              <!-- Max Input -->
+              <input type="number" placeholder="max" class="w-full border border-gray-300 rounded-full px-4 py-2 text-sm focus:ring-2 focus:ring-[#c6a16e] focus:border-[#c6a16e] outline-none">
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Type of Property -->
+        <div class="border border-gray-300 rounded-lg p-3 mt-4">
+
+          <!-- Header -->
+          <button onclick="toggleProperty()" class="w-full flex justify-between items-center text-left">
+
+            <span class="text-gray-800 font-semibold">
+              Type of property
+            </span>
+
+            <svg id="propertyIcon" class="w-4 h-4 text-gray-600 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <!-- Body -->
+          <div id="propertyContent" class="overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+
+            <div class="mt-4 space-y-3">
+
+              <button class="property-pill">+ Independent House/Villa</button>
+              <button class="property-pill">+ Residential Apartment</button>
+              <button class="property-pill">+ Builder Floor</button>
+              <button class="property-pill">+ 1 RK/ Studio Apartment</button>
+              <button class="property-pill">+ Serviced Apartments</button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Available For -->
+        <div class="border border-gray-300 rounded-lg p-3 mt-4">
+
+          <!-- Header -->
+          <button onclick="toggleAvailable()" class="w-full flex justify-between items-center text-left">
+            <span class="text-gray-800 font-semibold">
+              Available for
+            </span>
+            <svg id="availableIcon" class="w-4 h-4 text-gray-600 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <!-- Body -->
+          <div id="availableContent" class="overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+
+            <div class="mt-4 flex flex-wrap gap-3">
+
+              <button class="filter-pill">+ Family</button>
+              <button class="filter-pill">+ Single Women</button>
+              <button class="filter-pill">+ Single Men</button>
+              <button class="filter-pill w-full">+ Tenants with Company Lease</button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Posted By -->
+        <div class="border border-gray-300 rounded-lg p-3 mt-4">
+
+          <button onclick="togglePosted()" 
+            class="w-full flex justify-between items-center text-left">
+
+            <span class="text-gray-800 font-semibold">
+              Posted by
+            </span>
+
+            <svg id="postedIcon"
+              class="w-4 h-4 text-gray-600 transition-transform duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <div id="postedContent"
+            class="overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+
+            <div class="mt-4 flex flex-wrap gap-3">
+              <button class="filter-pill">+ Owner</button>
+              <button class="filter-pill">+ Builder</button>
+              <button class="filter-pill">+ Dealer</button>
+              <button class="filter-pill">+ Feature Dealer</button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Furnishing Status -->
+        <div class="border border-gray-300 rounded-lg p-3 mt-4">
+
+          <button onclick="toggleFurnish()" 
+            class="w-full flex justify-between items-center text-left">
+
+            <span class="text-gray-800 font-semibold">
+              Furnishing status
+            </span>
+
+            <svg id="furnishIcon"
+              class="w-4 h-4 text-gray-600 transition-transform duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <div id="furnishContent"
+            class="overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+
+            <div class="mt-4 flex flex-wrap gap-3">
+              <button class="filter-pill">+ Semifurnished</button>
+              <button class="filter-pill">+ Unfurnished</button>
+              <button class="filter-pill">+ Furnished</button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- No of Bathrooms -->
+        <div class="border border-gray-300 rounded-lg p-3 mt-4">
+
+          <button onclick="toggleSection('bathContent','bathIcon')" 
+            class="w-full flex justify-between items-center text-left">
+
+            <span class="text-gray-800 font-semibold">
+              No. of bathrooms
+            </span>
+
+            <svg id="bathIcon"
+              class="w-4 h-4 text-gray-600 transition-transform duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <div id="bathContent"
+            class="overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+
+            <div class="mt-4 flex flex-wrap gap-3">
+              <button class="filter-pill">1+</button>
+              <button class="filter-pill">2+</button>
+              <button class="filter-pill">3+</button>
+              <button class="filter-pill">4+</button>
+              <button class="filter-pill">5+</button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Available From -->
+        <div class="border border-gray-300 rounded-lg p-3 mt-4">
+
+          <button onclick="toggleSection('availableFromContent','availableFromIcon')" 
+            class="w-full flex justify-between items-center text-left">
+
+            <span class="text-gray-800 font-semibold">
+              Available from
+            </span>
+
+            <svg id="availableFromIcon"
+              class="w-4 h-4 text-gray-600 transition-transform duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <div id="availableFromContent"
+            class="overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+
+            <div class="mt-4 flex flex-wrap gap-3">
+              <button class="filter-pill">+ Any Time</button>
+              <button class="filter-pill">+ Immediately</button>
+              <button class="filter-pill">+ Within 15 Days</button>
+              <button class="filter-pill">+ Within 1 Month</button>
+              <button class="filter-pill">+ Within 3 Months</button>
+              <button class="filter-pill">+ After 3 Months</button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Age of Property -->
+        <div class="border border-gray-300 rounded-lg p-3 mt-4">
+
+          <button onclick="toggleSection('ageContent','ageIcon')" 
+            class="w-full flex justify-between items-center text-left">
+
+            <span class="text-gray-800 font-semibold">
+              Age of Property
+            </span>
+
+            <svg id="ageIcon"
+              class="w-4 h-4 text-gray-600 transition-transform duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <div id="ageContent"
+            class="overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+
+            <div class="mt-4 flex flex-wrap gap-3">
+              <button class="filter-pill">0-1 years old</button>
+              <button class="filter-pill">1-5 years old</button>
+              <button class="filter-pill">5-10 years old</button>
+              <button class="filter-pill">10+ years old</button>
+              <button class="filter-pill">20+ years old</button>
+            </div>
+
+          </div>
+        </div>
+
+
+
+        <button class="w-full bg-[#c6a16e] hover:bg-[#b8935f] text-white font-bold py-3 rounded mt-4 transition">
+          SEARCH
+        </button>
+
+      </div>
+
+      <!-- Recent Properties -->
+      <div class="bg-white shadow rounded p-6">
+        <h3 class="font-bold text-gray-700 mb-3 text-lg">RECENT PROPERTIES</h3>
+        <div class="space-y-3 text-sm">
+          <div class="flex gap-3">
+            <img src="https://dummyimage.com/80x60/aaaaaa/000000" class="w-20 h-14 object-cover rounded">
+            <div>
+              <p class="text-[#CBAA7B] font-bold">700 Sq.Ft. 2 BHK Apartment</p>
+              <p class="text-gray-800">₹65.00 Th</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <img src="https://dummyimage.com/80x60/cccccc/000000" class="w-20 h-14 object-cover rounded">
+            <div>
+              <p class="text-[#CBAA7B] font-bold">610 Sq.Ft. 2 BHK Apartment</p>
+              <p class="text-gray-800">₹70.00 Th</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Helping Center -->
+      <div class="bg-white shadow rounded p-6">
+        <h3 class="font-bold text-gray-700 mb-3 text-lg">HELPING CENTER</h3>
+        <p class="text-gray-700 text-sm mb-2"><strong>Address</strong><br> {{settings_obj.address}}/p>
+        <p class="text-gray-700 text-sm"><strong>Phone</strong><br> +91-{{settings_obj.phone}}</p>
+      </div>
+
+    </aside>
+  <!-- FILTER BAR END-->
+
+  
+  <!-- PROPERTY LISTING -->
+    <div class="lg:col-span-2 space-y-6">
+
+      <!-- Header -->
+        <div class="flex items-center gap-2 bg-white shadow p-3 rounded mb-4">
+          <!-- List Button -->
+          <button id="listViewBtn" class="bg-[#c6a16e] text-white p-2 rounded">
+            <i class="fas fa-list"></i>
+          </button>
+
+          <!-- Grid Button -->
+          <button id="gridViewBtn" class="bg-[#c6a16e]   text-gray-700 p-2 rounded">
+            <i class="fas fa-th"></i>
+          </button>
+
+          <span class="font-semibold text-[#CBAA7B]">Properties</span>
+        </div>
+
+
+      <!-- Property Filters Start -->
+      <filter-section>
+
+        <div class="bg-white shadow rounded p-4 flex flex-wrap gap-4 items-center lg:hidden">
+
+          <!-- Location -->
+          <select class="border px-3 py-2 rounded text-sm">
+            <option>All Locations</option>
+            <option>Mira Road</option>
+            <option>Andheri</option>
+            <option>Borivali</option>
+          </select>
+
+          <!-- Property Type -->
+          <select class="border px-3 py-2 rounded text-sm">
+            <option>Property Type</option>
+            <option>Apartment</option>
+            <option>Plot</option>
+            <option>Villa</option>
+            <option>Builder Floor</option>
+          </select>
+
+          <!-- BHK -->
+          <select class="border px-3 py-2 rounded text-sm">
+            <option>BHK</option>
+            <option>1 RK</option>
+            <option>1 BHK</option>
+            <option>1.5 BHK</option>
+            <option>2 BHK</option>
+            <option>2.5 BHK</option>
+            <option>3 BHK</option>
+            <option>3.5 BHK</option>
+          </select>
+
+          <!-- Price -->
+          <div class="flex gap-2">
+            <input type="text" placeholder="Min Price" class="border px-3 py-2 rounded text-sm w-28">
+            <input type="text" placeholder="Max Price" class="border px-3 py-2 rounded text-sm w-28">
+          </div>
+
+          <!-- Brokerage -->
+          <select class="border px-3 py-2 rounded text-sm">
+            <option>Brokerage Charges</option>
+            <option>No Brokerage</option>
+            <option>With Brokerage</option>
+          </select>
+
+          <!-- Carpet Area -->
+          <div class="flex gap-2">
+            <input type="text" placeholder="Min (sqft)" class="border px-3 py-2 rounded text-sm w-28">
+            <input type="text" placeholder="Max (sqft)" class="border px-3 py-2 rounded text-sm w-28">
+          </div>
+
+          <!-- More Filters Button -->
+          <button id="moreFiltersBtn"
+            class="text-orange-600 font-semibold underline text-sm ml-auto">More Filters</button>
+
+          <!-- Submit -->
+          <button
+            class="bg-[#c6a16e] text-white px-4 py-2 rounded hover:bg-[#c6a16e] text-sm font-semibold">
+            Filter
+          </button>
+        </div>
+
+        <!-- More Filters Panel -->
+        <div id="moreFiltersPanel" class="hidden bg-white shadow rounded p-4 mt-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+            <select class="border px-3 py-2 rounded">
+              <option>Posted By</option>
+              <option>Owner</option>
+              <option>Dealer</option>
+            </select>
+            <select class="border px-3 py-2 rounded">
+              <option>Sale Type</option>
+              <option>New</option>
+              <option>Resale</option>
+            </select>
+            <select class="border px-3 py-2 rounded">
+              <option>Property Status</option>
+              <option>Ready to Move</option>
+              <option>Under Construction</option>
+            </select>
+            <select class="border px-3 py-2 rounded">
+              <option>Possession From</option>
+              <option>2024</option>
+              <option>2025</option>
+            </select>
+            <select class="border px-3 py-2 rounded">
+              <option>Property Age</option>
+              <option>0-5 Years</option>
+              <option>5-10 Years</option>
+            </select>
+            <select class="border px-3 py-2 rounded">
+              <option>Bathrooms</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3+</option>
+            </select>
+            <label class="flex items-center gap-2">
+              <input type="checkbox"> Parking
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="checkbox"> Live-in Tour / Video
+            </label>
+          </div>
+
+          <!-- Bottom Buttons -->
+          <div class="flex justify-between items-center mt-4">
+            <button id="closeFilters" class="text-sm text-blue-600">Clear Filters & Close</button>
+            <button class="bg-[#c6a16e] px-4 py-2 rounded text-white font-semibold">
+              Show Properties
+            </button>
+          </div>
+        </div>
+
+          <!-- JS -->
+          <script>
+            document.getElementById("moreFiltersBtn").addEventListener("click", () => {
+              document.getElementById("moreFiltersPanel").classList.toggle("hidden");
+            });
+            document.getElementById("closeFilters").addEventListener("click", () => {
+              document.getElementById("moreFiltersPanel").classList.add("hidden");
+            });
+          </script>
+      </filter-section>
+      <!-- Property Filters End -->
+      
+
+      <!-- ✅ Listing View -->
+      <div id="listView" class="max-w-4xl mx-auto space-y-6 p-4">
+
+          {% for property in properties %}
+
+          <div class="group relative flex flex-col sm:flex-row bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-xl hover:border-[#c6a16e] transition-all duration-300 overflow-hidden">
+
+            <!-- IMAGE SECTION -->
+            <div class="relative w-full sm:w-64 h-56 sm:h-auto overflow-hidden">
+
+              {% if property.image %}
+                <img src="{{ property.image.url }}" class="w-full h-[300px] object-cover transition-transform duration-500 group-hover:scale-105" alt="{{ property.title }}">
+              {% else %}
+                <img src="https://via.placeholder.com/400x300" class="w-full h-full object-cover" alt="No Image">
+              {% endif %}
+
+              <div class="absolute top-2 left-2 flex flex-col gap-1.5">
+                <span class="bg-[#c6a16e] text-white text-[9px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md shadow">
+                  For Rent
+                </span>
+              </div>
+
+            </div>
+
+            <!-- DETAILS SECTION -->
+            <div class="flex-1 p-4 flex flex-col justify-between">
+
+              <div>
+
+                <!-- LOCATION -->
+                <p class="text-[11px] uppercase tracking-widest text-[#c6a16e] font-semibold">
+                  {{ property.locality.name }} • {{ property.city.name }}
+                </p>
+
+                <!-- TITLE -->
+                <h2 class="text-lg font-semibold text-gray-800 mt-1 leading-snug group-hover:text-[#c6a16e] transition">
+                  {{ property.title }}
+                </h2>
+
+                <!-- RENT STRIP -->
+                {% if property.rent_details %}
+                <div class="mt-2 inline-flex items-baseline gap-1.5 bg-[#f9f6f0] px-3 py-1.5 rounded-lg">
+                  <span class="text-xl font-bold text-gray-900">
+                    ₹{{ property.rent_details.monthly_rent|floatformat:0 }}
+                  </span>
+                  <span class="text-xs text-gray-500">/month</span>
+                </div>
+                {% endif %}
+
+                <!-- FEATURE ROW -->
+                <div class="flex flex-wrap items-center gap-3 mt-3 text-xs text-gray-600">
+
+                  <div class="flex items-center gap-1.5">
+                    <i class="fas fa-bed text-[#c6a16e] text-xs"></i>
+                    <span><strong>{{ property.bedrooms }}</strong> BHK</span>
+                  </div>
+
+                  <span class="text-gray-300">|</span>
+
+                  <div class="flex items-center gap-1.5">
+                    <i class="fas fa-bath text-[#c6a16e] text-xs"></i>
+                    <span><strong>{{ property.bathrooms }}</strong> Baths</span>
+                  </div>
+
+                  <span class="text-gray-300">|</span>
+
+                  <div class="flex items-center gap-1.5">
+                    <i class="fas fa-ruler-combined text-[#c6a16e] text-xs"></i>
+                    <span>{{ property.super_area }} sqft</span>
+                  </div>
+
+                  {% if property.furnishing_type %}
+                  <span class="text-gray-300">|</span>
+                  <div class="flex items-center gap-1.5">
+                    <i class="fas fa-couch text-[#c6a16e] text-xs"></i>
+                    <span>{{ property.furnishing_type }}</span>
+                  </div>
+                  {% endif %}
+
+                </div>
+
+                <!-- SHORT DESCRIPTION -->
+                {% if property.about_section %}
+                <p class="text-gray-600 text-xs mt-3 leading-relaxed">
+                  {{ property.about_section.about_description|truncatewords:20 }}
+                </p>
+                {% endif %}
+
+              </div>
+
+              <!-- BOTTOM CTA -->
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-3 gap-2">
+
+                <div class="text-[12px] text-gray-500">
+                  Listed {{ property.created_at|timesince }} ago
+                </div>
+
+                <div class="flex gap-2">
+
+                  <!-- VIEW DETAILS BUTTON -->
+                  <a href="{% url 'rental_detail' property.slug %}"
+                    class="px-3 py-2 border border-[#c6a16e] text-[#c6a16e] rounded-lg hover:bg-[#f9f6f0] transition text-xs font-semibold">
+                    <i class="fas fa-eye text-xs"></i> View Details
+                  </a>
+
+                  <!-- CONTACT BUTTON -->
+                  <a href="{% url 'rental_detail' property.slug %}"
+                    class="px-4 py-2 bg-[#c6a16e] text-white rounded-lg hover:opacity-90 transition flex items-center gap-1 text-xs font-semibold shadow">
+                    <i class="fas fa-phone text-[10px]"></i> Contact
+                  </a>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          {% empty %}
+
+          <div class="text-center py-10 text-gray-500">
+            No Rental Properties Available.
+          </div>
+
+          {% endfor %}
+
+      </div>
+
+
+
+        <!-- ✅ Grid View -->
+          <div id="gridView" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 max-w-6xl mx-auto p-4">
+
+          {% for property in properties %}
+
+          <div class="group bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-xl hover:border-[#c6a16e] transition-all duration-300 overflow-hidden">
+
+            <!-- Image -->
+            <div class="relative h-52 overflow-hidden">
+
+              {% if property.image %}
+                <img src="{{ property.image.url }}"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    alt="{{ property.title }}">
+              {% else %}
+                <img src="https://via.placeholder.com/400x300"
+                    class="w-full h-full object-cover"
+                    alt="No Image">
+              {% endif %}
+
+              <!-- Badges -->
+              <div class="absolute top-2 left-2 flex flex-col gap-1.5">
+                <span class="bg-[#c6a16e] text-white text-[9px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-md shadow">
+                  For Rent
+                </span>
+              </div>
+
+              <!-- Wishlist Icon -->
+              <button class="absolute top-2 right-2 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-gray-600 hover:text-red-500 transition shadow">
+                <i class="far fa-heart text-sm"></i>
+              </button>
+
+            </div>
+
+            <!-- Content -->
+            <div class="p-4">
+
+              <!-- Location -->
+              <p class="text-[11px] uppercase tracking-widest text-[#c6a16e] font-semibold">
+                {{ property.locality.name }} • {{ property.city.name }}
+              </p>
+
+              <!-- Title -->
+              <h2 class="text-base font-semibold text-gray-800 mt-1 group-hover:text-[#c6a16e] transition">
+                {{ property.title }}
+              </h2>
+
+              <!-- Rent -->
+              {% if property.rent_details %}
+              <div class="mt-2 inline-flex items-baseline gap-1.5 bg-[#f9f6f0] px-3 py-1 rounded-lg">
+                <span class="text-lg font-bold text-gray-900">
+                  ₹{{ property.rent_details.monthly_rent|floatformat:0 }}
+                </span>
+                <span class="text-xs text-gray-500">/month</span>
+              </div>
+              {% endif %}
+
+              <!-- Features -->
+              <div class="flex flex-wrap items-center gap-2 mt-3 text-xs text-gray-600">
+
+                <div class="flex items-center gap-1">
+                  <i class="fas fa-bed text-[#c6a16e] text-xs"></i>
+                  <span>{{ property.bedrooms }} BHK</span>
+                </div>
+
+                <span class="text-gray-300">|</span>
+
+                <div class="flex items-center gap-1">
+                  <i class="fas fa-bath text-[#c6a16e] text-xs"></i>
+                  <span>{{ property.bathrooms }} Baths</span>
+                </div>
+
+                <span class="text-gray-300">|</span>
+
+                <div class="flex items-center gap-1">
+                  <i class="fas fa-ruler-combined text-[#c6a16e] text-xs"></i>
+                  <span>{{ property.super_area }} sqft</span>
+                </div>
+
+                {% if property.furnishing_type %}
+                <span class="text-gray-300">|</span>
+                <div class="flex items-center gap-1">
+                  <i class="fas fa-couch text-[#c6a16e] text-xs"></i>
+                  <span>{{ property.furnishing_type }}</span>
+                </div>
+                {% endif %}
+
+              </div>
+
+              <!-- Short Description -->
+              {% if property.about_section %}
+              <p class="text-gray-600 text-xs mt-3 leading-relaxed">
+                {{ property.about_section.about_description|truncatewords:15 }}
+              </p>
+              {% endif %}
+
+              <!-- Bottom CTA -->
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-3 gap-2">
+
+                <div class="text-[11px] text-gray-500">
+                  Listed {{ property.created_at|timesince }} ago
+                </div>
+
+                <div class="flex gap-2">
+
+                  <a href="{% url 'rental_detail' property.slug %}"
+                    class="px-3 py-2 border border-[#c6a16e] text-[#c6a16e] rounded-lg hover:bg-[#f9f6f0] transition text-xs font-semibold">
+                    <i class="fas fa-eye text-xs"></i> View Details
+                  </a>
+
+                  <a href="{% url 'rental_detail' property.slug %}"
+                    class="px-4 py-2 bg-[#c6a16e] text-white rounded-lg hover:opacity-90 transition flex items-center gap-1 text-xs font-semibold shadow">
+                    <i class="fas fa-phone text-[10px]"></i> Contact
+                  </a>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          {% empty %}
+
+          <div class="col-span-2 text-center py-10 text-gray-500">
+            No Rental Properties Available.
+          </div>
+
+          {% endfor %}
+
+          </div>
+
+
+
+      <!-- ✅ JS Toggle -->
+      <script>
+        const listViewBtn = document.getElementById("listViewBtn");
+        const gridViewBtn = document.getElementById("gridViewBtn");
+        const listView = document.getElementById("listView");
+        const gridView = document.getElementById("gridView");
+
+        listViewBtn.addEventListener("click", () => {
+          listView.classList.remove("hidden");
+          gridView.classList.add("hidden");
+
+          listViewBtn.classList.add("bg-[#c6a16e]", "text-white");
+          listViewBtn.classList.remove("bg-gray-200", "text-gray-700");
+
+          gridViewBtn.classList.remove("bg-[#c6a16e]", "text-white");
+          gridViewBtn.classList.add("bg-gray-200", "text-gray-700");
+        });
+
+        gridViewBtn.addEventListener("click", () => {
+          gridView.classList.remove("hidden");
+          listView.classList.add("hidden");
+
+          gridViewBtn.classList.add("bg-[#c6a16e]", "text-white");
+          gridViewBtn.classList.remove("bg-gray-200", "text-gray-700");
+
+          
+          listViewBtn.classList.remove("bg-[#c6a16e]", "text-white");
+          listViewBtn.classList.add("bg-gray-200", "text-gray-700");
+        });
+      </script>
+
+    </div>
+  <!-- PROPERTY LISTING -->
+
+</div>
+
+<div id="paginationWrapper" class="flex justify-center mt-10 space-x-3"></div>
+
+<script>
+  function toggleBudget() {
+    const content = document.getElementById("budgetContent");
+    const icon = document.getElementById("budgetIcon");
+
+    if (content.classList.contains("max-h-0")) {
+      content.classList.remove("max-h-0", "opacity-0");
+      content.classList.add("max-h-40", "opacity-100");
+      icon.classList.add("rotate-180");
+    } else {
+      content.classList.add("max-h-0", "opacity-0");
+      content.classList.remove("max-h-40", "opacity-100");
+      icon.classList.remove("rotate-180");
+    }
+  }
+   function toggleProperty() {
+    const content = document.getElementById("propertyContent");
+    const icon = document.getElementById("propertyIcon");
+
+    if (content.classList.contains("max-h-0")) {
+      content.classList.remove("max-h-0", "opacity-0");
+      content.classList.add("max-h-96", "opacity-100");
+      icon.classList.add("rotate-180");
+    } else {
+      content.classList.add("max-h-0", "opacity-0");
+      content.classList.remove("max-h-96", "opacity-100");
+      icon.classList.remove("rotate-180");
+    }
+  }
+    document.querySelectorAll(".property-pill").forEach(btn => {
+    btn.addEventListener("click", function() {
+      this.classList.toggle("active");
+    });
+  });
+    function toggleAvailable() {
+    const content = document.getElementById("availableContent");
+    const icon = document.getElementById("availableIcon");
+
+    if (content.classList.contains("max-h-0")) {
+      content.classList.remove("max-h-0", "opacity-0");
+      content.classList.add("max-h-96", "opacity-100");
+      icon.classList.add("rotate-180");
+    } else {
+      content.classList.add("max-h-0", "opacity-0");
+      content.classList.remove("max-h-96", "opacity-100");
+      icon.classList.remove("rotate-180");
+    }
+  }
+    document.querySelectorAll(".filter-pill").forEach(btn => {
+    btn.addEventListener("click", function() {
+      this.classList.toggle("active");
+    });
+  });
+    function toggleSection(contentId, iconId) {
+    const content = document.getElementById(contentId);
+    const icon = document.getElementById(iconId);
+
+    if (content.classList.contains("max-h-0")) {
+      content.classList.remove("max-h-0", "opacity-0");
+      content.classList.add("max-h-96", "opacity-100");
+      icon.classList.add("rotate-180");
+    } else {
+      content.classList.add("max-h-0", "opacity-0");
+      content.classList.remove("max-h-96", "opacity-100");
+      icon.classList.remove("rotate-180");
+    }
+  }
+
+  function togglePosted() {
+    toggleSection("postedContent", "postedIcon");
+  }
+
+  function toggleFurnish() {
+    toggleSection("furnishContent", "furnishIcon");
+  }
+  function filterLocality() {
+    const input = document.getElementById("localitySearch").value.toLowerCase();
+    const items = document.querySelectorAll(".locality-item");
+
+    items.forEach(item => {
+      const text = item.innerText.toLowerCase();
+      item.style.display = text.includes(input) ? "flex" : "none";
+    });
+  }
+
+  function clearLocalityOnly() {
+    document.querySelectorAll(".locality-check").forEach(cb => {
+      cb.checked = false;
+    });
+  }
+</script>
+
+{% endblock %}

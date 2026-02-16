@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.humanize',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # 📌 My Apps
     'home',
     'projects.apps.ProjectsConfig',
     'properties',
@@ -47,7 +45,8 @@ INSTALLED_APPS = [
     'user',
     'blog',
     'realtypms',
-
+    'rent',
+    'rent_utility',
     'easy_thumbnails',
 ]
 
