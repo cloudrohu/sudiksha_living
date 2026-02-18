@@ -172,16 +172,19 @@ def contact_view(request):
     contact_content = Contact_Page.objects.first()
 
     if request.method == "POST":
+
+        enquiry_type = request.POST.get("type")  # <-- Important
+
         ContactEnquiry.objects.create(
+            type=enquiry_type if enquiry_type else None,
             name=request.POST.get("name"),
             email=request.POST.get("email"),
             phone=request.POST.get("phone"),
             message=request.POST.get("message"),
         )
 
-        messages.success(request, "Your message has been sent successfully!")
-        return redirect("contact")  
-    
+        return redirect("thank_you")   # ✅ redirect to thank you page
+
     context = {
         "settings_obj": settings_obj,
         "contact_content": contact_content,
@@ -263,3 +266,7 @@ def calculator(request):
     }
     return render(request, 'home/calculator.html', context)
 
+def thank_you(request):
+    if not request.META.get("HTTP_REFERER"):
+        return redirect("contact")
+    return render(request, "home/thank_you.html")

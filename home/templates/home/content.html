@@ -4,7 +4,7 @@
 
 <main>
 
-<!-- FEATURE PROJECTS -->
+<!-- ======================= FEATURE PROJECTS ======================= -->
   <section class="bg-gray-100 py-14" data-aos="fade-up">
     <div class="max-w-7xl mx-auto px-6">
 
@@ -225,11 +225,11 @@
     },
     });
   </script>
-<!-- FEATURE PROJECTS END-->
+<!-- ======================= FEATURE PROJECTS END ======================= -->
 
-<hr class="text-white w-[15px]">
+<hr class="text-white w-[26px]">
 
-<!-- FEATURE PROPERTIES -->
+<!-- ======================= FEATURE PROPERTIES ======================= -->
   <section class="bg-gray-100 py-8">
     <div class="max-w-7xl mx-auto px-6">
 
@@ -328,10 +328,10 @@
 
     </div>
   </section>
-<!-- FEATURE PROPERTIES END-->
+<!-- ======================= FEATURE PROPERTIES END ======================= -->
 
 
-<!-- EXCLUSIVE PROPERTIES SECTION -->
+<!-- ======================= EXCLUSIVE PROPERTIES SECTION ======================= -->
   <section class=" mx-auto py-12 px-4 bg-gray-50 screen-h"  data-aos="fade-up">
       <!-- Heading -->
       <h2 class="text-center text-2xl md:text-3xl font-bold mb-12">
@@ -379,11 +379,11 @@
 
       </div>
   </section>
-<!--EXCLUSIVE PROPERTIES SECTION END-->
+<!-- ======================= EXCLUSIVE PROPERTIES SECTION END ======================= -->
 
 <hr>
 
-<!-- POSSESSION STATUS – PREMIUM CLEAN VERSION -->
+<!-- ======================= POSSESSION STATUS – PREMIUM CLEAN VERSION ======================= -->
 <section class="py-16 bg-slate-50">
 
   <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 items-start">
@@ -511,11 +511,11 @@
 
   </div>
 </section>
-<!-- POSSESSION STATUS – PREMIUM CLEAN VERSION END  -->
+<!-- ======================= POSSESSION STATUS – PREMIUM CLEAN VERSION END =======================  -->
 
 <hr>
   
-<!-- 🌟 WHY CHOOSE US -->
+<!-- ======================= 🌟 WHY CHOOSE US ======================= -->
 <section class="bg-gray-100 py-16">
   <div class="max-w-7xl mx-auto px-6">
 
@@ -550,7 +550,7 @@
     </div>
   </div>
 </section>
-<!-- 🌟 WHY CHOOSE US END -->
+<!-- ======================= 🌟 WHY CHOOSE US END ======================= -->
   
 <!-- ======================= WHAT ARE YOU LOOKING FOR? ======================= -->
   <section class="py-16 bg-gray-50">
@@ -781,9 +781,56 @@
   </section>
   <!-- ===================== How We Work End======================= -->
 
+<hr>
+<!-- ============= FAQ ============= -->
+  <section class="py-20 bg-gray-100" id="faq">
+    <div class="max-w-7xl mx-auto px-6">
+
+      <h2 class="text-4xl font-bold text-[#B8925A] mb-12 text-center">
+        Frequently Asked Questions
+      </h2>
+
+      <!-- FAQ Grid -->
+      <div id="faqContainer" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+
+      <!-- Buttons -->
+      <div class="text-center mt-10 space-x-4">
+        <button id="loadMoreBtn" class="px-6 py-3 bg-[#B8925A] text-white rounded-lg font-semibold hover:bg-[#B8925A] transition">
+          Load More
+        </button>
+
+        <button id="showLessBtn" class="px-3 py-2 bg-gray-400 text-white rounded-lg font-semibold hover:bg-gray-500 transition hidden">
+          Show Less   
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <div id="faqData" class="hidden"> 
+    {% for faq in faqs %}
+    <div class="faq-item">
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
+
+        <details class="group cursor-pointer">
+          <summary class="flex justify-between items-center font-semibold text-lg text-gray-900">
+            {{ faq.question }}
+            <i class="fas fa-chevron-down text-gray-600 transition-transform duration-300 group-open:rotate-180"></i>
+          </summary>
+
+          <p class="mt-4 text-gray-700 leading-7">
+            {{ faq.answer|safe }}
+          </p>
+        </details>
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+<!-- ============= FAQ END ============= -->
 
 
-<!-- Blog Section Start -->
+<!-- ======================= Blog Section Start ======================= -->
   <section id="blog" class="py-24 bg-gradient-to-b from-gray-50 to-white">
     <div class="max-w-7xl mx-auto px-4">
 
@@ -870,12 +917,12 @@
 
     </div>
   </section>
-<!-- Blog Section End -->
+<!-- ======================= Blog Section End ======================= -->
 
 <hr>
 
-  <!--  HOME LOAN PARTNERS SLIDER -->
-  <section class="py-20 bg-white" id="home-loan-partners">
+  <!-- =======================  HOME LOAN PARTNERS SLIDER ======================= -->
+  <section class="py-16 bg-white" id="home-loan-partners">
     <div class="max-w-7xl mx-auto px-6 text-center">
 
       <h2 class="text-3xl md:text-4xl font-extrabold text-orange-600 mb-3">
@@ -934,10 +981,10 @@
 
     </div>
   </section>
-  <!--HOME LOAN PARTNERS SLIDER END -->
+  <!-- ======================= HOME LOAN PARTNERS SLIDER END ======================= -->
 
 
-  <!-- FEATURED DEVELOPERS -->
+  <!-- ======================= FEATURED DEVELOPERS ======================= -->
   <div class="developer-section">
     <h2 class="section-title">Top Developers Projects</h2>
 
@@ -962,11 +1009,11 @@
 
     </div>
   </div>
-  <!-- FEATURED DEVELOPERS END -->
+  <!-- ======================= FEATURED DEVELOPERS END ======================= -->
 
 
 
-  <!-- LOCALITY START-->
+  <!-- ======================= LOCALITY START =======================-->
   <section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-6">
 
@@ -1000,102 +1047,89 @@
   </div>
 
   </section>
-  <!-- LOCALITY END -->
+  <!-- ======================= LOCALITY END ======================= -->
 
 
+<!-- ================= CONTACT FORM SECTION ================= -->
+<section class="py-10 bg-gray-100">
 
-  <!-- LEFT DETAILS + RIGHT FORM CONTACT SECTION -->
-  <section id="contact" class="py-14 bg-orange-50">
-      <h2 class="text-3xl font-bold text-[#B8925A] mb-4 text-center">Get In Touch</h2>
-        <p class="text-gray-600 mb-6 text-center">We are here to assist you with any queries.</p>
-    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-start">
+  <div class="max-w-2xl mx-auto px-4 text-center">
 
-      <!-- LEFT SIDE DETAILS -->
-      <div class="mt-6 rounded-lg overflow-hidden shadow-md border border-gray-100">
-          {% if contact_content and contact_content.map_iframe %}
-            {{ contact_content.map_iframe|safe }}
-          {% elif settings_obj and settings_obj.google_map %}
-            {{ settings_obj.google_map|safe }}
-          {% else %}
-            <div class="p-6 text-center text-sm text-gray-500">Map not available.</div>
-          {% endif %}
-        </div>
+    <!-- Heading -->
+    <h2 class="text-4xl font-extrabold mb-2">
+      Get In <span class="text-[#B8925A]">Touch</span>
+    </h2>
+    <p class="text-gray-600 mb-8">
+      Let us know how we can help you
+    </p>
 
-      <!-- RIGHT SIDE FORM -->
-      <div class="bg-white p-8 rounded-xl shadow-md border border-orange-100">
+    <!-- Card -->
+    <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
 
-        <h3 class="text-xl font-semibold text-orange-600 mb-5">Send Us a Message</h3>
-
-        <form class="space-y-4">
-
-          <input type="text" placeholder="Your Name"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none">
-
-          <input type="email" placeholder="Your Email"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none">
-
-          <textarea rows="4" placeholder="Your Message"
-                    class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"></textarea>
-
-          <button class="w-full bg-orange-600 text-white py-3 rounded-lg font-semibold hover:bg-orange-700 transition">
-            Send Message
-          </button>
-
-        </form>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="py-20 bg-gray-100" id="faq">
-    <div class="max-w-7xl mx-auto px-6">
-
-      <h2 class="text-4xl font-bold text-[#B8925A] mb-12 text-center">
-        Frequently Asked Questions
-      </h2>
-
-      <!-- FAQ Grid -->
-      <div id="faqContainer" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
-
-      <!-- Buttons -->
-      <div class="text-center mt-10 space-x-4">
-        <button id="loadMoreBtn" class="px-6 py-3 bg-[#B8925A] text-white rounded-lg font-semibold hover:bg-[#B8925A] transition">
-          Load More
+      <!-- Toggle Buttons -->
+      <div class="flex gap-3 mb-6">
+        <button type="button"
+          onclick="selectType(this)"
+          class="toggle-btn flex-1 bg-[#B8925A] text-white py-2.5 rounded-lg font-semibold transition">
+          I'm Looking for a Flat
         </button>
 
-        <button id="showLessBtn" class="px-3 py-2 bg-gray-400 text-white rounded-lg font-semibold hover:bg-gray-500 transition hidden">
-          Show Less   
+        <button type="button"
+          onclick="selectType(this)"
+          class="toggle-btn flex-1 bg-gray-200 text-gray-700 py-2.5 rounded-lg font-semibold transition">
+          I'm a Property Owner
         </button>
       </div>
 
-    </div>
-  </section>
+      <!-- Form -->
+    <form method="POST" action="{% url 'contact' %}" class="space-y-4">
+      {% csrf_token %}
 
-  <div id="faqData" class="hidden"> 
-    {% for faq in faqs %}
-    <div class="faq-item">
-      <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
+      <!-- Hidden Type -->
+      <input type="hidden" name="type" id="enquiryType" value="flat">
 
-        <details class="group cursor-pointer">
-          <summary class="flex justify-between items-center font-semibold text-lg text-gray-900">
-            {{ faq.question }}
-            <i class="fas fa-chevron-down text-gray-600 transition-transform duration-300 group-open:rotate-180"></i>
-          </summary>
+      <!-- Name -->
+      <input type="text" name="name" required placeholder="Your Name"
+        class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm
+              focus:ring-2 focus:ring-[#B8925A] focus:border-[#B8925A] outline-none">
 
-          <p class="mt-4 text-gray-700 leading-7">
-            {{ faq.answer|safe }}
-          </p>
-        </details>
+      <!-- Email + Phone -->
+      <div class="grid md:grid-cols-2 gap-4">
+        <input type="email" name="email" required placeholder="Email Address"
+          class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm
+                focus:ring-2 focus:ring-[#B8925A] focus:border-[#B8925A] outline-none">
 
+        <input type="tel" name="phone" required placeholder="Phone Number"
+          class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm
+                focus:ring-2 focus:ring-[#B8925A] focus:border-[#B8925A] outline-none">
       </div>
+
+      <!-- Message -->
+      <textarea name="message" rows="4" required
+        placeholder="Tell us about your requirements..."
+        class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm
+              focus:ring-2 focus:ring-[#B8925A] focus:border-[#B8925A] outline-none resize-none"></textarea>
+
+      <!-- Button -->
+      <button type="submit"
+        class="w-full bg-[#B8925A] text-white py-3 rounded-lg font-semibold
+              hover:bg-[#a8824e] transition duration-300">
+        Submit Inquiry
+      </button>
+
+    </form>
+
+
     </div>
-    {% endfor %}
+
   </div>
+</section>
+<!-- ================= END CONTACT FORM ================= -->
 
 
-  <!-- POPUS START -->
+
+
+
   <div class="modal fade" id="commonModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content rounded-xl">
@@ -1122,7 +1156,6 @@
       </div>
     </div>
   </div>
-  <!-- POPUS END -->
 
 <script defer>
 document.addEventListener("DOMContentLoaded", () => {
@@ -1338,6 +1371,80 @@ var swiper = new Swiper(".rentPropSwiper", {
     once: true
   });
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  window.selectType = function(btn){
+
+    const buttons = document.querySelectorAll(".toggle-btn");
+
+    buttons.forEach(b=>{
+      b.classList.remove("bg-[#B8925A]","text-white");
+      b.classList.add("bg-gray-200","text-gray-700");
+    });
+
+    btn.classList.remove("bg-gray-200","text-gray-700");
+    btn.classList.add("bg-[#B8925A]","text-white");
+
+  };
+
+});
+document.addEventListener("DOMContentLoaded", function () {
+
+  const faqContainer = document.getElementById("faqContainer");
+  const faqItems = Array.from(document.querySelectorAll("#faqData .faq-item"));
+  const loadMoreBtn = document.getElementById("loadMoreBtn");
+  const showLessBtn = document.getElementById("showLessBtn");
+
+  if (!faqContainer || faqItems.length === 0) return;
+
+  let itemsToShow = 6;
+
+  function renderFAQs() {
+    faqContainer.innerHTML = "";
+
+    faqItems.slice(0, itemsToShow).forEach(item => {
+      faqContainer.appendChild(item.cloneNode(true));
+    });
+
+    // Button visibility logic
+    if (itemsToShow >= faqItems.length) {
+      loadMoreBtn.classList.add("hidden");
+    } else {
+      loadMoreBtn.classList.remove("hidden");
+    }
+
+    if (itemsToShow > 6) {
+      showLessBtn.classList.remove("hidden");
+    } else {
+      showLessBtn.classList.add("hidden");
+    }
+  }
+
+  // Initial render
+  renderFAQs();
+
+  // Load More
+  loadMoreBtn.addEventListener("click", function () {
+    itemsToShow += 6;
+    renderFAQs();
+  });
+
+  // Show Less
+  showLessBtn.addEventListener("click", function () {
+    itemsToShow = 6;
+    renderFAQs();
+
+    window.scrollTo({
+      top: faqContainer.offsetTop - 120,
+      behavior: "smooth"
+    });
+  });
+
+});
+</script>
+
 
 <style>
   @keyframes scrollX {

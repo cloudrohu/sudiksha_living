@@ -17,8 +17,5 @@ urlpatterns = [
     path('terms-cookies/', views.cookies, name='cookies'),
     path('services/', views.services, name='services'),
     path('calculator/', views.calculator, name='calculator'), 
-
-
-
-
+    path('thank-you/', views.thank_you, name='thank_you'),
 ]

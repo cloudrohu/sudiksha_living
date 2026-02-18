@@ -289,11 +289,19 @@ class FooterLink(models.Model):
         return self.title    
     
 class ContactEnquiry(models.Model):
+
+    ENQUIRY_TYPE_CHOICES = [
+        ("flat", "Looking for a Flat"),
+        ("owner", "Property Owner"),
+    ]
+
+    type = models.CharField(max_length=20,choices=ENQUIRY_TYPE_CHOICES,blank=True,null=True)
     name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=15)
     message = models.TextField()
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name    
+        return f"{self.name} - {self.get_type_display()}"

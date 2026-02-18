@@ -89,6 +89,17 @@ def rent_list(request):
 
     recent_properties = properties.order_by("-created_at")[:4]
 
+    search_query = request.GET.get("q")
+
+    if search_query:
+        properties = properties.filter(
+            Q(title__icontains=search_query) |
+            Q(address__icontains=search_query) |
+            Q(locality__name__icontains=search_query) |
+            Q(city__name__icontains=search_query)
+        ).distinct()
+
+
     context = {
         "settings_obj": settings_obj,
         "properties": properties,
@@ -160,6 +171,9 @@ def rental_detail(request, slug):
         active=True,
         city=property_obj.city
     ).exclude(id=property_obj.id)[:6]
+
+    search_query = request.GET.get("q")
+
 
     return render(request, 'rent/rental_detail.html', {
         "settings_obj": settings_obj,

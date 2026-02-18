@@ -121,7 +121,7 @@ class SliderAdmin(admin.ModelAdmin):
 
 @admin.register(ContactEnquiry)
 class ContactEnquiryAdmin(admin.ModelAdmin):
-    list_display = ("name", "email", "phone", "created_at")
+    list_display = ("type","name", "email", "phone", "created_at")
     search_fields = ("name", "email", "phone")
     list_filter = ("created_at",) 
 

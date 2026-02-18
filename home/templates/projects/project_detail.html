@@ -1380,92 +1380,80 @@
     <div id="contactPopup" class="fixed inset-0 bg-black/70 hidden z-[9999] flex items-center justify-center px-3">
 
 
-    <div class="relative w-full max-w-sm shadow-2xl bg-white overflow-hidden">
+        <div class="relative w-full max-w-sm shadow-2xl bg-white overflow-hidden">
 
-        <!-- HEADER -->
-        <div class="relative bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-3 text-white">
-        <h3 class="text-sm font-semibold">Enquiry For</h3>
-        <p id="enquiryProjectName" class="text-xs opacity-90 mt-0.5">
-            Project Name
-        </p>
+            <!-- HEADER -->
+            <div class="relative bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-3 text-white">
+            <h3 class="text-sm font-semibold">Enquiry For</h3>
+            <p id="enquiryProjectName" class="text-xs opacity-90 mt-0.5">
+                Project Name
+            </p>
 
-        <!-- CLOSE BUTTON (INSIDE HEADER) -->
-        <button id="closeContactPopup"
-                type="button"
-                class="absolute top-2 right-2 h-7 w-7 rounded-full
-                        flex items-center justify-center
-                        bg-white/20 hover:bg-white/30
-                        text-white text-sm transition">
-            ✕
-        </button>
+            <!-- CLOSE BUTTON (INSIDE HEADER) -->
+            <button id="closeContactPopup" type="button" class="absolute top-2 right-2 h-7 w-7 rounded-full flex items-center justify-center bg-white/20 hover:bg-white/30 text-white text-sm transition">
+                ✕
+            </button>
+            </div>
+
+            <!-- FORM -->
+            <form method="post" id="enquiryForm" class="p-4 space-y-3 text-sm bg-white">
+                {% csrf_token %}
+
+                <!-- Honeypot -->
+                <input type="text" name="company" class="hidden">
+
+                <input type="hidden" name="project_id" id="projectIdInput">
+
+                <!-- NAME -->
+                <div>
+                    <label class="font-medium text-gray-600">Full Name</label>
+                    <input type="text" name="name" required
+                        class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-400 outline-none">
+                </div>
+
+                <!-- EMAIL -->
+                <div>
+                    <label class="font-medium text-gray-600">Email</label>
+                    <input type="email" name="email"
+                        class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-400 outline-none">
+                </div>
+
+                <!-- PHONE -->
+                <div>
+                    <label class="font-medium text-gray-600">Mobile</label>
+                    <input type="tel" name="phone" required
+                        class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-400 outline-none">
+                </div>
+
+                <!-- MESSAGE -->
+                <div>
+                    <label class="font-medium text-gray-600">Message</label>
+                    <textarea name="message" rows="2" class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-400 outline-none"></textarea>
+                </div>
+
+                <!-- SUBMIT -->
+                <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white py-2.5 rounded-lg font-semibold transition">
+                    Submit Enquiry
+                </button>
+
+                    <p class="text-[11px] text-center text-gray-400">
+                        🔒 100% Privacy Protected
+                    </p>
+            </form>
+
         </div>
-
-        <!-- FORM -->
-        <form method="post" id="enquiryForm"
-            class="p-4 space-y-3 text-sm bg-white">
-        {% csrf_token %}
-
-        <!-- Honeypot -->
-        <input type="text" name="company" class="hidden">
-
-        <input type="hidden" name="project_id" id="projectIdInput">
-
-        <!-- NAME -->
-        <div>
-            <label class="font-medium text-gray-600">Full Name</label>
-            <input type="text" name="name" required
-                class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-400 outline-none">
-        </div>
-
-        <!-- EMAIL -->
-        <div>
-            <label class="font-medium text-gray-600">Email</label>
-            <input type="email" name="email"
-                class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-400 outline-none">
-        </div>
-
-        <!-- PHONE -->
-        <div>
-            <label class="font-medium text-gray-600">Mobile</label>
-            <input type="tel" name="phone" required
-                class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-400 outline-none">
-        </div>
-
-        <!-- MESSAGE -->
-        <div>
-            <label class="font-medium text-gray-600">Message</label>
-            <textarea name="message" rows="2"
-                    class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-400 outline-none"></textarea>
-        </div>
-
-        <!-- SUBMIT -->
-        <button type="submit"
-                class="w-full bg-orange-500 hover:bg-orange-600
-                        text-white py-2.5 rounded-lg font-semibold transition">
-            Submit Enquiry
-        </button>
-
-        <p class="text-[11px] text-center text-gray-400">
-            🔒 100% Privacy Protected
-        </p>
-        </form>
-
-    </div>
     </div>
 
     <!-- UNIT PLAN POPUP -->
-    <div id="unitPlanPopup"
-        class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[9999] backdrop-blur-sm">
+    <div id="unitPlanPopup" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[9999] backdrop-blur-sm">
 
         <!-- CLOSE BUTTON -->
-        <button id="closeUnitPlanPopup"
-            class="absolute top-6 right-6 text-white text-4xl font-light hover:scale-110 transition">
+        <button id="closeUnitPlanPopup" class="absolute top-6 right-6 text-white text-4xl font-light hover:scale-110 transition">
             ✕
         </button>
 
         <!-- IMAGE -->
-        <img loading="lazy" id="unitPlanPopupImg"
-            class="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl">
+        <img loading="lazy" id="unitPlanPopupImg" class="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl">
     </div>
 
 
