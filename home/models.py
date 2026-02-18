@@ -130,21 +130,12 @@ class Why_Choose(models.Model):
     def __str__(self):
         return self.title
 
-
 class About(models.Model):
     # =============================
     # 🎨 Background / Banner Section
     # =============================
-    search_bg = models.ImageField(
-        upload_to='about/backgrounds/',
-        blank=True, null=True,
-        help_text="Background image for the top search banner (optional)"
-    )
-    home_bg = models.ImageField(
-        upload_to='about/backgrounds/',
-        blank=True, null=True,
-        help_text="Background image for home about section"
-    )
+    search_bg = models.ImageField(upload_to='about/backgrounds/',blank=True, null=True,help_text="Background image for the top search banner (optional)")
+    home_bg = models.ImageField(upload_to='about/backgrounds/',blank=True, null=True,help_text="Background image for home about section")
 
     # =============================
     # 🏠 Main About Section
@@ -207,9 +198,6 @@ class About(models.Model):
     def __str__(self):
         return self.title
 
-# =============================
-# 📝 Contact Page (Single)
-# =============================
 class Contact_Page(models.Model):
     heading = models.CharField(max_length=200)
     sub_heading = models.CharField(max_length=300, blank=True, null=True)
@@ -224,9 +212,6 @@ class Contact_Page(models.Model):
     def __str__(self):
         return self.heading
 
-# =============================
-# 👨‍💼 Our Team (Multiple)
-# =============================
 class Our_Team(models.Model):
     name = models.CharField(max_length=100)
     designation = models.CharField(max_length=100)
@@ -239,9 +224,6 @@ class Our_Team(models.Model):
     def __str__(self):
         return self.name
 
-# =============================
-# 💬 Testimonial Section (Multiple)
-# =============================
 class Testimonial(models.Model):
     name = models.CharField(max_length=100)
     designation = models.CharField(max_length=100, blank=True, null=True)
@@ -255,9 +237,6 @@ class Testimonial(models.Model):
     def __str__(self):
         return f"{self.name} ({self.rating}⭐)"
 
-# =============================
-# ❓ FAQ Section (Multiple)
-# =============================
 class FAQ(models.Model):
     question = models.CharField(max_length=300)
     answer = CKEditor5Field()

@@ -4,16 +4,19 @@ from django.shortcuts import render, redirect
 from django.db.models import Min, Max, Q
 from django.db.models import Count, Q
 from django.http import HttpResponse 
+from django.shortcuts import render, redirect, get_object_or_404
+
 from properties.models import Property 
 from utility.models import Locality,PropertyType,City,Bank,ProjectAmenities
 from blog.models import Blog, Category
+from rent.models import RentalProperty
 from .models import (
     Setting, Slider, Testimonial, About, Leadership,
     Contact_Page, FAQ, Our_Team,Why_Choose,ImpactMetric, Service, FooterLink,ContactEnquiry
 )
 from user.models import Developer 
     
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from projects.models import Project  # import your Project model.
 
 def index(request):
@@ -74,15 +77,22 @@ def index(request):
     bank = Bank.objects.filter(home_loan_partner=True).order_by("title")
     blogs = Blog.objects.filter(is_published=True).order_by("-published_date", "-created_at")[:3]
     about_page = About.objects.filter(is_active=True).first()
-    impactmetric = ImpactMetric.objects.all()
+    impact_metrics = ImpactMetric.objects.all()
     amenities = ProjectAmenities.objects.all()
     footerlink = FooterLink.objects.filter( is_active=True, parent__isnull=True).prefetch_related("children").order_by("order")
-    why_choose_items = Why_Choose.objects.filter(is_active=True).order_by("order")
+    why_choose_items = Why_Choose.objects.filter(is_active=True).order_by("order")[:6]
     testimonials = Testimonial.objects.all().order_by("-id")
     faqs = FAQ.objects.all().order_by("id")
 
     # ================= CURRENT CITY =================
     current_city = project_featured.first().city.name if project_featured.exists() else "Mumbai"
+
+    rental_properties = (
+        RentalProperty.objects
+        .select_related("city", "locality", "tenant_type", "furnishing_type")
+        .filter(active=True)
+        .order_by("-id")[:10]
+    )
 
     # ================= RENDER =================
     return render(request, "home/index.html", {
@@ -97,13 +107,14 @@ def index(request):
         "bank": bank,
         "blogs": blogs,
         "about_page": about_page,
-        "impactmetric": impactmetric,
+        "impact_metrics": impact_metrics,
         "amenities": amenities,
         "why_choose_items": why_choose_items,
         "footerlink": footerlink,
         "testimonials": testimonials,
         "faqs": faqs,
         "possession_counts": possession_counts,
+        "rental_properties": rental_properties,
     })
 
 

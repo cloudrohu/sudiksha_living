@@ -9,6 +9,40 @@ from utility.models import PropertyAmenities
 
 class RentalProperty(models.Model):
 
+    POSTED_BY_CHOICES = [
+        ("Owner", "Owner"),
+        ("Builder", "Builder"),
+        ("Dealer", "Dealer"),
+        ("Feature Dealer", "Feature Dealer"),
+    ]
+
+    AVAILABLE_FROM_CHOICES = [
+        ("Any Time", "Any Time"),
+        ("Immediately", "Immediately"),
+        ("Within 15 Days", "Within 15 Days"),
+        ("Within 1 Month", "Within 1 Month"),
+        ("Within 3 Months", "Within 3 Months"),
+        ("After 3 Months", "After 3 Months"),
+
+    ]
+
+    AGE_OF_PROPERTY_CHOICE = [
+        ("0-1 years old", "0-1 years old"),
+        ("1-5 years old", "1-5 years old"),
+        ("5-10 years old", "5-10 years old"),
+        ("10+ years old", "10+ years old"),
+        ("20+ years old", "20+ years old"),
+
+    ]
+
+    NO_OF_BATHROOM_CHOICE = [
+        ("0", "0"),
+        ("1", "1"),
+        ("2", "2"),
+        ("3", "3"),
+        ("4+", "4+"),
+    ]
+
     title = models.CharField(max_length=255)
     project = models.ForeignKey(Project,on_delete=models.SET_NULL,null=True,blank=True,related_name="rental_properties")
     bedrooms = models.PositiveIntegerField(default=1)
@@ -17,6 +51,9 @@ class RentalProperty(models.Model):
     super_area = models.PositiveIntegerField(help_text="Area in Sq.ft")
     floor = models.CharField(max_length=255,null=True,blank=True)
     furnishing_type = models.ForeignKey(FurnishingItem,on_delete=models.SET_NULL,null=True,blank=True)
+    posted_by = models.CharField(max_length=20,choices=POSTED_BY_CHOICES,default="Owner",null=True,blank=True)
+    available_from = models.CharField(max_length=30,choices=AVAILABLE_FROM_CHOICES,default="Any Time",blank=True)
+    age_of_property = models.CharField(max_length=20,null=True,blank=True)
     address = models.TextField(null=True,blank=True)
     city = models.ForeignKey(City,on_delete=models.CASCADE)
     locality = models.ForeignKey(Locality,on_delete=models.SET_NULL,null=True,blank=True)
@@ -167,6 +204,8 @@ class RentalFAQ(models.Model):
     def __str__(self):
         return self.question   
     
+
+# ------ Enquiry Form ------ #
 class RentalEnquiry(models.Model):
 
     rental = models.ForeignKey(RentalProperty,on_delete=models.CASCADE,related_name="enquiries")
@@ -175,6 +214,20 @@ class RentalEnquiry(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=15)
     message = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.rental.title}"
+
+class VisitSchedule(models.Model):
+    
+    rental = models.ForeignKey(RentalProperty,on_delete=models.CASCADE,related_name="visit_requests")
+
+    name = models.CharField(max_length=150)
+    phone = models.CharField(max_length=15)
+    visit_date = models.DateField()
+    visit_time = models.TimeField()
 
     created_at = models.DateTimeField(auto_now_add=True)
 

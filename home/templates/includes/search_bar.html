@@ -45,12 +45,12 @@
         </span>
       </h1>
 
-      <p class="text-gray-300 max-w-2xl mx-auto text-sm md:text-lg p-1">
+      <p class="text-gray-300 max-w-2xl mx-auto text-sm md:text-lg p-1 mb-2">
         Verified properties. Transparent pricing. Hassle-free booking.
       </p>
 
         <!-- Card -->
-        <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-4 md:p-6 shadow-2xl">
+        <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-4 md:p-6 shadow-2xl pt-4 ">
 
             <!-- Toggle -->
             <div class="flex justify-center mb-4">
@@ -71,25 +71,8 @@
             </div>
             </div>
 
-            <!-- Categories -->
-            <div class="flex justify-center gap-4 text-white text-xs md:text-sm mb-4 flex-wrap">
 
-                <button onclick="toggleCategory('fullhouse',this)" class="cat-btn flex items-center gap-1 px-3 py-1 rounded-full border border-white/30 hover:bg-white/10 transition">
-                Full House
-                </button>
-
-                <button onclick="toggleCategory('flatmates',this)" class="cat-btn flex items-center gap-1 px-3 py-1 rounded-full border border-white/30 hover:bg-white/10 transition">
-                Flatmates
-                </button>
-
-                <button onclick="toggleCategory('coliving',this)" class="cat-btn flex items-center gap-1 px-3 py-1 rounded-full border border-white/30 hover:bg-white/10 transition">
-                Co-Living / PG
-                </button>
-
-            </div>
-
-
-        <form method="GET" action="{% url 'search_projects' %}" class="flex flex-col sm:flex-row bg-white rounded-2xl sm:rounded-full overflow-hidden shadow-lg">
+        <form method="GET" action="{% url 'search_projects' %}" class="flex flex-colsm:flex-row bg-white rounded-2xl sm:rounded-full overflow-hidden shadow-lg">
 
         <input type="hidden" name="type" id="propertyType" value="buy">
         <input type="hidden" name="category" id="propertyCategory" value="fullhouse">

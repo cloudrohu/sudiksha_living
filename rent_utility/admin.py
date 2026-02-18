@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import mark_safe
-from .models import PropertyAmenities, FurnishingItem, Facility
+from .models import PropertyAmenities, FurnishingItem, Facility, TenantType
 
 # Placeholder image
 NO_IMAGE_URL = "https://via.placeholder.com/40x40.png?text=No+Image"
@@ -56,5 +56,12 @@ class FurnishingItemAdmin(admin.ModelAdmin):
 class FacilityAdmin(admin.ModelAdmin):
 
     list_display = ('name', 'icon', 'is_active')
+    list_filter = ('is_active',)
+    search_fields = ('name',)
+
+@admin.register(TenantType)
+class TenantTypeAdmin(admin.ModelAdmin):
+
+    list_display = ('name', 'is_active')
     list_filter = ('is_active',)
     search_fields = ('name',)

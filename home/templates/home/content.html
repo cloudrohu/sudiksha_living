@@ -1,7 +1,6 @@
-  {% load static %}
-  {% load humanize %}
-  {% load indian_price %}
-
+{% load static %}
+{% load humanize %}
+{% load indian_price %}
 
 <main>
 
@@ -228,186 +227,107 @@
   </script>
 <!-- FEATURE PROJECTS END-->
 
-<hr class="text-white">
+<hr class="text-white w-[15px]">
 
 <!-- FEATURE PROPERTIES -->
-    <section class="bg-gray-100 py-8">
-      <div class="max-w-7xl mx-auto px-6">
+  <section class="bg-gray-100 py-8">
+    <div class="max-w-7xl mx-auto px-6">
 
-        <!-- Heading -->
-        <div class="text-center mb-8">
-          <h2 class="text-4xl font-bold">
-            Featured <span class="text-[#c6a16e]">Properties</span>
-          </h2>
-          <p class="text-gray-600 mt-1">
-            Premium 2BHK furnished flats in Malad, Mumbai
-          </p>
-        </div>
+      <!-- Heading -->
+      <div class="text-center mb-8">
+        <h2 class="text-4xl font-bold">
+          Featured <span class="text-[#c6a16e]">Properties</span>
+        </h2>
+        <p class="text-gray-600 mt-1">
+          Premium 2BHK furnished flats in Malad, Mumbai
+        </p>
+      </div>
 
         <!-- Swiper -->
-        <div class="swiper rentPropSwiper">
-          <div class="swiper-wrapper">
+      <div class="swiper rentPropSwiper h-full">
+        <div class="swiper-wrapper">
 
-            <!-- Slide -->
-            <div class="swiper-slide">
-              <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
-                
-                <div class="relative">
-                  <img src="https://images.unsplash.com/photo-1670244208393-bd46e800340e?q=80&w=800" class="w-full h-56 object-cover" alt="">
-                  <span class="absolute top-4 right-4 bg-[#c6a16e] text-white text-xs px-3 py-1 font-semibold">
-                    2BHK
-                  </span>
+          {% for property in rental_properties %}
+          <div class="swiper-slide flex h-auto">
+            <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden flex flex-col w-full h-full">
+
+
+              <!-- Image -->
+              <div class="relative">
+                {% if property.image %}
+                  <img src="{{ property.image.url }}" class="w-full h-56 object-cover"  alt="{{ property.title }}">
+                {% else %}
+                  <img src="https://via.placeholder.com/800x500" class="w-full h-56 object-cover" alt="No Image">
+                {% endif %}
+
+                {% if property.configuration %}
+                <span class="absolute top-4 right-4 bg-[#c6a16e] text-white text-xs px-3 py-1 font-semibold">
+                  {{ property.configuration }}
+                </span>
+                {% endif %}
+              </div>
+
+              <!-- Content -->
+              <div class="p-6 flex flex-col flex-grow">
+                <h3 class="text-lg font-semibold">
+                  {{ property.title }}
+                </h3>
+
+                <p class="text-sm text-gray-500 mb-4">
+                  {{ property.locality.name }}, {{ property.city.name }}
+                </p>
+
+                <div class="space-y-2 text-sm text-gray-600">
+
+                  {% if property.furnishing_type %}
+                  <p>
+                    <i class="fa-solid fa-couch text-[#c6a16e] mr-2"></i>
+                    {{ property.furnishing_type.name }}
+                  </p>
+                  {% endif %}
+
+                  {% if property.tenant_type %}
+                  <p>
+                    <i class="fa-solid fa-users text-[#c6a16e] mr-2"></i>
+                    {{ property.tenant_type.name }}
+                  </p>
+                  {% endif %}
+
+                  <p>
+                    <i class="fa-solid fa-location-dot text-[#c6a16e] mr-2"></i>
+                    {{ property.city.name }}
+                  </p>
                 </div>
 
-                <div class="p-6">
-                  <h3 class="text-lg font-semibold">Modern 2BHK - Malad West</h3>
-                  <p class="text-sm text-gray-500 mb-4">Near Malad Metro Station</p>
-
-                  <div class="space-y-2 text-sm text-gray-600">
-                    <p><i class="fa-solid fa-couch text-[#c6a16e] mr-2"></i>Fully Furnished</p>
-                    <p><i class="fa-solid fa-users text-[#c6a16e] mr-2"></i>2-4 Occupants</p>
-                    <p><i class="fa-solid fa-location-dot text-[#c6a16e] mr-2"></i>Malad West</p>
+                <!-- Price + Button -->
+                <div class="border-t border-gray-200 pt-3 mt-auto flex items-center justify-between">
+                  <div>
+                    <h4 class="text-xl font-bold text-[#c6a16e]">
+                      <i class="fa-solid fa-indian-rupee-sign mr-1"></i>
+                      {{ property.rent_details.monthly_rent|default:"0" }}
+                    </h4>
+                    <p class="text-xs text-gray-500">per month</p>
                   </div>
 
-                  <div class="border-t border-gray-200 pt-3 mt-6 flex items-center justify-between">
-                    <div>
-                      <h4 class="text-xl font-bold text-[#c6a16e]">
-                        <i class="fa-solid fa-indian-rupee-sign mr-1"></i>16,500
-                      </h4>
-                      <p class="text-xs text-gray-500">per month</p>
-                    </div>
-                  <button class="bg-[#c6a16e] text-white px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 ease-in-out hover:bg-[#b8925a] hover:shadow-xl hover:scale-105">
+                  <a href="{% url 'rental_detail' property.slug %}"
+                    class="bg-[#c6a16e] text-white px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 ease-in-out hover:bg-[#b8925a] hover:shadow-xl hover:scale-105">
                     View Details
-                  </button> 
-                  </div>
-
+                  </a>
                 </div>
+
               </div>
             </div>
-
-            <!-- Slide -->
-            <div class="swiper-slide">
-              <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
-                
-                <div class="relative">
-                  <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85"
-                      class="w-full h-56 object-cover" alt="">
-                  <span class="absolute top-4 right-4 bg-[#c6a16e] text-white text-xs px-3 py-1 font-semibold">
-                    2BHK
-                  </span>
-                </div>
-
-                <div class="p-6">
-                  <h3 class="text-lg font-semibold">Modern 2BHK - Malad West</h3>
-                  <p class="text-sm text-gray-500 mb-4">Near Malad Metro Station</p>
-
-                  <div class="space-y-2 text-sm text-gray-600">
-                    <p><i class="fa-solid fa-couch text-[#c6a16e] mr-2"></i>Fully Furnished</p>
-                    <p><i class="fa-solid fa-users text-[#c6a16e] mr-2"></i>2-4 Occupants</p>
-                    <p><i class="fa-solid fa-location-dot text-[#c6a16e] mr-2"></i>Malad West</p>
-                  </div>
-
-                  <div class="border-t border-gray-200 pt-3 mt-6 flex items-center justify-between">
-                    <div>
-                      <h4 class="text-xl font-bold text-[#c6a16e]">
-                        <i class="fa-solid fa-indian-rupee-sign mr-1"></i>16,500
-                      </h4>
-                      <p class="text-xs text-gray-500">per month</p>
-                    </div>
-                  <button class="bg-[#c6a16e] text-white px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 ease-in-out hover:bg-[#b8925a] hover:shadow-xl hover:scale-105">
-                    View Details
-                  </button>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-            
-            <!-- Slide -->
-            <div class="swiper-slide">
-              <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
-                
-                <div class="relative">
-                  <img src="https://images.unsplash.com/photo-1667510436110-79d3dabc2008?q=80&w=800"
-                      class="w-full h-56 object-cover" alt="">
-                  <span class="absolute top-4 right-4 bg-[#c6a16e] text-white text-xs px-3 py-1 font-semibold">
-                    2BHK
-                  </span>
-                </div>
-
-                <div class="p-6">
-                  <h3 class="text-lg font-semibold">Modern 2BHK - Malad West</h3>
-                  <p class="text-sm text-gray-500 mb-4">Near Malad Metro Station</p>
-
-                  <div class="space-y-2 text-sm text-gray-600">
-                    <p><i class="fa-solid fa-couch text-[#c6a16e] mr-2"></i>Fully Furnished</p>
-                    <p><i class="fa-solid fa-users text-[#c6a16e] mr-2"></i>2-4 Occupants</p>
-                    <p><i class="fa-solid fa-location-dot text-[#c6a16e] mr-2"></i>Malad West</p>
-                  </div>
-
-                  <div class="border-t border-gray-200 pt-3 mt-6 flex items-center justify-between">
-                    <div>
-                      <h4 class="text-xl font-bold text-[#c6a16e]">
-                        <i class="fa-solid fa-indian-rupee-sign mr-1"></i>16,500
-                      </h4>
-                      <p class="text-xs text-gray-500">per month</p>
-                    </div>
-                    <button class="bg-[#c6a16e] text-white px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 ease-in-out hover:bg-[#b8925a] hover:shadow-xl hover:scale-105">
-                      View Details
-                    </button>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
-          <!-- Slide -->
-            <div class="swiper-slide">
-              <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
-                
-                <div class="relative">
-                  <img src="https://images.unsplash.com/photo-1670244208613-6da9cefb3ba1?q=80&w=800"
-                      class="w-full h-56 object-cover" alt="">
-                  <span class="absolute top-4 right-4 bg-[#c6a16e] text-white text-xs px-3 py-1 font-semibold">
-                    2BHK
-                  </span>
-                </div>
-
-                <div class="p-6">
-                  <h3 class="text-lg font-semibold">Modern 2BHK - Malad West</h3>
-                  <p class="text-sm text-gray-500 mb-4">Near Malad Metro Station</p>
-
-                  <div class="space-y-2 text-sm text-gray-600">
-                    <p><i class="fa-solid fa-couch text-[#c6a16e] mr-2"></i>Fully Furnished</p>
-                    <p><i class="fa-solid fa-users text-[#c6a16e] mr-2"></i>2-4 Occupants</p>
-                    <p><i class="fa-solid fa-location-dot text-[#c6a16e] mr-2"></i>Malad West</p>
-                  </div>
-
-                  <div class="border-t border-gray-200 pt-3 mt-6 flex items-center justify-between">
-                    <div>
-                      <h4 class="text-xl font-bold text-[#c6a16e]">
-                        <i class="fa-solid fa-indian-rupee-sign mr-1"></i>16,500
-                      </h4>
-                      <p class="text-xs text-gray-500">per month</p>
-                    </div>
-                  <button class="bg-[#c6a16e] text-white px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 ease-in-out hover:bg-[#b8925a] hover:shadow-xl hover:scale-105">
-                    View Details
-                  </button>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
-          
           </div>
-
-        <div class="swiper-button-prev !text-[#c6a16e] scale-90 text-extrabold"></div>
-        <div class="swiper-button-next !text-[#c6a16e] scale-90"></div>
+          {% endfor %}
 
         </div>
 
-    </section>
+        <div class="swiper-button-prev !text-[#c6a16e] scale-90"></div>
+        <div class="swiper-button-next !text-[#c6a16e] scale-90"></div>
+      </div>
+
+    </div>
+  </section>
 <!-- FEATURE PROPERTIES END-->
 
 
@@ -591,8 +511,9 @@
 
   </div>
 </section>
+<!-- POSSESSION STATUS – PREMIUM CLEAN VERSION END  -->
 
-  <hr>
+<hr>
   
 <!-- 🌟 WHY CHOOSE US -->
 <section class="bg-gray-100 py-16">
@@ -612,73 +533,21 @@
     <div class="grid md:grid-cols-3 gap-8">
 
       <!-- Card 1 -->
+       {% for rs in why_choose_items %}
       <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
         <div class="w-14 h-14 flex items-center justify-center rounded-xl bg-[#c6a16e]/10 mb-6">
-          <i class="fa-solid fa-house text-[#c6a16e] text-xl"></i>
+          <i class="fa-solid fa-check-circle text-[#c6a16e] text-xl"></i>
         </div>
-        <h3 class="text-lg font-semibold text-gray-900">Furnished Flats</h3>
+        <h3 class="text-lg font-semibold text-gray-900">{{ rs.title }}</h3>
         <p class="text-gray-600 mt-3 text-sm leading-relaxed">
-          Move in with just your suitcase. All flats come fully furnished with modern amenities.
+          {{ rs.description }}
         </p>
       </div>
+       {% endfor %}
 
-      <!-- Card 2 -->
-            <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-        <div class="w-14 h-14 flex items-center justify-center rounded-xl bg-[#c6a16e]/10 mb-6">
-          <i class="fa-solid fa-location-dot text-[#c6a16e] text-xl"></i>
-        </div>
-        <h3 class="text-lg font-semibold text-gray-900">Prime Locations</h3>
-        <p class="text-gray-600 mt-3 text-sm leading-relaxed">
-          Strategically located properties with excellent connectivity to work and study hubs.
-        </p>
-      </div>
 
-      <!-- Card 3 -->
-            <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-        <div class="w-14 h-14 flex items-center justify-center rounded-xl bg-[#c6a16e]/10 mb-6">
-          <i class="fa-solid fa-shield-halved text-[#c6a16e] text-xl"></i>
-        </div>
-        <h3 class="text-lg font-semibold text-gray-900">No Brokerage</h3>
-        <p class="text-gray-600 mt-3 text-sm leading-relaxed">
-          Transparent pricing with zero brokerage fees and no hidden charges.
-        </p>
-      </div>
-
-      <!-- Card 4 -->
-            <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-        <div class="w-14 h-14 flex items-center justify-center rounded-xl bg-[#c6a16e]/10 mb-6">
-          <i class="fa-solid fa-user-tie text-[#c6a16e] text-xl"></i>
-        </div>
-        <h3 class="text-lg font-semibold text-gray-900">Professional Management</h3>
-        <p class="text-gray-600 mt-3 text-sm leading-relaxed">
-          Dedicated property managers ensuring smooth operations and quick issue resolution.
-        </p>
-      </div>
-
-      <!-- Card 5 -->
-            <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-        <div class="w-14 h-14 flex items-center justify-center rounded-xl bg-[#c6a16e]/10 mb-6">
-          <i class="fa-solid fa-utensils text-[#c6a16e] text-xl"></i>
-        </div>
-        <h3 class="text-lg font-semibold text-gray-900">Optional Food Services</h3>
-        <p class="text-gray-600 mt-3 text-sm leading-relaxed">
-          Enjoy quality home-cooked meals with our optional food service packages.
-        </p>
-      </div>
-
-      <!-- Card 6 -->
-            <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-        <div class="w-14 h-14 flex items-center justify-center rounded-xl bg-[#c6a16e]/10 mb-6">
-          <i class="fa-solid fa-users text-[#c6a16e] text-xl"></i>
-        </div>
-        <h3 class="text-lg font-semibold text-gray-900">Community Living</h3>
-        <p class="text-gray-600 mt-3 text-sm leading-relaxed">
-          Join a vibrant community of like-minded students and professionals.
-        </p>
-      </div>
 
     </div>
-
   </div>
 </section>
 <!-- 🌟 WHY CHOOSE US END -->
@@ -690,7 +559,7 @@
       <!-- Heading -->
       <h2 class="text-4xl md:text-5xl font-semibold uppercase tracking-widest text-center mb-16 relative">
         What Are You Looking For?
-        <span class="block mx-auto mt-4 h-[3px] w-24 bg-orange-500 rounded-full"></span>
+        <span class="block mx-auto mt-4 h-[3px] w-24 bg-[#d99e48] rounded-full"></span>
       </h2>
 
 
@@ -700,8 +569,8 @@
 
         <!-- Office Space -->
         <div class="text-center bg-white shadow-sm hover:shadow-md p-8 transition" data-aos="fade-up" data-aos-delay="100">
-          <div class="flex items-center justify-center h-20 w-20 mx-auto bg-orange-50 shadow">
-            <i class="fas fa-building text-orange-500 text-3xl"></i>
+          <div class="flex items-center justify-center h-20 w-20 mx-auto bg-[#d99e48]/10 shadow">
+            <i class="fas fa-building text-[#d99e48] text-3xl"></i>
           </div>
           <h3 class="mt-4 font-bold text-gray-800 uppercase">Office Space</h3>
           <p class="text-sm text-gray-600 mt-2">
@@ -711,8 +580,8 @@
 
         <!-- Residential -->
         <div class="text-center bg-white shadow-sm hover:shadow-md p-8 transition" data-aos="fade-up" data-aos-delay="200">
-          <div class="flex items-center justify-center h-20 w-20 mx-auto bg-orange-50 shadow">
-            <i class="fas fa-home text-orange-500 text-3xl"></i>
+          <div class="flex items-center justify-center h-20 w-20 mx-auto bg-[#d99e48]/10 shadow">
+            <i class="fas fa-home text-[#d99e48] text-3xl"></i>
           </div>
           <h3 class="mt-4 font-bold text-gray-800 uppercase">Residential Apartment</h3>
           <p class="text-sm text-gray-600 mt-2">
@@ -722,8 +591,8 @@
 
         <!-- Land -->
         <div class="text-center bg-white shadow-sm hover:shadow-md p-8 transition" data-aos="fade-up" data-aos-delay="300">
-          <div class="flex items-center justify-center h-20 w-20 mx-auto bg-orange-50 shadow">
-            <i class="fas fa-map-marked-alt text-orange-500 text-3xl"></i>
+          <div class="flex items-center justify-center h-20 w-20 mx-auto bg-[#d99e48]/10 shadow">
+            <i class="fas fa-map-marked-alt text-[#d99e48] text-3xl"></i>
           </div>
           <h3 class="mt-4 font-bold text-gray-800 uppercase">Land</h3>
           <p class="text-sm text-gray-600 mt-2">
@@ -733,8 +602,8 @@
 
         <!-- Commercial -->
         <div class="text-center bg-white shadow-sm hover:shadow-md p-8 transition" data-aos="fade-up" data-aos-delay="400">
-          <div class="flex items-center justify-center h-20 w-20 mx-auto bg-orange-50 shadow">
-            <i class="fas fa-store text-orange-500 text-3xl"></i>
+          <div class="flex items-center justify-center h-20 w-20 mx-auto bg-[#d99e48]/10 shadow">
+            <i class="fas fa-store text-[#d99e48] text-3xl"></i>
           </div>
           <h3 class="mt-4 font-bold text-gray-800 uppercase">Commercial</h3>
           <p class="text-sm text-gray-600 mt-2">
@@ -748,8 +617,7 @@
   </section>
 <!-- ======================= WHAT ARE YOU LOOKING FOR? ======================= -->
 
-<!-- ABOUT SECTION -->
-
+<!-- ======================= ABOUT SECTION ======================= -->
   <section class="bg-gray-100 py-16">
     <div class="max-w-7xl mx-auto px-6">
 
@@ -762,38 +630,50 @@
           </h2>
 
           <p class="text-gray-600 mt-6 leading-relaxed">
-            Aspira Living redefines shared accommodation in Mumbai by offering professionally managed,
-            fully furnished flats designed for students and working professionals.
-          </p>
-
-          <p class="text-gray-600 mt-4 leading-relaxed">
-            We provide transparent pricing, zero hidden costs, and seamless support —
-            ensuring a comfortable and stress-free living experience.
+            {{ about_page.content|safe }}
           </p>
 
           <!-- Stats -->
-          <div class="flex gap-12 mt-8">
-            <div>
-              <h3 class="text-3xl font-bold text-[#c6a16e]">100+</h3>
-              <p class="text-gray-500 text-sm">Managed Flats</p>
-            </div>
+          <div class="flex gap-12 mt-8 flex-wrap">
 
-            <div>
-              <h3 class="text-3xl font-bold text-[#c6a16e]">500+</h3>
-              <p class="text-gray-500 text-sm">Happy Residents</p>
-            </div>
+              {% for metric in impact_metrics %}
+              <div class="text-center group">
+
+                  {% if metric.icon %}
+                  <div class="mb-2 text-[#c6a16e] text-xl">
+                      <i class="{{ metric.icon }}"></i>
+                  </div>
+                  {% endif %}
+
+                  <h3 class="text-3xl font-bold text-[#c6a16e] group-hover:scale-105 transition duration-300">
+                      {{ metric.value }}
+                  </h3>
+
+                  <p class="text-gray-500 text-sm">
+                      {{ metric.title }}
+                  </p>
+
+              </div>
+              {% empty %}
+                  <div class="text-gray-400 text-sm">
+                      No metrics available
+                  </div>
+              {% endfor %}
+
           </div>
 
+
           <!-- Button -->
-          <button class="mt-8 bg-[#c6a16e] text-white px-6 py-3 rounded-lg 
-          transition-all duration-300 hover:bg-[#b8925a] hover:shadow-lg">
-            Learn More
-          </button>
+           <a href="{% url 'about' %}">
+            <button class="mt-8 bg-[#c6a16e] text-white px-6 py-2.5 rounded-lg transition-all duration-300 hover:bg-[#b8925a] hover:shadow-lg">
+              Learn More
+            </button>
+          </a>
         </div>
 
         <!-- RIGHT IMAGE -->
         <div class="relative">
-          <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad" class="rounded-2xl shadow-xl w-full h-[400px] object-cover">
+          <img src="{{ about_page.image.url }}" class="rounded-2xl shadow-xl w-full h-[400px] object-cover">
 
           <!-- Decorative Overlay -->
           <div class="absolute inset-0 rounded-2xl border-4 border-[#c6a16e]/20"></div>
@@ -803,8 +683,7 @@
 
     </div>
   </section>
-
-<!-- ABOUT SECTION END-->
+<!-- ======================= ABOUT SECTION END======================= -->
 
 
   <!-- ===================== How We Work ======================= -->
@@ -819,7 +698,7 @@
       <div class="text-center mb-20">
         <h2 class="text-4xl md:text-5xl font-bold uppercase tracking-widest relative inline-block">
           How We Work
-          <span class="block mx-auto mt-6 h-[3px] w-24 bg-orange-500 rounded-full"></span>
+          <span class="block mx-auto mt-6 h-[3px] w-24 bg-[#B8925A] rounded-full"></span>
         </h2>
         <p class="text-gray-400 mt-5 max-w-2xl mx-auto">
           A transparent and guided journey from property search to possession.
@@ -827,7 +706,7 @@
       </div>
 
       <!-- Horizontal Line -->
-      <div class="hidden md:block absolute top-[52%] left-0 w-full h-[2px] bg-orange-500/20"></div>
+      <div class="hidden md:block absolute top-[52%] left-0 w-full h-[2px] bg-[#B8925A]/20"></div>
 
       <!-- Steps -->
       <div class="relative grid md:grid-cols-5 gap-10">
@@ -845,55 +724,55 @@
             Verified properties curated to match your budget and lifestyle.
           </p>
 
-          <div class="mt-6 h-[3px] w-12 bg-orange-500 group-hover:w-24 transition-all duration-500"></div>
+          <div class="mt-6 h-[3px] w-12 bg-[#B8925A] group-hover:w-24 transition-all duration-500"></div>
         </div>
 
         <!-- STEP -->
         <div class="group relative backdrop-blur-md bg-white/5 border border-white/10 p-8 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-all duration-500">
-          <span class="absolute -top-6 right-4 text-[90px] font-extrabold text-orange-500/10 select-none">
+          <span class="absolute -top-6 right-4 text-[90px] font-extrabold text-[#B8925A]/40 select-none">
             02
           </span>
           <h3 class="text-xl font-semibold relative z-10">Site Visit</h3>
           <p class="text-gray-300 mt-3 text-sm leading-relaxed relative z-10">
             Expert guided walkthroughs of shortlisted properties.
           </p>
-          <div class="mt-6 h-[3px] w-12 bg-orange-500 group-hover:w-24 transition-all duration-500"></div>
+          <div class="mt-6 h-[3px] w-12 bg-[#B8925A] group-hover:w-24 transition-all duration-500"></div>
         </div>
 
         <!-- STEP -->
         <div class="group relative backdrop-blur-md bg-white/5 border border-white/10 p-8 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-all duration-500">
-          <span class="absolute -top-6 right-4 text-[90px] font-extrabold text-orange-500/10 select-none">
+          <span class="absolute -top-6 right-4 text-[90px] font-extrabold text-[#B8925A]/40 select-none">
             03
           </span>
           <h3 class="text-xl font-semibold relative z-10">Loan Assistance</h3>
           <p class="text-gray-300 mt-3 text-sm leading-relaxed relative z-10">
             Best home loan deals with smooth approvals.
           </p>
-          <div class="mt-6 h-[3px] w-12 bg-orange-500 group-hover:w-24 transition-all duration-500"></div>
+          <div class="mt-6 h-[3px] w-12 bg-[#B8925A] group-hover:w-24 transition-all duration-500"></div>
         </div>
 
         <!-- STEP -->
         <div class="group relative backdrop-blur-md bg-white/5 border border-white/10 p-8 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-all duration-500">
-          <span class="absolute -top-6 right-4 text-[90px] font-extrabold text-orange-500/10 select-none">
+          <span class="absolute -top-6 right-4 text-[90px] font-extrabold text-[#B8925A]/40 select-none">
             04
           </span>
           <h3 class="text-xl font-semibold relative z-10">Legal Support</h3>
           <p class="text-gray-300 mt-3 text-sm leading-relaxed relative z-10">
             100% verified documentation & legal clarity.
           </p>
-          <div class="mt-6 h-[3px] w-12 bg-orange-500 group-hover:w-24 transition-all duration-500"></div>
+          <div class="mt-6 h-[3px] w-12 bg-[#B8925A] group-hover:w-24 transition-all duration-500"></div>
         </div>
 
         <!-- STEP -->
         <div class="group relative backdrop-blur-md bg-white/5 border border-white/10 p-8 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-all duration-500">
-          <span class="absolute -top-6 right-4 text-[90px] font-extrabold text-orange-500/10 select-none">
+          <span class="absolute -top-6 right-4 text-[90px] font-extrabold text-[#B8925A]/40 select-none">
             05
           </span>
           <h3 class="text-xl font-semibold relative z-10">Booking & Possession</h3>
           <p class="text-gray-300 mt-3 text-sm leading-relaxed relative z-10">
             Hassle-free booking till home handover.
           </p>
-          <div class="mt-6 h-[3px] w-12 bg-orange-500 group-hover:w-24 transition-all duration-500"></div>
+          <div class="mt-6 h-[3px] w-12 bg-[#B8925A] group-hover:w-24 transition-all duration-500"></div>
         </div>
 
       </div>
@@ -904,15 +783,14 @@
 
 
 
-
-  <!-- Blog Section Start -->
+<!-- Blog Section Start -->
   <section id="blog" class="py-24 bg-gradient-to-b from-gray-50 to-white">
     <div class="max-w-7xl mx-auto px-4">
 
       <div class="text-center mb-12">
         <h2 class="text-4xl md:text-5xl font-semibold uppercase tracking-widest text-center mb-16 relative">
           Latest from Our Blog
-          <span class="block mx-auto mt-4 h-[3px] w-24 bg-orange-500 rounded-full"></span>
+          <span class="block mx-auto mt-4 h-[3px] w-24 bg-[#d99e48]/60 rounded-full"></span>
         </h2>
       </div>
 
@@ -992,11 +870,11 @@
 
     </div>
   </section>
-  <!-- Blog Section End -->
+<!-- Blog Section End -->
 
 <hr>
 
-  <!-- 🏦 HOME LOAN PARTNERS SLIDER -->
+  <!--  HOME LOAN PARTNERS SLIDER -->
   <section class="py-20 bg-white" id="home-loan-partners">
     <div class="max-w-7xl mx-auto px-6 text-center">
 
@@ -1059,7 +937,7 @@
   <!--HOME LOAN PARTNERS SLIDER END -->
 
 
-  <!-- 🏢 FEATURED DEVELOPERS -->
+  <!-- FEATURED DEVELOPERS -->
   <div class="developer-section">
     <h2 class="section-title">Top Developers Projects</h2>
 
@@ -1113,7 +991,7 @@
     </div>
     <div class="mt-10 text-center">
     <a href="{% url 'search_projects' %}" 
-      class="inline-flex items-center gap-2 px-6 py-3 border border-orange-500 text-orange-600 font-semibold hover:bg-orange-500 hover:text-white transition">
+      class="inline-flex items-center gap-2 px-6 py-3 border border-[#B8925A] text-[#B8925A] font-semibold hover:bg-[#B8925A] hover:text-white transition">
 
       See All Localities
       <i class="fa-solid fa-arrow-right text-sm"></i>
@@ -1126,32 +1004,9 @@
 
 
 
-  <!-- 💬 TESTIMONIALS -->
-  <section class="py-16 bg-gray-100" id="testimonial">
-    <div class="max-w-4xl mx-auto px-6 text-center">
-      <h2 class="text-3xl font-bold text-orange-600 mb-10">Testimonials</h2>
-      <div class="grid md:grid-cols-2 gap-8">
-        {% for t in testimonials %}
-        <div class="bg-white shadow rounded p-2" data-aos="fade-up">
-          {% if t.image %}
-          <img src="{{ t.image.url }}" class="w-16 h-16 rounded-full mx-auto mb-3" />
-          {% endif %}
-          <p class="text-gray-700 italic">"{{ t.message }}"</p>
-          <h3 class="mt-3 font-bold">{{ t.name }}</h3>
-          {% if t.designation %}<p class="text-sm text-gray-500">{{ t.designation }}</p>{% endif %}
-          <p class="text-yellow-400 mt-2">{% for i in "12345"|slice:":t.rating" %}⭐{% endfor %}</p>
-        </div>
-        {% empty %}
-        <p>No testimonials available.</p>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-  <!-- 💬 TESTIMONIALS -->
-
   <!-- LEFT DETAILS + RIGHT FORM CONTACT SECTION -->
   <section id="contact" class="py-14 bg-orange-50">
-      <h2 class="text-3xl font-bold text-orange-600 mb-4 text-center">Get In Touch</h2>
+      <h2 class="text-3xl font-bold text-[#B8925A] mb-4 text-center">Get In Touch</h2>
         <p class="text-gray-600 mb-6 text-center">We are here to assist you with any queries.</p>
     <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-start">
 
@@ -1193,11 +1048,11 @@
     </div>
   </section>
 
-  <!-- ❓ FAQ -->
+  <!-- FAQ -->
   <section class="py-20 bg-gray-100" id="faq">
     <div class="max-w-7xl mx-auto px-6">
 
-      <h2 class="text-4xl font-bold text-orange-600 mb-12 text-center">
+      <h2 class="text-4xl font-bold text-[#B8925A] mb-12 text-center">
         Frequently Asked Questions
       </h2>
 
@@ -1206,13 +1061,11 @@
 
       <!-- Buttons -->
       <div class="text-center mt-10 space-x-4">
-        <button id="loadMoreBtn"
-          class="px-6 py-3 bg-orange-600 text-white rounded-lg font-semibold hover:bg-orange-700 transition">
+        <button id="loadMoreBtn" class="px-6 py-3 bg-[#B8925A] text-white rounded-lg font-semibold hover:bg-[#B8925A] transition">
           Load More
         </button>
 
-        <button id="showLessBtn"
-          class="px-3 py-2 bg-gray-400 text-white rounded-lg font-semibold hover:bg-gray-500 transition hidden">
+        <button id="showLessBtn" class="px-3 py-2 bg-gray-400 text-white rounded-lg font-semibold hover:bg-gray-500 transition hidden">
           Show Less   
         </button>
       </div>
@@ -1220,7 +1073,6 @@
     </div>
   </section>
 
-  <!-- Hidden FAQ Data -->
   <div id="faqData" class="hidden"> 
     {% for faq in faqs %}
     <div class="faq-item">
@@ -1241,7 +1093,7 @@
     </div>
     {% endfor %}
   </div>
-  <!-- Hidden FAQ Data -->
+
 
   <!-- POPUS START -->
   <div class="modal fade" id="commonModal" tabindex="-1">
@@ -1559,6 +1411,8 @@ font-size: 24px;
   gap: 20px;
   overflow-x: auto; /* Mobile ke liye scrollable */
   padding-bottom: 10px;
+  border: #db9430 ;
+
 }
 
 .dev-card {
@@ -1586,7 +1440,8 @@ font-size: 24px;
 }
 
 .footer-badge {
-  background-color: #e8f5e9; /* Light green background */
+  
+  background-color: #fae0bc; /* Light green background */
   width: 100%;
   padding: 10px;
   border-radius: 50% 50% 0 0 / 20% 20% 0 0; /* Yeh curve banata hai */
@@ -1604,6 +1459,14 @@ font-size: 24px;
   padding: 3px 5px;
   border-radius: 50%;
   font-size: 12px;
+}
+.rentPropSwiper .swiper-slide {
+  height: auto;
+  display: flex;
+}
+
+.rentPropSwiper .swiper-wrapper {
+  align-items: stretch;
 }
 </style>
 
