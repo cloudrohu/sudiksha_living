@@ -9,7 +9,6 @@ NO_IMAGE_URL = "https://via.placeholder.com/40x40.png?text=No+Image"
 # =======================================================
 # 🏠 Property Amenities Admin
 # =======================================================
-
 @admin.register(PropertyAmenities)
 class PropertyAmenitiesAdmin(admin.ModelAdmin):
 
@@ -18,27 +17,12 @@ class PropertyAmenitiesAdmin(admin.ModelAdmin):
     readonly_fields = ('icon_preview',)
 
     def icon_preview(self, obj):
-
         if obj.icon:
-
-            # Safe check
-            if hasattr(obj.icon, 'url'):
-                image_url = obj.icon.url
-            else:
-                image_url = str(obj.icon)
-
             return mark_safe(
-                f'''
-                <img src="{image_url}"
-                     width="40"
-                     height="40"
-                     style="object-fit:contain;border-radius:4px;" />
-                '''
+                f'<img src="{obj.icon.url}" width="40" height="40" '
+                f'style="object-fit:contain;border-radius:4px;" />'
             )
-
-        return mark_safe(
-            f'<img src="{NO_IMAGE_URL}" width="40" height="40" />'
-        )
+        return mark_safe(f'<img src="{NO_IMAGE_URL}">')
 
     icon_preview.short_description = "Icon"
 
