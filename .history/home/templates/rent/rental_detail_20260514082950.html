@@ -1,0 +1,511 @@
+# Fixed Rental Detail Page (Django Template)
+
+```django
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load price_filters %}
+
+{% block title %}
+{{ property.title }} | Rental Details
+{% endblock %}
+
+{% block content %}
+
+<section class="bg-gray-100 py-10">
+    <div class="max-w-7xl mx-auto px-4">
+
+        <!-- ================= TOP INFO ================= -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 lg:p-10 mb-10">
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+
+                <!-- LEFT -->
+                <div>
+
+                    <div class="flex items-center gap-3 mb-4">
+                        {% if property.featured_property %}
+                        <span class="bg-red-500 text-white text-xs px-3 py-1 rounded-full font-semibold">
+                            Featured
+                        </span>
+                        {% endif %}
+
+                        {% if property.furnishing_type %}
+                        <span class="bg-[#c6a16e] text-white text-xs px-3 py-1 rounded-full font-semibold">
+                            {{ property.furnishing_type }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                        {{ property.title }}
+                    </h1>
+
+                    <div class="flex items-center gap-2 text-gray-500 mb-6">
+                        <i class="fa-solid fa-location-dot text-[#c6a16e]"></i>
+                        <span>
+                            {{ property.locality.name }}, {{ property.city.name }}
+                        </span>
+                    </div>
+
+                    <div class="flex items-end gap-2 mb-8">
+                        <h2 class="text-5xl font-bold text-[#c6a16e]">
+                            ₹{{ property.rent_details.monthly_rent|default:'0'|intcomma }}
+                        </h2>
+                        <span class="text-gray-500 mb-2">/ month</span>
+                    </div>
+
+                    <!-- INFO GRID -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+                        <div class="bg-gray-50 rounded-xl p-4 text-center border border-gray-100">
+                            <i class="fa-solid fa-bed text-[#c6a16e] text-xl mb-2"></i>
+                            <p class="text-sm text-gray-500">Bedrooms</p>
+                            <h4 class="font-bold text-gray-900">
+                                {{ property.bedrooms }}
+                            </h4>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-xl p-4 text-center border border-gray-100">
+                            <i class="fa-solid fa-bath text-[#c6a16e] text-xl mb-2"></i>
+                            <p class="text-sm text-gray-500">Bathrooms</p>
+                            <h4 class="font-bold text-gray-900">
+                                {{ property.bathrooms }}
+                            </h4>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-xl p-4 text-center border border-gray-100">
+                            <i class="fa-solid fa-ruler-combined text-[#c6a16e] text-xl mb-2"></i>
+                            <p class="text-sm text-gray-500">Area</p>
+                            <h4 class="font-bold text-gray-900">
+                                {{ property.super_area }} sqft
+                            </h4>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-xl p-4 text-center border border-gray-100">
+                            <i class="fa-solid fa-building text-[#c6a16e] text-xl mb-2"></i>
+                            <p class="text-sm text-gray-500">Posted By</p>
+                            <h4 class="font-bold text-gray-900 capitalize">
+                                {{ property.posted_by }}
+                            </h4>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT IMAGE -->
+                <div>
+
+                    {% with property.property_images.first as img %}
+
+                        {% if img %}
+
+                        <img src="{{ img.image.url }}"
+                            class="w-full h-[450px] object-cover rounded-2xl shadow-lg"
+                            alt="{{ property.title }}">
+
+                        {% else %}
+
+                        <img src="https://via.placeholder.com/800x500?text=No+Image"
+                            class="w-full h-[450px] object-cover rounded-2xl"
+                            alt="No Image">
+
+                        {% endif %}
+
+                    {% endwith %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= GALLERY ================= -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-10">
+
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">
+                    Property Gallery
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                {% for img in property.property_images.all %}
+
+                <div class="overflow-hidden rounded-xl border border-gray-100 shadow-sm hover:shadow-xl transition duration-300">
+                    <img src="{{ img.image.url }}"
+                        class="w-full h-64 object-cover hover:scale-105 transition duration-500"
+                        alt="{{ property.title }}">
+                </div>
+
+                {% empty %}
+
+                <div class="col-span-full text-center text-gray-400 py-10">
+                    No Images Available
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= ABOUT ================= -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-10">
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-5">
+                About This Property
+            </h2>
+
+            <div class="text-gray-600 leading-relaxed space-y-4">
+
+                {% if property.about_section %}
+                    {{ property.about_section.about_description|safe }}
+                {% else %}
+                    <p>
+                        No description available.
+                    </p>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= AMENITIES ================= -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-10">
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-8">
+                Amenities
+            </h2>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+
+                {% for item in property.amenities.all %}
+
+                <div class="border border-gray-100 rounded-xl p-4 text-center hover:shadow-md transition duration-300">
+
+                    {% if item.amenity.icon %}
+                        <img src="{{ item.amenity.icon.url }}"
+                            class="w-16 h-16 mx-auto object-contain mb-3"
+                            alt="{{ item.amenity.name }}">
+                    {% endif %}
+
+                    <h4 class="text-sm font-semibold text-gray-700">
+                        {{ item.amenity.name }}
+                    </h4>
+
+                </div>
+
+                {% empty %}
+
+                <div class="col-span-full text-center text-gray-400 py-10">
+                    No amenities available
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= FURNISHING ================= -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-10">
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-8">
+                Furnishing Details
+            </h2>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+
+                {% for item in property.furnishings.all %}
+
+                <div class="flex items-center gap-3 border border-gray-100 rounded-xl p-4 hover:bg-gray-50 transition duration-300">
+
+                    <div class="w-12 h-12 rounded-full bg-[#c6a16e]/10 flex items-center justify-center text-[#c6a16e]">
+                        <i class="fa-solid fa-box"></i>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-gray-800">
+                            {{ item.item.name }}
+                        </h4>
+                        <p class="text-sm text-gray-500">
+                            Quantity: {{ item.quantity }}
+                        </p>
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="col-span-full text-center text-gray-400 py-10">
+                    No furnishing details available
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= FACILITIES ================= -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-10">
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-8">
+                Facilities
+            </h2>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+
+                {% for item in property.facilities.all %}
+
+                <div class="flex items-center gap-3 border border-gray-100 rounded-xl p-4 hover:bg-gray-50 transition duration-300">
+
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-gray-800">
+                            {{ item.facility.name }}
+                        </h4>
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="col-span-full text-center text-gray-400 py-10">
+                    No facilities available
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= OWNER ================= -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-10">
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-8">
+                Owner Details
+            </h2>
+
+            {% with property.owner as owner %}
+
+            <div class="flex flex-col md:flex-row gap-8 items-start">
+
+                <div>
+
+                    {% if owner.profile_image %}
+
+                    <img src="{{ owner.profile_image.url }}"
+                        class="w-32 h-32 rounded-2xl object-cover border border-gray-200"
+                        alt="{{ owner.full_name }}">
+
+                    {% else %}
+
+                    <div class="w-32 h-32 rounded-2xl bg-gray-100 flex items-center justify-center text-gray-400">
+                        <i class="fa-solid fa-user text-4xl"></i>
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+                <div class="flex-1">
+
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">
+                        {{ owner.full_name }}
+                    </h3>
+
+                    <p class="text-[#c6a16e] font-semibold mb-4">
+                        {{ owner.get_owner_type_display }}
+                    </p>
+
+                    <div class="space-y-3 text-gray-600">
+
+                        <p>
+                            <i class="fa-solid fa-phone text-[#c6a16e] mr-2"></i>
+                            {{ owner.phone }}
+                        </p>
+
+                        <p>
+                            <i class="fa-solid fa-envelope text-[#c6a16e] mr-2"></i>
+                            {{ owner.email }}
+                        </p>
+
+                        <p>
+                            <i class="fa-solid fa-location-dot text-[#c6a16e] mr-2"></i>
+                            {{ owner.locality }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endwith %}
+
+        </div>
+
+
+        <!-- ================= RENT DETAILS ================= -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-10">
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-8">
+                Rent Details
+            </h2>
+
+            {% if property.rent_details %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <div class="border border-gray-100 rounded-xl p-5">
+                    <p class="text-sm text-gray-500 mb-1">Monthly Rent</p>
+                    <h4 class="text-2xl font-bold text-[#c6a16e]">
+                        ₹{{ property.rent_details.monthly_rent|intcomma }}
+                    </h4>
+                </div>
+
+                <div class="border border-gray-100 rounded-xl p-5">
+                    <p class="text-sm text-gray-500 mb-1">Security Deposit</p>
+                    <h4 class="text-2xl font-bold text-gray-900">
+                        ₹{{ property.rent_details.security_deposit|intcomma }}
+                    </h4>
+                </div>
+
+                <div class="border border-gray-100 rounded-xl p-5">
+                    <p class="text-sm text-gray-500 mb-1">Maintenance</p>
+                    <h4 class="text-2xl font-bold text-gray-900">
+                        ₹{{ property.rent_details.maintenance_charges|default:'0'|intcomma }}
+                    </h4>
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ================= FAQ ================= -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-10">
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-8">
+                Frequently Asked Questions
+            </h2>
+
+            <div class="space-y-4">
+
+                {% for faq in property.faqs.all %}
+
+                <div class="border border-gray-100 rounded-xl p-5">
+                    <h4 class="font-semibold text-gray-900 mb-2">
+                        {{ faq.question }}
+                    </h4>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        {{ faq.answer }}
+                    </p>
+                </div>
+
+                {% empty %}
+
+                <div class="text-center text-gray-400 py-10">
+                    No FAQs available
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= RECOMMENDED ================= -->
+        <div class="mb-10">
+
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-bold text-gray-900">
+                    Recommended Properties
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                {% for item in recommended_properties %}
+
+                <a href="{% url 'rental_detail' item.slug %}"
+                    class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition duration-300 border border-gray-100 group">
+
+                    {% with item.property_images.first as img %}
+
+                        {% if img %}
+
+                        <img src="{{ img.image.url }}"
+                            class="w-full h-64 object-cover group-hover:scale-105 transition duration-500"
+                            alt="{{ item.title }}">
+
+                        {% else %}
+
+                        <img src="https://via.placeholder.com/800x500?text=No+Image"
+                            class="w-full h-64 object-cover"
+                            alt="No Image">
+
+                        {% endif %}
+
+                    {% endwith %}
+
+                    <div class="p-6">
+
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 line-clamp-1">
+                            {{ item.title }}
+                        </h3>
+
+                        <p class="text-gray-500 text-sm mb-4">
+                            {{ item.locality.name }}, {{ item.city.name }}
+                        </p>
+
+                        <div class="flex items-center justify-between">
+
+                            <h4 class="text-2xl font-bold text-[#c6a16e]">
+                                ₹{{ item.rent_details.monthly_rent|default:'0'|intcomma }}
+                            </h4>
+
+                            <span class="text-sm text-gray-500">
+                                {{ item.bedrooms }} BHK
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+                {% empty %}
+
+                <div class="col-span-full text-center text-gray-400 py-10">
+                    No recommended properties found
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
+```
