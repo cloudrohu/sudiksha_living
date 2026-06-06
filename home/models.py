@@ -4,6 +4,8 @@ from django.utils.safestring import mark_safe
 from utility.compress_mixin import ImageCompressionMixin
 
 
+
+
 # =============================
 # 🧠 MAIN MODEL — Website Setting
 # =============================
@@ -70,11 +72,6 @@ class Setting(ImageCompressionMixin, models.Model):
             return self.logo.url
         return None
 
-
-
-# =============================
-# 🖼️ Hero / Slider Section (Multiple)
-# =============================
 class Slider(models.Model):
     title = models.CharField(max_length=200)
     subtitle = models.CharField(max_length=300, blank=True, null=True)
@@ -90,10 +87,6 @@ class Slider(models.Model):
 
     def __str__(self):
         return self.title
-# =============================
-# 👥 Leadership Team Section
-# =============================
-
 
 class Leadership(models.Model):
     name = models.CharField(max_length=100, help_text="Full name of the team member")

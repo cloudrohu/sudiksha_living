@@ -87,7 +87,7 @@ class MeetingInline(admin.StackedInline):
 @admin.register(GoogleCompany)
 class GoogleCompanyAdmin(ImportExportModelAdmin):
 
-#class GoogleCompanyAdmin(AutoUserAdminMixin, admin.ModelAdmin):
+#class GoogleCompanyAdmin(AutoUserAdminMixin, ImportExportModelAdmin):
     resource_class = GoogleCompanyResource
     preserve_filters = True
     change_list_template = "admin/realtypms/googlecompany/change_list.html"
@@ -191,7 +191,7 @@ class GoogleCompanyAdmin(ImportExportModelAdmin):
 # ✅ COMMENT ADMIN (Card + Search Like Business)
 # =====================================================
 @admin.register(Comment)
-class CommentAdmin(AutoUserAdminMixin, admin.ModelAdmin):
+class CommentAdmin(AutoUserAdminMixin, ImportExportModelAdmin):
     change_list_template = "admin/realtypms/googlecompany/comment_card_list.html"
     preserve_filters = True
     list_display = ("id", "company", "comment", "create_at", "created_by")
@@ -234,7 +234,7 @@ class CommentAdmin(AutoUserAdminMixin, admin.ModelAdmin):
 # ✅ VOICE ADMIN
 # =====================================================
 @admin.register(VoiceRecording)
-class VoiceRecordingAdmin(AutoUserAdminMixin, admin.ModelAdmin):
+class VoiceRecordingAdmin(AutoUserAdminMixin, ImportExportModelAdmin):
     change_list_template = "admin/realtypms/googlecompany/voice_card_list.html"
     preserve_filters = True
     list_display = ("id", "company", "file", "uploaded_by", "uploaded_at")
@@ -277,7 +277,7 @@ class VoiceRecordingAdmin(AutoUserAdminMixin, admin.ModelAdmin):
 # ✅ VISIT ADMIN
 # =====================================================
 @admin.register(Visit)
-class VisitAdmin(AutoUserAdminMixin, admin.ModelAdmin):
+class VisitAdmin(AutoUserAdminMixin, ImportExportModelAdmin):
     change_list_template = "admin/realtypms/googlecompany/visit_card_list.html"
     preserve_filters = True
     list_display = ("id", "company", "visit_type", "visit_status", "uploaded_by", "uploaded_at")
@@ -322,7 +322,7 @@ class VisitAdmin(AutoUserAdminMixin, admin.ModelAdmin):
 # ✅ FOLLOWUP ADMIN
 # =====================================================
 @admin.register(Followup)
-class FollowupAdmin(AutoUserAdminMixin, admin.ModelAdmin):
+class FollowupAdmin(AutoUserAdminMixin, ImportExportModelAdmin):
     change_list_template = "admin/realtypms/googlecompany/followup_card_list.html"
     preserve_filters = True
     list_display = ("id", "company", "status", "followup_date", "assigned_to", "update_at")
@@ -367,7 +367,7 @@ class FollowupAdmin(AutoUserAdminMixin, admin.ModelAdmin):
 # ✅ MEETING ADMIN (Business Style)
 # =====================================================
 @admin.register(Meeting)
-class MeetingAdmin(AutoUserAdminMixin, admin.ModelAdmin):
+class MeetingAdmin(AutoUserAdminMixin, ImportExportModelAdmin):
     change_list_template = "admin/realtypms/googlecompany/meeting_card_list.html"
     preserve_filters = True
     list_display = ("id", "company", "status", "meeting_date", "assigned_to", "created_by")

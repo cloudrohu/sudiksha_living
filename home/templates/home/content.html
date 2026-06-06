@@ -259,17 +259,9 @@
 
               {% with property.property_images.first as img %}
                 {% if img %}
-                  <img
-                    src="{{ img.image.url }}"
-                    class="w-full h-56 object-cover transition duration-500 hover:scale-105"
-                    alt="{{ property.title }}"
-                  >
+                  <img src="{{ img.image.url }}" class="w-full h-56 object-cover transition duration-500 hover:scale-105" alt="{{ property.title }}">
                 {% else %}
-                  <img
-                    src="https://via.placeholder.com/800x500?text=No+Image"
-                    class="w-full h-56 object-cover"
-                    alt="No Image"
-                  >
+                  <img src="https://via.placeholder.com/800x500?text=No+Image" class="w-full h-56 object-cover" alt="No Image">
                 {% endif %}
               {% endwith %}
 
@@ -290,104 +282,120 @@
             </div>
 
             <!-- ================= CONTENT ================= -->
-            <div class="p-6 flex flex-col flex-grow">
+            <div class="p-4 flex flex-col">
 
               <!-- Title -->
-              <h3 class="text-xl font-bold text-gray-900 line-clamp-1">
-                {{ property.title }}
+              <h3 class="text-lg font-bold text-gray-900 leading-snug mb-3">
+                  {{ property.title }}
               </h3>
 
-              <!-- Location -->
-              <p class="text-sm text-gray-500 mt-1">
-                {{ property.locality.name }}, {{ property.city.name }}
-              </p>
+              <!-- Price -->
+              <div class="flex items-center justify-between mb-3">
 
-              <!-- Property Info -->
-              <div class="grid grid-cols-2 gap-3 mt-5 text-sm">
+                  <div>
+                      <h3 class="text-2xl font-bold text-[#c6a16e] leading-none">
+                          ₹{% if property.rent_details.monthly_rent %}{{ property.rent_details.monthly_rent }}{% else %}0{% endif %}
+                      </h3>
 
-                <div class="bg-gray-50 rounded-lg p-3 text-center">
-                  <i class="fa-solid fa-bed text-[#c6a16e] mb-1"></i>
-                  <p class="font-semibold text-gray-800">
-                    {{ property.bedrooms }} BHK
-                  </p>
-                </div>
+                      <p class="text-xs text-gray-500 mt-1">
+                          Per Month
+                      </p>
+                  </div>
 
-                <div class="bg-gray-50 rounded-lg p-3 text-center">
-                  <i class="fa-solid fa-bath text-[#c6a16e] mb-1"></i>
-                  <p class="font-semibold text-gray-800">
-                    {{ property.bathrooms }} Bath
-                  </p>
-                </div>
-
-                <div class="bg-gray-50 rounded-lg p-3 text-center">
-                  <i class="fa-solid fa-ruler-combined text-[#c6a16e] mb-1"></i>
-                  <p class="font-semibold text-gray-800">
-                    {{ property.super_area }} sqft
-                  </p>
-                </div>
-
-                <div class="bg-gray-50 rounded-lg p-3 text-center">
-                  <i class="fa-solid fa-building text-[#c6a16e] mb-1"></i>
-                  <p class="font-semibold text-gray-800">
-                    {{ property.posted_by }}
-                  </p>
-                </div>
+                  {% if property.available_from %}
+                  <span class="bg-green-100 text-green-700 text-[11px] px-2 py-1 rounded">
+                      Available
+                  </span>
+                  {% endif %}
 
               </div>
 
-              <!-- Additional Info -->
-              <div class="space-y-2 mt-5 text-sm text-gray-600">
+              <div class="flex items-start gap-2 text-sm text-gray-600 mb-3">
 
-                {% if property.available_from %}
-                <p>
-                  <i class="fa-solid fa-calendar-check text-[#c6a16e] mr-2"></i>
-                  Available: {{ property.available_from }}
-                </p>
-                {% endif %}
+                <i class="fa-solid fa-location-dot text-[#c6a16e] mt-1"></i>
 
-                {% if property.age_of_property %}
-                <p>
-                  <i class="fa-solid fa-clock text-[#c6a16e] mr-2"></i>
-                  {{ property.age_of_property }}
-                </p>
-                {% endif %}
-
-                <p>
-                  <i class="fa-solid fa-location-dot text-[#c6a16e] mr-2"></i>
-                  {{ property.city.name }}
+                <p class="leading-5">
+                    {{ property.locality.name }},
+                    {{ property.city.name }},
+                    {{ property.state.name }}
                 </p>
 
               </div>
 
-              <!-- ================= PRICE + BUTTON ================= -->
-              <div class="border-t border-gray-200 pt-4 mt-auto flex items-center justify-between">
+              <div class="grid grid-cols-2 gap-2 mb-3 text-sm">
 
-                <div>
-                  <h4 class="text-2xl font-bold text-[#c6a16e]">
-                    <i class="fa-solid fa-indian-rupee-sign mr-1"></i>
+                  {% if property.available_from %}
+                  <div class="flex items-center gap-2">
+                      <i class="fa-solid fa-calendar text-[#c6a16e]"></i>
+                      <span>{{ property.available_from }}</span>
+                  </div>
+                  {% endif %}
 
-                    {% if property.rent_details.monthly_rent %}
-                      {{ property.rent_details.monthly_rent }}
-                    {% else %}
-                      0
-                    {% endif %}
-                  </h4>
+                  {% if property.age_of_property %}
+                  <div class="flex items-center gap-2">
+                      <i class="fa-solid fa-clock text-[#c6a16e]"></i>
+                      <span>{{ property.age_of_property }}</span>
+                  </div>
+                  {% endif %}
 
-                  <p class="text-xs text-gray-500">
-                    per month
-                  </p>
-                </div>
+                  {% if property.furnishing %}
+                  <div class="flex items-center gap-2">
+                      <i class="fa-solid fa-couch text-[#c6a16e]"></i>
+                      <span>{{ property.furnishing }}</span>
+                  </div>
+                  {% endif %}
 
-                <a href="{% url 'rental_detail' property.slug %}"
-                  class="bg-[#c6a16e] text-white px-5 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 ease-in-out hover:bg-[#b8925a] hover:shadow-xl hover:scale-105">
-
-                  View Details
-                </a>
+                  {% if property.possession_status %}
+                  <div class="flex items-center gap-2">
+                      <i class="fa-solid fa-key text-[#c6a16e]"></i>
+                      <span>{{ property.possession_status }}</span>
+                  </div>
+                  {% endif %}
 
               </div>
+
+              <div class="grid grid-cols-3 border border-gray-100 rounded-lg overflow-hidden mb-3">
+
+                  <div class="text-center py-2">
+                      <i class="fa-solid fa-bed text-[#c6a16e]"></i>
+                      <p class="text-xs mt-1">{{ property.bedrooms }} BHK</p>
+                  </div>
+
+                  <div class="text-center py-2 border-x border-gray-100">
+                      <i class="fa-solid fa-bath text-[#c6a16e]"></i>
+                      <p class="text-xs mt-1">{{ property.bathrooms }} Bath</p>
+                  </div>
+
+                  <div class="text-center py-2">
+                      <i class="fa-solid fa-ruler-combined text-[#c6a16e]"></i>
+                      <p class="text-xs mt-1">{{ property.super_area }} Sqft</p>
+                  </div>
+
+              </div>
+
+              <div class="flex items-center justify-between border-t pt-3 mt-2">
+
+                  <div>
+                      <p class="text-[11px] text-gray-500">
+                          Listed By
+                      </p>
+                      <p class="font-semibold text-sm">
+                          {{ property.posted_by }}
+                      </p>
+                  </div>
+
+                  <a href="{% url 'rental_detail' property.slug %}"
+                      class="bg-[#c6a16e] hover:bg-[#b8925a] text-white px-4 py-2 rounded-md text-sm font-medium">
+
+                      View Details
+                  </a>
+
+              </div>
+
+            
 
             </div>
-
+            
           </div>
 
         </div>
@@ -411,7 +419,6 @@
 
   </div>
 </section>
-<!-- ======================= FEATURE PROPERTIES END ======================= -->
 <!-- ======================= FEATURE PROPERTIES END ======================= -->
 
 
@@ -1245,423 +1252,423 @@
   </div>
 
 <script defer>
-document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
 
-  /* ===== MODAL ===== */
-  const modal = document.getElementById("commonModal");
-  if (modal) {
-    modal.addEventListener("show.bs.modal", e => {
-      document.getElementById("modalTitle").innerText =
-        e.relatedTarget?.getAttribute("data-modal-title") || "";
-    });
-  }
-
-  /* ===== SWIPER (ALL TYPES) ===== */
-  if (window.Swiper) {
-
-  // Home Loan Partners smooth auto slider
-    document.querySelectorAll(".loanPartnerSwiper").forEach(el=>{
-      new Swiper(el,{
-        loop:true,
-        speed:6000,
-        spaceBetween:22,
-
-        freeMode:true,
-        freeModeMomentum:false,
-
-        autoplay:{
-          delay:0,
-          disableOnInteraction:false,
-          pauseOnMouseEnter:true
-        },
-
-        breakpoints:{
-          320:{slidesPerView:1.2},
-          480:{slidesPerView:1.6},
-          640:{slidesPerView:2.3},
-          768:{slidesPerView:3},
-          1024:{slidesPerView:3.8},
-          1280:{slidesPerView:4.5}
-        }
+    /* ===== MODAL ===== */
+    const modal = document.getElementById("commonModal");
+    if (modal) {
+      modal.addEventListener("show.bs.modal", e => {
+        document.getElementById("modalTitle").innerText =
+          e.relatedTarget?.getAttribute("data-modal-title") || "";
       });
-    });
+    }
 
-    // Blog mobile slider
-    document.querySelectorAll(".blogSwiper").forEach(el=>{
-      new Swiper(el,{
-        slidesPerView:1,
-        spaceBetween:18,
-        loop:true,
+    /* ===== SWIPER (ALL TYPES) ===== */
+    if (window.Swiper) {
 
-        autoplay:{
-          delay:4000,
-          disableOnInteraction:false,
-          pauseOnMouseEnter:true
-        },
+    // Home Loan Partners smooth auto slider
+      document.querySelectorAll(".loanPartnerSwiper").forEach(el=>{
+        new Swiper(el,{
+          loop:true,
+          speed:6000,
+          spaceBetween:22,
 
-        pagination:{
-          el: el.querySelector(".swiper-pagination"),
-          clickable:true
-        }
-      });
-    });
+          freeMode:true,
+          freeModeMomentum:false,
 
-      // New Launch Projects slider
-    document.querySelectorAll(".newLaunchSwiper").forEach(el=>{
-      new Swiper(el,{
-        slidesPerView:1,
-        spaceBetween:20,
-        loop:true,
+          autoplay:{
+            delay:0,
+            disableOnInteraction:false,
+            pauseOnMouseEnter:true
+          },
 
-        autoplay:{
-          delay:3500,
-          disableOnInteraction:false,
-          pauseOnMouseEnter:true
-        },
-
-        breakpoints:{
-          0:{slidesPerView:1},
-          640:{slidesPerView:1},
-          768:{slidesPerView:2},
-          1024:{slidesPerView:3}
-        }
-      });
-    });
-
-
-  }
-
-  /* ===== BHK TABS ===== */
-  function activateTab(tab, card){
-    const wrap = card.querySelector(".bhk-tabs");
-    const underline = wrap.querySelector(".bhk-underline");
-
-    card.querySelectorAll(".bhk-tab").forEach(t=>t.classList.remove("active"));
-    card.querySelectorAll(".bhk-panel").forEach(p=>p.classList.add("hidden"));
-
-    tab.classList.add("active");
-
-    const r1=tab.getBoundingClientRect(), r2=wrap.getBoundingClientRect();
-    underline.style.width=r1.width+"px";
-    underline.style.left=(r1.left-r2.left)+"px";
-
-    card.querySelector(`[data-panel="${tab.dataset.target}"]`)?.classList.remove("hidden");
-  }
-
-  document.addEventListener("click", e=>{
-    const tab=e.target.closest(".bhk-tab");
-    if(!tab || tab.classList.contains("bhk-disabled")) return;
-    const card=tab.closest(".config-card");
-    if(card) activateTab(tab,card);
-  });
-
-  document.querySelectorAll(".config-card").forEach(card=>{
-    const first=card.querySelector(".bhk-tab:not(.bhk-disabled)");
-    if(first) activateTab(first,card);
-  });
-
-  /* ===== SIMPLE TABS ===== */
-  document.querySelectorAll(".tab-btn").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
-
-      document.querySelectorAll(".tab-content").forEach(t=>t.classList.add("hidden"));
-      document.getElementById(btn.dataset.tab)?.classList.remove("hidden");
-    });
-  });
-
-  /* ===== AJAX CITY ===== */
-  const city=document.getElementById("city");
-  if(city){
-    city.addEventListener("change",()=>{
-      fetch(`/ajax/load-localities/?city_id=${city.value}`)
-        .then(r=>r.json())
-        .then(data=>{
-          const loc=document.getElementById("locality");
-          loc.innerHTML='<option value="">Select Locality</option>';
-          data.forEach(l=>loc.innerHTML+=`<option value="${l.id}">${l.name}</option>`);
+          breakpoints:{
+            320:{slidesPerView:1.2},
+            480:{slidesPerView:1.6},
+            640:{slidesPerView:2.3},
+            768:{slidesPerView:3},
+            1024:{slidesPerView:3.8},
+            1280:{slidesPerView:4.5}
+          }
         });
+      });
+
+      // Blog mobile slider
+      document.querySelectorAll(".blogSwiper").forEach(el=>{
+        new Swiper(el,{
+          slidesPerView:1,
+          spaceBetween:18,
+          loop:true,
+
+          autoplay:{
+            delay:4000,
+            disableOnInteraction:false,
+            pauseOnMouseEnter:true
+          },
+
+          pagination:{
+            el: el.querySelector(".swiper-pagination"),
+            clickable:true
+          }
+        });
+      });
+
+        // New Launch Projects slider
+      document.querySelectorAll(".newLaunchSwiper").forEach(el=>{
+        new Swiper(el,{
+          slidesPerView:1,
+          spaceBetween:20,
+          loop:true,
+
+          autoplay:{
+            delay:3500,
+            disableOnInteraction:false,
+            pauseOnMouseEnter:true
+          },
+
+          breakpoints:{
+            0:{slidesPerView:1},
+            640:{slidesPerView:1},
+            768:{slidesPerView:2},
+            1024:{slidesPerView:3}
+          }
+        });
+      });
+
+
+    }
+
+    /* ===== BHK TABS ===== */
+    function activateTab(tab, card){
+      const wrap = card.querySelector(".bhk-tabs");
+      const underline = wrap.querySelector(".bhk-underline");
+
+      card.querySelectorAll(".bhk-tab").forEach(t=>t.classList.remove("active"));
+      card.querySelectorAll(".bhk-panel").forEach(p=>p.classList.add("hidden"));
+
+      tab.classList.add("active");
+
+      const r1=tab.getBoundingClientRect(), r2=wrap.getBoundingClientRect();
+      underline.style.width=r1.width+"px";
+      underline.style.left=(r1.left-r2.left)+"px";
+
+      card.querySelector(`[data-panel="${tab.dataset.target}"]`)?.classList.remove("hidden");
+    }
+
+    document.addEventListener("click", e=>{
+      const tab=e.target.closest(".bhk-tab");
+      if(!tab || tab.classList.contains("bhk-disabled")) return;
+      const card=tab.closest(".config-card");
+      if(card) activateTab(tab,card);
     });
-  }
 
-});
-const container = document.querySelector(".card-container");
+    document.querySelectorAll(".config-card").forEach(card=>{
+      const first=card.querySelector(".bhk-tab:not(.bhk-disabled)");
+      if(first) activateTab(first,card);
+    });
 
-let isDown = false;
-let startX;
-let scrollLeft;
+    /* ===== SIMPLE TABS ===== */
+    document.querySelectorAll(".tab-btn").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
 
-// DRAG TO SLIDE (desktop premium feel)
-container.addEventListener("mousedown", e => {
-  isDown = true;
-  container.classList.add("active");
-  startX = e.pageX - container.offsetLeft;
-  scrollLeft = container.scrollLeft;
-});
+        document.querySelectorAll(".tab-content").forEach(t=>t.classList.add("hidden"));
+        document.getElementById(btn.dataset.tab)?.classList.remove("hidden");
+      });
+    });
 
-container.addEventListener("mouseleave", () => isDown = false);
-container.addEventListener("mouseup", () => isDown = false);
+    /* ===== AJAX CITY ===== */
+    const city=document.getElementById("city");
+    if(city){
+      city.addEventListener("change",()=>{
+        fetch(`/ajax/load-localities/?city_id=${city.value}`)
+          .then(r=>r.json())
+          .then(data=>{
+            const loc=document.getElementById("locality");
+            loc.innerHTML='<option value="">Select Locality</option>';
+            data.forEach(l=>loc.innerHTML+=`<option value="${l.id}">${l.name}</option>`);
+          });
+      });
+    }
 
-container.addEventListener("mousemove", e => {
-  if (!isDown) return;
-  e.preventDefault();
-  const x = e.pageX - container.offsetLeft;
-  const walk = (x - startX) * 1.5;
-  container.scrollLeft = scrollLeft - walk;
-});
+  });
+  const container = document.querySelector(".card-container");
 
-// AUTO SLIDE
-setInterval(() => {
-  container.scrollLeft += 220;
+  let isDown = false;
+  let startX;
+  let scrollLeft;
 
-  if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
-    container.scrollLeft = 0;
-  }
-}, 2500); 
-
-var swiper = new Swiper(".rentPropSwiper", {
-    slidesPerView: 3,
-    spaceBetween: 30,
-    loop: true,
-    grabCursor: true,
-
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-
-    breakpoints: {
-      0: {
-        slidesPerView: 1,
-      },
-      640: {
-        slidesPerView: 2,
-      },
-      1024: {
-        slidesPerView: 3,
-      },
-    },
-    autoplay: {
-    delay: 3000,
-    disableOnInteraction: false,
-  },
+  // DRAG TO SLIDE (desktop premium feel)
+  container.addEventListener("mousedown", e => {
+    isDown = true;
+    container.classList.add("active");
+    startX = e.pageX - container.offsetLeft;
+    scrollLeft = container.scrollLeft;
   });
 
-  AOS.init({
-    duration: 1000,
-    once: true
+  container.addEventListener("mouseleave", () => isDown = false);
+  container.addEventListener("mouseup", () => isDown = false);
+
+  container.addEventListener("mousemove", e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - container.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    container.scrollLeft = scrollLeft - walk;
   });
+
+  // AUTO SLIDE
+  setInterval(() => {
+    container.scrollLeft += 220;
+
+    if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
+      container.scrollLeft = 0;
+    }
+  }, 2500); 
+
+  var swiper = new Swiper(".rentPropSwiper", {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      loop: true,
+      grabCursor: true,
+
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+
+      breakpoints: {
+        0: {
+          slidesPerView: 1,
+        },
+        640: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        },
+      },
+      autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+    });
+
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
 </script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
 
-  window.selectType = function(btn){
+    window.selectType = function(btn){
 
-    const buttons = document.querySelectorAll(".toggle-btn");
+      const buttons = document.querySelectorAll(".toggle-btn");
 
-    buttons.forEach(b=>{
-      b.classList.remove("bg-[#B8925A]","text-white");
-      b.classList.add("bg-gray-200","text-gray-700");
-    });
+      buttons.forEach(b=>{
+        b.classList.remove("bg-[#B8925A]","text-white");
+        b.classList.add("bg-gray-200","text-gray-700");
+      });
 
-    btn.classList.remove("bg-gray-200","text-gray-700");
-    btn.classList.add("bg-[#B8925A]","text-white");
+      btn.classList.remove("bg-gray-200","text-gray-700");
+      btn.classList.add("bg-[#B8925A]","text-white");
 
-  };
+    };
 
-});
-document.addEventListener("DOMContentLoaded", function () {
+  });
+  document.addEventListener("DOMContentLoaded", function () {
 
-  const faqContainer = document.getElementById("faqContainer");
-  const faqItems = Array.from(document.querySelectorAll("#faqData .faq-item"));
-  const loadMoreBtn = document.getElementById("loadMoreBtn");
-  const showLessBtn = document.getElementById("showLessBtn");
+    const faqContainer = document.getElementById("faqContainer");
+    const faqItems = Array.from(document.querySelectorAll("#faqData .faq-item"));
+    const loadMoreBtn = document.getElementById("loadMoreBtn");
+    const showLessBtn = document.getElementById("showLessBtn");
 
-  if (!faqContainer || faqItems.length === 0) return;
+    if (!faqContainer || faqItems.length === 0) return;
 
-  let itemsToShow = 6;
+    let itemsToShow = 6;
 
-  function renderFAQs() {
-    faqContainer.innerHTML = "";
+    function renderFAQs() {
+      faqContainer.innerHTML = "";
 
-    faqItems.slice(0, itemsToShow).forEach(item => {
-      faqContainer.appendChild(item.cloneNode(true));
-    });
+      faqItems.slice(0, itemsToShow).forEach(item => {
+        faqContainer.appendChild(item.cloneNode(true));
+      });
 
-    // Button visibility logic
-    if (itemsToShow >= faqItems.length) {
-      loadMoreBtn.classList.add("hidden");
-    } else {
-      loadMoreBtn.classList.remove("hidden");
+      // Button visibility logic
+      if (itemsToShow >= faqItems.length) {
+        loadMoreBtn.classList.add("hidden");
+      } else {
+        loadMoreBtn.classList.remove("hidden");
+      }
+
+      if (itemsToShow > 6) {
+        showLessBtn.classList.remove("hidden");
+      } else {
+        showLessBtn.classList.add("hidden");
+      }
     }
 
-    if (itemsToShow > 6) {
-      showLessBtn.classList.remove("hidden");
-    } else {
-      showLessBtn.classList.add("hidden");
-    }
-  }
-
-  // Initial render
-  renderFAQs();
-
-  // Load More
-  loadMoreBtn.addEventListener("click", function () {
-    itemsToShow += 6;
-    renderFAQs();
-  });
-
-  // Show Less
-  showLessBtn.addEventListener("click", function () {
-    itemsToShow = 6;
+    // Initial render
     renderFAQs();
 
-    window.scrollTo({
-      top: faqContainer.offsetTop - 120,
-      behavior: "smooth"
+    // Load More
+    loadMoreBtn.addEventListener("click", function () {
+      itemsToShow += 6;
+      renderFAQs();
     });
-  });
 
-});
+    // Show Less
+    showLessBtn.addEventListener("click", function () {
+      itemsToShow = 6;
+      renderFAQs();
+
+      window.scrollTo({
+        top: faqContainer.offsetTop - 120,
+        behavior: "smooth"
+      });
+    });
+
+  });
 </script>
 
 
 <style>
-  @keyframes scrollX {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
+    @keyframes scrollX {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
 
-.animate-scroll-x {
-  animation: scrollX 35s linear infinite;
-}
+  .animate-scroll-x {
+    animation: scrollX 35s linear infinite;
+  }
 
- .swiper-slide {
-  overflow: visible !important;
-}
-.common-btn{
-  margin-top:12px;padding:8px 16px;border:1px solid white;border-radius:6px;
-  font-size:14px;transition:.3s
-}
-@media(min-width:768px){
-  .common-btn{opacity:0}
-  .group:hover .common-btn{opacity:1}
-}
-.common-btn:hover{background:#fff;color:#000}
+  .swiper-slide {
+    overflow: visible !important;
+  }
+  .common-btn{
+    margin-top:12px;padding:8px 16px;border:1px solid white;border-radius:6px;
+    font-size:14px;transition:.3s
+  }
+  @media(min-width:768px){
+    .common-btn{opacity:0}
+    .group:hover .common-btn{opacity:1}
+  }
+  .common-btn:hover{background:#fff;color:#000}
 
-/* Scrollbars */
-.table-scroll,.bhk-tabs,.bhk-panel div{
-  scrollbar-width:thin;
-  scrollbar-color:#fb923c transparent
-}
-.table-scroll::-webkit-scrollbar,
-.bhk-tabs::-webkit-scrollbar,
-.bhk-panel div::-webkit-scrollbar{width:6px;height:5px}
-.table-scroll::-webkit-scrollbar-thumb,
-.bhk-tabs::-webkit-scrollbar-thumb,
-.bhk-panel div::-webkit-scrollbar-thumb{
-  background:#fb923c;border-radius:10px
-}
+  /* Scrollbars */
+  .table-scroll,.bhk-tabs,.bhk-panel div{
+    scrollbar-width:thin;
+    scrollbar-color:#fb923c transparent
+  }
+  .table-scroll::-webkit-scrollbar,
+  .bhk-tabs::-webkit-scrollbar,
+  .bhk-panel div::-webkit-scrollbar{width:6px;height:5px}
+  .table-scroll::-webkit-scrollbar-thumb,
+  .bhk-tabs::-webkit-scrollbar-thumb,
+  .bhk-panel div::-webkit-scrollbar-thumb{
+    background:#fb923c;border-radius:10px
+  }
 
-/* BHK Tabs */
-.bhk-tab{
-  backdrop-filter:blur(10px);
-  background:rgba(255,255,255,.6);
-  padding:6px 10px;
-  color:#374151;
-  white-space:nowrap
-}
-.bhk-tab.active{color:#fb923c}
-.bhk-disabled{opacity:.4;pointer-events:none}
+  /* BHK Tabs */
+  .bhk-tab{
+    backdrop-filter:blur(10px);
+    background:rgba(255,255,255,.6);
+    padding:6px 10px;
+    color:#374151;
+    white-space:nowrap
+  }
+  .bhk-tab.active{color:#fb923c}
+  .bhk-disabled{opacity:.4;pointer-events:none}
 
-/* Underline */
-.bhk-underline{
-  background:#fb923c;
-  height:2px;
-  transition:.3s ease;
-  width:0;left:0
-}
-  .developer-section {
-font-family: Arial, sans-serif;
-padding: 20px;
-background-color: #f8f9fa;
-}
+  /* Underline */
+  .bhk-underline{
+    background:#fb923c;
+    height:2px;
+    transition:.3s ease;
+    width:0;left:0
+  }
+    .developer-section {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f8f9fa;
+  }
 
-.section-title {
-font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
+  .section-title {
+  font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
 
-.card-container {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto; /* Mobile ke liye scrollable */
-  padding-bottom: 10px;
-  border: #db9430 ;
+  .card-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; /* Mobile ke liye scrollable */
+    padding-bottom: 10px;
+    border: #db9430 ;
 
-}
+  }
 
-.dev-card {
-  min-width: 200px;
-  background: white;
-  border-radius: 15px;
-  padding: 20px 15px 0 15px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  .dev-card {
+    min-width: 200px;
+    background: white;
+    border-radius: 15px;
+    padding: 20px 15px 0 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-.logo {
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 40px;
-}
+  .logo {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
 
-.logo img {
-  max-width: 120px;
-}
+  .logo img {
+    max-width: 120px;
+  }
 
-.footer-badge {
-  
-  background-color: #fae0bc; /* Light green background */
-  width: 100%;
-  padding: 10px;
-  border-radius: 50% 50% 0 0 / 20% 20% 0 0; /* Yeh curve banata hai */
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  font-size: 10px;
-  font-weight: bold;
-  color: #1e7d32;
-}
+  .footer-badge {
+    
+    background-color: #fae0bc; /* Light green background */
+    width: 100%;
+    padding: 10px;
+    border-radius: 50% 50% 0 0 / 20% 20% 0 0; /* Yeh curve banata hai */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 10px;
+    font-weight: bold;
+    color: #1e7d32;
+  }
 
-.count {
-  background: #1a3e59; /* Dark blue circle */
-  color: white;
-  padding: 3px 5px;
-  border-radius: 50%;
-  font-size: 12px;
-}
-.rentPropSwiper .swiper-slide {
-  height: auto;
-  display: flex;
-}
+  .count {
+    background: #1a3e59; /* Dark blue circle */
+    color: white;
+    padding: 3px 5px;
+    border-radius: 50%;
+    font-size: 12px;
+  }
+  .rentPropSwiper .swiper-slide {
+    height: auto;
+    display: flex;
+  }
 
-.rentPropSwiper .swiper-wrapper {
-  align-items: stretch;
-}
+  .rentPropSwiper .swiper-wrapper {
+    align-items: stretch;
+  }
 </style>
 
 

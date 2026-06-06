@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.html import mark_safe
+from import_export.admin import ImportExportModelAdmin
 
 from .models import (
     OwnerProfile,
@@ -137,7 +138,7 @@ class RentalFAQInline(admin.TabularInline):
 # =========================================================
 
 @admin.register(OwnerProfile)
-class OwnerProfileAdmin(admin.ModelAdmin):
+class OwnerProfileAdmin(ImportExportModelAdmin):
 
     list_display = (
         'full_name',
@@ -211,7 +212,7 @@ class OwnerProfileAdmin(admin.ModelAdmin):
 # =========================================================
 
 @admin.register(RentalProperty)
-class RentalPropertyAdmin(admin.ModelAdmin):
+class RentalPropertyAdmin(ImportExportModelAdmin):
 
     list_display = (
         'property_image',
@@ -392,7 +393,7 @@ class RentalPropertyAdmin(admin.ModelAdmin):
 # =========================================================
 
 @admin.register(RentalEnquiry)
-class RentalEnquiryAdmin(admin.ModelAdmin):
+class RentalEnquiryAdmin(ImportExportModelAdmin):
 
     list_display = (
         'name',

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
     'home',
     'projects.apps.ProjectsConfig',
     'properties',
@@ -48,7 +49,12 @@ INSTALLED_APPS = [
     'rent',
     'rent_utility',
     'easy_thumbnails',
+    'django_recaptcha',
 ]
+
+RECAPTCHA_PUBLIC_KEY = '6LcW4P4sAAAAAL3V6MhEGKCnaDB8iwh1cuy-ylOh'
+RECAPTCHA_PRIVATE_KEY = '6LcW4P4sAAAAAGF8K2_c6XZIoF_lQ4LH7RvNxhuc'
+
 
 # 🧠 5️⃣ Middleware
 MIDDLEWARE = [

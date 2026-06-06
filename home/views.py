@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.db.models import Min, Max, Q
 from django.db.models import Count, Q
+from .forms import ContactEnquiryForm
 from django.http import HttpResponse 
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -168,27 +169,31 @@ def about_page_view(request):
     return render(request, "home/about.html", context)
 
 def contact_view(request):
+
     settings_obj = Setting.objects.first()
     contact_content = Contact_Page.objects.first()
 
     if request.method == "POST":
 
-        enquiry_type = request.POST.get("type")  # <-- Important
+        form = ContactEnquiryForm(request.POST)
 
-        ContactEnquiry.objects.create(
-            type=enquiry_type if enquiry_type else None,
-            name=request.POST.get("name"),
-            email=request.POST.get("email"),
-            phone=request.POST.get("phone"),
-            message=request.POST.get("message"),
-        )
+        if form.is_valid():
+            form.save()
+            return redirect("thank_you")
 
-        return redirect("thank_you")   # ✅ redirect to thank you page
+    else:
+        form = ContactEnquiryForm()
 
     context = {
         "settings_obj": settings_obj,
         "contact_content": contact_content,
+        "form": form,
     }
+
+    form = ContactEnquiryForm(request.POST)
+
+    if form.is_valid():
+        form.save()
 
     return render(request, "home/contact.html", context)
 

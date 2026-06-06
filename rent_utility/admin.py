@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-
+from import_export.admin import ImportExportModelAdmin
 from .models import FurnishingItem, Facility
 
 
@@ -9,7 +9,7 @@ from .models import FurnishingItem, Facility
 # =========================================================
 
 @admin.register(FurnishingItem)
-class FurnishingItemAdmin(admin.ModelAdmin):
+class FurnishingItemAdmin(ImportExportModelAdmin):
 
     list_display = (
         'name',
@@ -46,7 +46,7 @@ class FurnishingItemAdmin(admin.ModelAdmin):
 # =========================================================
 
 @admin.register(Facility)
-class FacilityAdmin(admin.ModelAdmin):
+class FacilityAdmin(ImportExportModelAdmin):
 
     list_display = (
         'name',
@@ -78,7 +78,7 @@ class FacilityAdmin(admin.ModelAdmin):
     icon_preview.short_description = "Preview"
 
 
-class FurnishingItemAdmin(admin.ModelAdmin):
+class FurnishingItemAdmin(ImportExportModelAdmin):
 
     class Media:
         css = {

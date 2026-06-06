@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.html import mark_safe
 from mptt.admin import MPTTModelAdmin
+from import_export.admin import ImportExportModelAdmin
 
 from .models import (
     Project, BookingOffer, WelcomeTo, WebSlider, Overview, AboutUs,
@@ -9,11 +10,6 @@ from .models import (
 )
 
 NO_IMAGE_URL = "https://via.placeholder.com/80x50.png?text=No+Image"
-
-
-# =======================
-# INLINES
-# =======================
 
 class BookingOfferInline(admin.TabularInline):
     model = BookingOffer
@@ -125,7 +121,7 @@ class BankOfferInline(admin.TabularInline):
 # =======================
 
 @admin.register(Project)
-class ProjectAdmin(MPTTModelAdmin):
+class ProjectAdmin(ImportExportModelAdmin, MPTTModelAdmin):
 
     list_display = (
         'project_name',
@@ -303,7 +299,7 @@ class ProjectAdmin(MPTTModelAdmin):
 # =======================
 
 @admin.register(Enquiry)
-class EnquiryAdmin(admin.ModelAdmin):
+class EnquiryAdmin(ImportExportModelAdmin):
     list_display = (
         'id',
         'name',
