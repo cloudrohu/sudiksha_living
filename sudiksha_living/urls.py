@@ -1,18 +1,17 @@
-# sudiksha_living/urls.py
-
 from django.contrib import admin
 from django.urls import path, include 
 from django.conf import settings 
 from django.conf.urls.static import static 
 from django.contrib.sitemaps.views import sitemap 
-
-# Import sitemaps from their modular locations
 from projects.sitemaps import ProjectSitemap 
 from properties.sitemaps import PropertySitemap, BlogSitemap, StaticSitemap 
 
 from projects .views import *   
 
-
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 # Define the dictionary of sitemaps
 sitemaps = {
     'static': StaticSitemap,
@@ -30,6 +29,10 @@ urlpatterns = [
     path('accounts/', include('user.urls')),
     path('blog/', include('blog.urls')),
     path("ckeditor5/", include("django_ckeditor_5.urls")),
+    path("api/", include("api.urls")),
+    path('api/token/',TokenObtainPairView.as_view(),name='token_obtain_pair'),
+
+    path('api/token/refresh/',TokenRefreshView.as_view(),name='token_refresh'),
 ]
 
 if settings.DEBUG:

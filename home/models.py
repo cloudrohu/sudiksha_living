@@ -6,9 +6,6 @@ from utility.compress_mixin import ImageCompressionMixin
 
 
 
-# =============================
-# 🧠 MAIN MODEL — Website Setting
-# =============================
 class Setting(ImageCompressionMixin, models.Model):    
     site_name = models.CharField(max_length=150)
     logo = models.ImageField(upload_to='settings/', blank=True, null=True)
@@ -71,7 +68,7 @@ class Setting(ImageCompressionMixin, models.Model):
         if self.logo and self.logo.name:
             return self.logo.url
         return None
-
+    
 class Slider(models.Model):
     title = models.CharField(max_length=200)
     subtitle = models.CharField(max_length=300, blank=True, null=True)

@@ -36,11 +36,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'rest_framework',
+    'corsheaders',
     'home',
     'projects.apps.ProjectsConfig',
     'properties',
+    'rest_framework',
     'utility',
     'crm',
     'user',
@@ -49,8 +49,15 @@ INSTALLED_APPS = [
     'rent',
     'rent_utility',
     'easy_thumbnails',
+    'api',
     'django_recaptcha',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 RECAPTCHA_PUBLIC_KEY = '6LcW4P4sAAAAAL3V6MhEGKCnaDB8iwh1cuy-ylOh'
 RECAPTCHA_PRIVATE_KEY = '6LcW4P4sAAAAAGF8K2_c6XZIoF_lQ4LH7RvNxhuc'
@@ -58,6 +65,7 @@ RECAPTCHA_PRIVATE_KEY = '6LcW4P4sAAAAAGF8K2_c6XZIoF_lQ4LH7RvNxhuc'
 
 # 🧠 5️⃣ Middleware
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -179,5 +187,6 @@ CKEDITOR_5_CONFIGS = {
     }
 }
 
+CORS_ALLOW_ALL_ORIGINS = True
 
 # ✅ End of File

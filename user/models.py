@@ -83,3 +83,4 @@ class Developer(models.Model):
         if self.logo:
             return mark_safe(f'<img src="{self.logo.url}" width="50" height="50" />')
         return ""
+
