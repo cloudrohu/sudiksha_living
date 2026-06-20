@@ -508,7 +508,7 @@
       <!-- READY TO MOVE -->
       <a target="_blank" href="{% url 'search_projects' %}?bhk=&construction_status=Ready+To+Move&rera=" class="group bg-white overflow-hidden border border-gray-300 shadow-sm hover:shadow-md transition">
 
-        <img src="https://sigmahomes.co.in/media/images/aerial_view-new.webp" class="w-full h-56 object-cover group-hover:scale-105 transition duration-700">
+        <img src="{{ possession_metric.ready_to_move.url }}" class="w-full h-56 object-cover group-hover:scale-105 transition duration-700">
 
         <div class="p-3 space-y-1.5">
 
@@ -539,7 +539,7 @@
       <!-- UNDER CONSTRUCTION -->
       <a target="_blank" href="{% url 'search_projects' %}?bhk=&construction_status=Under+Construction&rera=" class="group bg-white overflow-hidden border border-gray-300 shadow-sm hover:shadow-md transition">
 
-        <img src="https://sigmahomes.co.in/media/images/Elevation_Render_1_fQvU_1.webp" class="w-full h-56 object-cover group-hover:scale-105 transition duration-700">
+        <img src="{{ possession_metric.under_construction.url }}" class="w-full h-56 object-cover group-hover:scale-105 transition duration-700">
 
         <div class="p-3 space-y-1.5">
 
@@ -570,7 +570,7 @@
       <!-- NEW LAUNCH -->
       <a target="_blank" href="{% url 'search_projects' %}?bhk=&construction_status=New+Launch&rera=" class="group bg-white overflow-hidden border border-gray-300 shadow-sm hover:shadow-md transition">
 
-        <img src="https://sigmahomes.co.in/media/images/Road-To-Elevation-3.webp" class="w-full h-56 object-cover group-hover:scale-105 transition duration-700">
+        <img src="{{ possession_metric.upcoming.url }}" class="w-full h-56 object-cover group-hover:scale-105 transition duration-700">
 
         <div class="p-3 space-y-1.5">
 
@@ -876,52 +876,53 @@
   <!-- ===================== How We Work End======================= -->
 
 <hr>
-<!-- ============= FAQ ============= -->
-  <section class="py-20 bg-gray-100" id="faq">
-    <div class="max-w-7xl mx-auto px-6">
 
-      <h2 class="text-4xl font-bold text-[#B8925A] mb-12 text-center">
-        Frequently Asked Questions
-      </h2>
+  <!-- ============= FAQ ============= -->
+    <section class="py-20 bg-gray-100" id="faq">
+      <div class="max-w-7xl mx-auto px-6">
 
-      <!-- FAQ Grid -->
-      <div id="faqContainer" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+        <h2 class="text-4xl font-bold text-[#B8925A] mb-12 text-center">
+          Frequently Asked Questions
+        </h2>
 
-      <!-- Buttons -->
-      <div class="text-center mt-10 space-x-4">
-        <button id="loadMoreBtn" class="px-6 py-3 bg-[#B8925A] text-white rounded-lg font-semibold hover:bg-[#B8925A] transition">
-          Load More
-        </button>
+        <!-- FAQ Grid -->
+        <div id="faqContainer" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
 
-        <button id="showLessBtn" class="px-3 py-2 bg-gray-400 text-white rounded-lg font-semibold hover:bg-gray-500 transition hidden">
-          Show Less   
-        </button>
-      </div>
+        <!-- Buttons -->
+        <div class="text-center mt-10 space-x-4">
+          <button id="loadMoreBtn" class="px-6 py-3 bg-[#B8925A] text-white rounded-lg font-semibold hover:bg-[#B8925A] transition">
+            Load More
+          </button>
 
-    </div>
-  </section>
-
-  <div id="faqData" class="hidden"> 
-    {% for faq in faqs %}
-    <div class="faq-item">
-      <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
-
-        <details class="group cursor-pointer">
-          <summary class="flex justify-between items-center font-semibold text-lg text-gray-900">
-            {{ faq.question }}
-            <i class="fas fa-chevron-down text-gray-600 transition-transform duration-300 group-open:rotate-180"></i>
-          </summary>
-
-          <p class="mt-4 text-gray-700 leading-7">
-            {{ faq.answer|safe }}
-          </p>
-        </details>
+          <button id="showLessBtn" class="px-3 py-2 bg-gray-400 text-white rounded-lg font-semibold hover:bg-gray-500 transition hidden">
+            Show Less   
+          </button>
+        </div>
 
       </div>
+    </section>
+
+    <div id="faqData" class="hidden"> 
+      {% for faq in faqs %}
+      <div class="faq-item">
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
+
+          <details class="group cursor-pointer">
+            <summary class="flex justify-between items-center font-semibold text-lg text-gray-900">
+              {{ faq.question }}
+              <i class="fas fa-chevron-down text-gray-600 transition-transform duration-300 group-open:rotate-180"></i>
+            </summary>
+
+            <p class="mt-4 text-gray-700 leading-7">
+              {{ faq.answer|safe }}
+            </p>
+          </details>
+
+        </div>
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
-<!-- ============= FAQ END ============= -->
+  <!-- ============= FAQ END ============= -->
 
 
 <!-- ======================= Blog Section Start ======================= -->
@@ -1131,15 +1132,14 @@
       </div>
     </div>
     <div class="mt-10 text-center">
-    <a href="{% url 'search_projects' %}" 
-      class="inline-flex items-center gap-2 px-6 py-3 border border-[#B8925A] text-[#B8925A] font-semibold hover:bg-[#B8925A] hover:text-white transition">
+      <a href="{% url 'search_projects' %}" 
+        class="inline-flex items-center gap-2 px-6 py-3 border border-[#B8925A] text-[#B8925A] font-semibold hover:bg-[#B8925A] hover:text-white transition">
 
-      See All Localities
-      <i class="fa-solid fa-arrow-right text-sm"></i>
+        See All Localities
+        <i class="fa-solid fa-arrow-right text-sm"></i>
 
-    </a>
-  </div>
-
+      </a>
+    </div>
   </section>
   <!-- ======================= LOCALITY END ======================= -->
 

@@ -121,9 +121,6 @@ class Why_Choose(models.Model):
         return self.title
 
 class About(models.Model):
-    # =============================
-    # 🎨 Background / Banner Section
-    # =============================
     search_bg = models.ImageField(upload_to='about/backgrounds/',blank=True, null=True,help_text="Background image for the top search banner (optional)")
     home_bg = models.ImageField(upload_to='about/backgrounds/',blank=True, null=True,help_text="Background image for home about section")
 
@@ -277,7 +274,7 @@ class FooterLink(models.Model):
 
     def __str__(self):
         return self.title    
-    
+
 class ContactEnquiry(models.Model):
 
     ENQUIRY_TYPE_CHOICES = [
@@ -295,3 +292,12 @@ class ContactEnquiry(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.get_type_display()}"
+
+class PossessionMetric(models.Model):
+    ready_to_move = models.ImageField(default=0,upload_to='metrics/')
+    under_construction = models.ImageField(default=0,upload_to='metrics/')
+    upcoming = models.ImageField(default=0,upload_to='metrics/')
+
+    def __str__(self):      
+        return f"Possession Metric #{self.id}"
+

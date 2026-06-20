@@ -3,7 +3,7 @@ from django.utils.html import mark_safe
 from .models import (
     Setting, Slider, Leadership, Why_Choose,
     About, Contact_Page, Our_Team,
-    Testimonial, FAQ, ImpactMetric, Service, FooterLink , ContactEnquiry
+    Testimonial, FAQ, ImpactMetric, Service, FooterLink , ContactEnquiry, PossessionMetric
 )
 from import_export.admin import ImportExportModelAdmin
 
@@ -108,8 +108,6 @@ class SettingAdmin(ImportExportModelAdmin):
         return "No Logo"
 
     logo_preview.short_description = "Logo Preview"
-
-
 @admin.register(Slider)
 class SliderAdmin(ImportExportModelAdmin):
     list_display = ("title", "order", "is_active")
@@ -117,14 +115,11 @@ class SliderAdmin(ImportExportModelAdmin):
     search_fields = ("title", "subtitle")
     list_filter = ("is_active",)
     ordering = ("order",)
-
 @admin.register(ContactEnquiry)
 class ContactEnquiryAdmin(ImportExportModelAdmin):
     list_display = ("type","name", "email", "phone", "created_at")
     search_fields = ("name", "email", "phone")
     list_filter = ("created_at",) 
-
-
 @admin.register(Leadership)
 class LeadershipAdmin(ImportExportModelAdmin):
     list_display = (
@@ -154,7 +149,6 @@ class LeadershipAdmin(ImportExportModelAdmin):
             )
         }),
     )
-
 @admin.register(Why_Choose)
 class WhyChooseAdmin(ImportExportModelAdmin):
     list_display = ("title", "order", "is_active")
@@ -251,13 +245,11 @@ class OurTeamAdmin(ImportExportModelAdmin):
     list_display = ("name", "designation")
     search_fields = ("name", "designation")
 
-
 @admin.register(Testimonial)
 class TestimonialAdmin(ImportExportModelAdmin):
     list_display = ("name", "designation", "rating")
     list_filter = ("rating",)
     search_fields = ("name", "designation", "message")
-
 
 @admin.register(FAQ)
 class FAQAdmin(ImportExportModelAdmin):
@@ -314,3 +306,7 @@ class FooterLinkAdmin(ImportExportModelAdmin):
     list_filter = ("is_active",)
     search_fields = ("title", "subtitle")
     ordering = ("parent", "order")
+
+@admin.register(PossessionMetric)
+class PossessionMetricAdmin(ImportExportModelAdmin):
+    list_display = ("ready_to_move", "under_construction", "upcoming")    
